@@ -147,6 +147,7 @@ INSTALLED_APPS = [
     "ajax_validation",
     "timezones",
     "emailconfirmation",
+    "mimesis",
     
     # Pinax
     "pinax.apps.account",
@@ -154,6 +155,7 @@ INSTALLED_APPS = [
     
     # project
     "about",
+    "gallery",
 ]
 
 FIXTURE_DIRS = [
@@ -177,6 +179,8 @@ LOGIN_REDIRECT_URLNAME = "what_next"
 
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
+
+MIMESIS_USE_FLASH_UPLOAD = True
 
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,

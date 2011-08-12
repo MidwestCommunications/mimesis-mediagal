@@ -4,6 +4,10 @@ def gallery_list(request):
     pass
     
     
+def gallery_view(request):
+    pass
+    
+    
 def gallery_create(request):
     pass
     

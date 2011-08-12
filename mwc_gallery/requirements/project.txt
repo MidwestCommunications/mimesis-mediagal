@@ -7,7 +7,8 @@
 --extra-index-url=http://dist.pinaxproject.com/dev/
 --extra-index-url=http://dist.pinaxproject.com/fresh-start/
 
+git+http://github.com/jlecker/django-rubberstamp.git@master#egg=rubberstamp
+
 django-photologue==2.2
 
-# Put project-specific requirements here.
 # See http://pip-installer.org/requirement-format.html for more information.

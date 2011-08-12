@@ -7,26 +7,19 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
+from mimesis.models import MediaUpload
+
 class Gallery(models.Model):
     
     name = models.CharField(max_length=250)
     description = models.TextField(blank=True)
     owner = models.ForeignKey(User)
+    created = models.DateTimeField(default=datetime.datetime.now)
+    
+    photos = models.ManyToManyField(MediaUpload, related_name="galleries")
     
     def __unicode__(self):
         return self.name
-
-
-class Photo(models.Model):
-    
-    title = models.CharField(max_length=150, blank=True)
-    description = models.TextField(blank=True)
-    gallery = models.ForeignKey(Gallery, related_name="photos")
-    owner = models.ForeignKey(User)
-    created = models.DateTimeField(default=datetime.datetime.now)
-    
-    def __unicode__(self):
-        return self.title
 
 class GalleryAssociation(models.Model):
     

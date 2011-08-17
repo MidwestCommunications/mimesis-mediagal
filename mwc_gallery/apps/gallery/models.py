@@ -27,7 +27,7 @@ class GalleryAssociation(models.Model):
     description = models.TextField()
     
     content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveintegerField()
+    object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey()
 
 

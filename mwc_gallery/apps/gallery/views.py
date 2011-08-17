@@ -2,6 +2,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+from gallery.forms import PhotoForm
 from gallery.models import Gallery
 
 def gallery_list(request):
@@ -32,8 +33,13 @@ def gallery_create(request):
     Create a gallery.
     """
     
-    pass
+    template_name = "gallery/gallery_create.html"
     
+    form = PhotoForm(initial={"creator": request.user})
+    
+    return render_to_response(template_name, {
+        "form": form
+    }, context_instance=RequestContext(request))
     
 def gallery_add_photo(request):
     """

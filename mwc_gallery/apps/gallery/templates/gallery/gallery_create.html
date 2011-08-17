@@ -1,0 +1,15 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Create a New Gallery" %}{% endblock %}
+
+{% block body %}
+
+<form action="{% url gallery_create %}" method="POST" class="uniForm">
+	{% csrf_token %}
+	{{ form }}
+	<div><input type="submit" value="Create" /></div>
+</form>
+
+{% endblock %}

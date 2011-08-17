@@ -108,7 +108,7 @@ ROOT_URLCONF = "mwc_gallery.urls"
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
-    os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
+    os.path.join(PINAX_ROOT, "themes", PINAX_THEME, "templates"),
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [

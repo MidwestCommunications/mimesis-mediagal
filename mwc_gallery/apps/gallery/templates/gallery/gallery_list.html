@@ -1,0 +1,21 @@
+{% extends "site_base.html" %}
+
+{% block body %}
+
+{% if galleries %}
+<table>
+<tr>
+	<th>Gallery Name</th>
+</tr>
+{% for gallery in galleries %}
+<tr>
+	<td>
+		<b>{{ gallery.name }}</b>
+	</td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+Sorry, no galleries.
+{% endif %}
+{% endblock %}

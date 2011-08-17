@@ -1,3 +1,6 @@
 [submodule "mwc_gallery/submodules/mimesis"]
 	path = mwc_gallery/submodules/mimesis
 	url = https://github.com/MidwestCommunications/mimesis.git
+[submodule "mwc_gallery/submodules/mimesis-mediaman"]
+	path = mwc_gallery/submodules/mimesis-mediaman
+	url = https://github.com/MidwestCommunications/mimesis-mediaman

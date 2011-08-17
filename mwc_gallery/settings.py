@@ -151,6 +151,7 @@ INSTALLED_APPS = [
     "taggit",
     "nashvegas",
     "compressor",
+    "mediaman",
     
     # Pinax
     "pinax.apps.account",

@@ -150,6 +150,7 @@ INSTALLED_APPS = [
     "mimesis",
     "taggit",
     "nashvegas",
+    "compressor",
     
     # Pinax
     "pinax.apps.account",

@@ -9,7 +9,6 @@
 
 -e git+http://github.com/jlecker/django-rubberstamp.git@master#egg=rubberstamp
 -e git+http://github.com/MidwestCommunications/mimesis.git@master#egg=mimesis
--e git+http://github.com/MidwestCommunications/mimesis-mediaman.git@master#egg=mimesis-mediaman
 
 django-photologue==2.2
 django-taggit==0.8.0

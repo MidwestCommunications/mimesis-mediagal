@@ -1,0 +1,7 @@
+    {% if media_list %}
+        {% for media_item in media_list %}
+            {% include "mediaman/list-item.html" %}
+        {% endfor %}
+    {% else %}
+        <li class="empty">No media to display.</li>
+    {% endif %}

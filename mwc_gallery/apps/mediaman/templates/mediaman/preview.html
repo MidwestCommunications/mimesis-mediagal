@@ -1,0 +1,19 @@
+    <h3>Preview</h3>
+<div class="media-preview">
+{% if media_item.media_type == "image" %}
+    <img src="{{ media_item.media.url }}" width="325">
+{% endif %}
+{% if media_item.media_type == "video" %}
+    <object width="325" height="260"><param name="movie" value="http://www.youtube.com/v/{{ media_item.media }}?fs=1&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/{{ media_item.media }}?fs=1&amp;hl=en_US" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="320" height="240"></embed></object>
+{% endif %}
+{% if media_item.media_type == "audio" %}
+    <embed type="application/x-shockwave-flash" wmode="transparent" src="http://www.google.com/reader/ui/3523697345-audio-player.swf?audioUrl={{ media_item.media.url }}" height="27" width="320"></embed>
+{% endif %}
+</div>
+<div class="file-details">
+    <p><strong>Caption:</strong> {{ media_item.caption }}</p>
+    <p><strong>File type:</strong> {{ media_item.media_type|capfirst }} - {{ media_item.media_subtype|upper }}</p>
+    <p><strong>Tags:</strong> {% for tag in media_item.tags.all %}{{ tag }} {% endfor %}</p>
+    
+    <input class="mimesis button" type="button" value="Attach" />
+</div>

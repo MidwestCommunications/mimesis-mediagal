@@ -1,0 +1,27 @@
+    <form>
+        <div class="inputrow search">           
+            <input type="text" name="searchtags" class="search" value="{{ search_tags }}"/>
+            <input type="submit" value="Search" />
+            <input type="reset" value="Clear" />
+        </div>
+        <div class="inputrow filter">
+            <div class="inputgroup left">
+                <label for="mediatype">Type:</label>
+                <input type="radio" name="mediatype" value="image"{% if media_type == "image" %} checked="checked"{% endif %}>Image</input>
+                <input type="radio" name="mediatype" value="video"{% if media_type == "video" %} checked="checked"{% endif %}>Video</input>
+                <input type="radio" name="mediatype" value="audio"{% if media_type == "audio" %} checked="checked"{% endif %}>Audio</input>
+                <input type="radio" name="mediatype" value="other"{% if media_type == "other" %} checked="checked"{% endif %}>Other</input>
+            </div>
+        {% if for_model %}     
+            <div class="inputgroup right">
+                <input type="hidden" name="model" value="{{ for_model }}" />
+                <label for="attachedto">From:</label>
+                <input type="radio" name="attachedto" value="this"{% if attached_to == "this" %} checked="checked"{% endif %}>This App</input>
+                <input type="radio" name="attachedto" value="any"{% if attached_to == "any" %} checked="checked"{% endif %}>Any App</input>
+            </div>
+        {% endif %}
+        </div>
+    </form>
+    <ul class="medialist">
+        {% include "mediaman/list.html" %}
+    </ul>

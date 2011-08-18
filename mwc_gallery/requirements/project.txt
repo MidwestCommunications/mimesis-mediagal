@@ -7,7 +7,7 @@
 --extra-index-url=http://dist.pinaxproject.com/dev/
 --extra-index-url=http://dist.pinaxproject.com/fresh-start/
 
-git+http://github.com/jlecker/django-rubberstamp.git@master#egg=rubberstamp
+-e git+http://github.com/jlecker/django-rubberstamp.git@master#egg=rubberstamp
 
 django-photologue==2.2
 django-taggit==0.8.0

@@ -8,7 +8,11 @@
 
 <form action="{% url gallery_create %}" method="POST" class="uniForm">
 	{% csrf_token %}
-	{{ form }}
+	{{ formset.management_form }}
+	{% for form in formset.forms %}
+		<br>
+		{{ form.as_p }}
+	{% endfor %}
 	<div><input type="submit" value="Create" /></div>
 </form>
 

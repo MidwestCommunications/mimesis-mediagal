@@ -16,10 +16,18 @@ class Gallery(models.Model):
     owner = models.ForeignKey(User)
     created = models.DateTimeField(default=datetime.datetime.now)
     
-    photos = models.ManyToManyField(MediaUpload, related_name="galleries")
+    photos = models.ManyToManyField(
+            MediaUpload,
+            related_name="galleries",
+            through="GalleryPhotos"
+    )
     
     def __unicode__(self):
         return self.name
+
+class GalleryPhotos(models.Model):
+    gallery = models.ForeignKey(Gallery)
+    photo = models.ForeignKey(MediaUpload)
 
 class GalleryAssociation(models.Model):
     

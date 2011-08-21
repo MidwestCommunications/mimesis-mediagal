@@ -27,12 +27,15 @@ def gallery_details(request, gallery_id):
     View a gallery.
     """
     
-    template_name = "gallery/gallery_view.html"
+    template_name = "gallery/gallery_details.html"
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
+    photos = gallery.photos.all()
+    
     return render_to_response(template_name, {
         "gallery": gallery,
+        "photos": photos,
     }, context_instance=RequestContext(request))
     
 @login_required

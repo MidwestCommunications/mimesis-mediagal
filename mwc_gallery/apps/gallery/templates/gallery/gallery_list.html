@@ -10,7 +10,7 @@
 {% for gallery in galleries %}
 <tr>
 	<td>
-		<b>{{ gallery.name }}</b>
+		<b><a href="{{ gallery.get_absolute_url }}">{{ gallery.name }}</a></b>
 	</td>
 </tr>
 {% endfor %}

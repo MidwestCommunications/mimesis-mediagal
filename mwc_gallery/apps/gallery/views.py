@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
 from gallery.forms import PhotoFormSet, GalleryDetailsForm
-from gallery.models import Gallery
+from gallery.models import Gallery, GalleryPhotos
 
 def gallery_list(request):
     """
@@ -43,16 +43,29 @@ def gallery_create(request):
         if photo_formset.is_valid() and gallery_form.is_valid():
             import pdb; pdb.set_trace()
             photos = []
-            # @@@ Need another form to give gallery it's name.
-            for form in photo_formset.forms():
-                media_item = form.save(commit=False)
+            for form in photo_formset.forms:
+                media_item = form.save()
                 if media_item.media_type == "image":
+                    media_item.save()
                     photos += [media_item]
             if photos:
-                gallery = Gallery(photos=photos)
+                g_name = gallery_form.cleaned_data["name"]
+                g_desc = gallery_form.cleaned_data["description"]
+                gallery = Gallery(
+                        name=g_name,
+                        description=g_desc,
+                        owner=request.user,
+                )
                 gallery.save()
 
-            redirect("gallery_list")
+                for photo in photos:
+                    GalleryPhotos.objects.create(photo=photo, gallery=gallery)
+
+                print "Gallery created."
+                redirect("gallery_list")
+            else:
+                print "No photos!"
+                import pdb; pdb.set_trace()
         else:
             import pdb; pdb.set_trace()
     else:

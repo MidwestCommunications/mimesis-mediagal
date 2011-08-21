@@ -18,7 +18,7 @@ class PhotoForm(forms.ModelForm):
             "creator": forms.HiddenInput,
         }
 
-PhotoFormSet = formset_factory(PhotoForm)
+PhotoFormSet = formset_factory(PhotoForm, extra=3)
 
 class GalleryDetailsForm(forms.ModelForm):
     class Meta:

@@ -1,6 +1,6 @@
 import datetime
 
-
+from django.core.urlresolvers import reverse
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -24,6 +24,9 @@ class Gallery(models.Model):
     
     def __unicode__(self):
         return self.name
+        
+    def get_absolute_url(self):
+        return reverse("gallery_details", args=(self.pk,))
 
 class GalleryPhotos(models.Model):
     gallery = models.ForeignKey(Gallery)

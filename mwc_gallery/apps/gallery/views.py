@@ -1,5 +1,5 @@
 
-from django.shortcuts import redirect, render_to_response 
+from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from django.contrib.auth.decorators import login_required
@@ -22,12 +22,18 @@ def gallery_list(request):
     }, context_instance=RequestContext(request))
     
     
-def gallery_view(request):
+def gallery_details(request, gallery_id):
     """
     View a gallery.
     """
     
-    pass
+    template_name = "gallery/gallery_view.html"
+    
+    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    
+    return render_to_response(template_name, {
+        "gallery": gallery,
+    }, context_instance=RequestContext(request))
     
 @login_required
 def gallery_create(request):

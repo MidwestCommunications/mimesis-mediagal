@@ -12,7 +12,7 @@ class PhotoForm(forms.ModelForm):
         model = MediaUpload
         fields = [
                 "media",
-                "creator",  
+                "creator",
         ]
         widgets = {
             "creator": forms.HiddenInput,

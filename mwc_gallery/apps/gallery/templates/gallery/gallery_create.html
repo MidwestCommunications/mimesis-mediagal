@@ -9,7 +9,7 @@
 <form action="{% url gallery_create %}" method="POST" encType="multipart/form-data" class="uniForm">
 	{% csrf_token %}
 	{{ gallery_form.as_p }}
-	{{ photo_photo_formset.management_form }}
+	{{ photo_formset.management_form }}
 	{% for form in photo_formset.forms %}
 		<br>
 		{{ form.as_p }}

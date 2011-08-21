@@ -13,13 +13,18 @@ class PhotoForm(forms.ModelForm):
         fields = [
                 "media",
                 "creator",
+                "description",
         ]
         widgets = {
             "creator": forms.HiddenInput,
         }
-
+    
+    def __init__(self, *args, **kwargs):
+        super(PhotoForm,self).__init__(*args, **kwargs)
+        self.fields["media"].label = "Picture"
+        
 PhotoFormSet = formset_factory(PhotoForm, extra=3)
 
 class GalleryDetailsForm(forms.ModelForm):
     class Meta:
-        model = Gallery
+        odel = Gallery

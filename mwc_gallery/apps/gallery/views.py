@@ -2,7 +2,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from gallery.forms import PhotoForm
+from gallery.forms import PhotoFormSet
 from gallery.models import Gallery
 
 def gallery_list(request):
@@ -35,10 +35,12 @@ def gallery_create(request):
     
     template_name = "gallery/gallery_create.html"
     
-    form = PhotoForm(initial={"creator": request.user})
+    initial_data = [{"owner": request.user}] * PhotoFormSet.extra
+    
+    formset = PhotoFormSet(initial=initial_data)
     
     return render_to_response(template_name, {
-        "form": form
+        "formset": formset
     }, context_instance=RequestContext(request))
     
 def gallery_add_photo(request):

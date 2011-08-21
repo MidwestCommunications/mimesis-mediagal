@@ -23,8 +23,18 @@ class PhotoForm(forms.ModelForm):
         super(PhotoForm,self).__init__(*args, **kwargs)
         self.fields["media"].label = "Picture"
         
-PhotoFormSet = formset_factory(PhotoForm, extra=3)
+PhotoFormSet = formset_factory(PhotoForm, extra=0)
 
 class GalleryDetailsForm(forms.ModelForm):
+    
     class Meta:
-        odel = Gallery
+        model = Gallery
+        fields = [
+                "name",
+                "description",
+        ]
+        
+    def __init__(self, *args, **kwargs):
+        super(GalleryDetailsForm, self).__init__(*args, **kwargs)
+        self.fields["name"].label = "Gallery Name"
+        self.fields["description"].label = "Gallery Description"

@@ -6,10 +6,11 @@
 
 {% block body %}
 
-<form action="{% url gallery_create %}" method="POST" class="uniForm">
+<form action="{% url gallery_create %}" method="POST" encType="multipart/form-data" class="uniForm">
 	{% csrf_token %}
-	{{ formset.management_form }}
-	{% for form in formset.forms %}
+	{{ gallery_form.as_p }}
+	{{ photo_photo_formset.management_form }}
+	{% for form in photo_formset.forms %}
 		<br>
 		{{ form.as_p }}
 	{% endfor %}

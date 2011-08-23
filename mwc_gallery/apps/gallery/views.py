@@ -74,9 +74,10 @@ def gallery_create(request):
                 redirect("gallery_list")
             else:
                 print "No photos!"
-                import pdb; pdb.set_trace()
+                #import pdb; pdb.set_trace()
         else:
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
+            pass
     else:
         initial_photo_data = [{"creator": request.user.pk}] * 3
         

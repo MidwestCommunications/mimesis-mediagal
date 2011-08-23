@@ -1,6 +1,7 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
+{% load uni_form_tags %}
 
 {% block head_title %}{% trans "Create a New Gallery" %}{% endblock %}
 
@@ -8,11 +9,11 @@
 
 <form action="{% url gallery_create %}" method="POST" encType="multipart/form-data" class="uniForm">
 	{% csrf_token %}
-	{{ gallery_form.as_p }}
+	{{ gallery_form|as_uni_form }}
 	{{ photo_formset.management_form }}
 	{% for form in photo_formset.forms %}
 		<br>
-		{{ form.as_p }}
+		{{ form|as_uni_form }}
 	{% endfor %}
 	<div><input type="submit" value="Create" /></div>
 </form>

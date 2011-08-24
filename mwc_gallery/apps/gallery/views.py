@@ -50,7 +50,7 @@ def gallery_create(request):
         gallery_form = GalleryDetailsForm(request.POST, prefix="gallery")
 
         if photo_formset.is_valid() and gallery_form.is_valid():
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
             photos = []
             for form in photo_formset.forms:
                 media_item = form.save()
@@ -74,9 +74,10 @@ def gallery_create(request):
                 redirect("gallery_list")
             else:
                 print "No photos!"
-                import pdb; pdb.set_trace()
+                #import pdb; pdb.set_trace()
         else:
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
+            pass
     else:
         initial_photo_data = [{"creator": request.user.pk}] * 3
         

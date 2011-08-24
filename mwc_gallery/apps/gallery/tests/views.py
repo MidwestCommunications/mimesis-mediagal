@@ -13,4 +13,3 @@ class GalleryViewTest(TestCase):
         response = self.client.get(url)
 
         self.assertTemplateUsed(response, "gallery/gallery_list.html")
-

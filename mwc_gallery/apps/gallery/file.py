@@ -9,7 +9,10 @@ def _check_zip_file(zipped_file):
     """
     clean_files = []
     for f in zipped_file.filelist:
-        if f.filename.startswith("/") or "/.." in f.filename or "../" in f.filename:
+        if (f.filename.startswith("/")
+                or "/.." in f.filename
+                or "../" in f.filename
+        ):
             continue
         else:
             clean_files += [f.filename]

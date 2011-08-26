@@ -17,6 +17,7 @@ class PhotoForm(forms.ModelForm):
         model = MediaUpload
         fields = [
                 "creator",
+                "media",
                 "description",
         ]
         widgets = {
@@ -26,6 +27,7 @@ class PhotoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PhotoForm,self).__init__(*args, **kwargs)
         self.fields["media"].label = "Picture"
+        self.fields["description"].label = "Picture Description"
         
 PhotoFormSet = formset_factory(PhotoForm, extra=0)
 

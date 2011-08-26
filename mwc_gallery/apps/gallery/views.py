@@ -70,7 +70,7 @@ def gallery_create(request):
                     GalleryPhotos.objects.create(photo=photo, gallery=gallery)
 
                 print "Gallery created."
-                redirect("gallery_list")
+                return redirect("gallery_list")
             else:
                 print "No photos!"
                 #import pdb; pdb.set_trace()

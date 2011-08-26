@@ -46,11 +46,10 @@ def gallery_create(request):
     
     template_name = "gallery/gallery_create.html"
     if request.method == "POST":
-        photo_formset = PhotoFormSet(request.POST, request.FILES, prefix="photos")
-        gallery_form = GalleryDetailsForm(request.POST, prefix="gallery")
+        photo_formset = PhotoFormSet(request.POST, request.FILES)
+        gallery_form = GalleryDetailsForm(request.POST)
 
         if photo_formset.is_valid() and gallery_form.is_valid():
-            #import pdb; pdb.set_trace()
             photos = []
             for form in photo_formset.forms:
                 media_item = form.save()
@@ -81,9 +80,9 @@ def gallery_create(request):
     else:
         initial_photo_data = [{"creator": request.user.pk}] * 3
         
-        photo_formset = PhotoFormSet(initial=initial_photo_data, prefix="photos")
+        photo_formset = PhotoFormSet(initial=initial_photo_data)
 
-        gallery_form = GalleryDetailsForm(prefix="gallery")
+        gallery_form = GalleryDetailsForm()
         
     
     return render_to_response(template_name, {

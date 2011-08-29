@@ -1,0 +1,13 @@
+body.galleries #tab_galleries a
+{
+    color: #000; /* selected tab text colour */
+}
+body.galleries #tab_galleries
+{
+    margin: 0; /* to compensate for border */
+    padding: 5px 0 5px;
+    background-color: #DEF; /* selected tab colour */
+    border-left: 1px solid #000; /* tab border */
+    border-top: 1px solid #000; /* tab border */
+    border-right: 1px solid #000; /* tab border */
+}

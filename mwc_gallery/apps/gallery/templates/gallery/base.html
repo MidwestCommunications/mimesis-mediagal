@@ -1,0 +1,16 @@
+{% extends "site_base.html" %}
+
+{% block head_title %}{% trans "Galleries" %}{% endblock %}
+
+{% block body_class %}galleries{% endblock %}
+
+{% block subnav %}
+    {% if user.is_authenticated %}
+        <ul>
+            <li><a href="{% url gallery_list %}">{% trans "My Galleries" %}</a></li>
+            <li><a href="{% url gallery_create %}">{% trans "Create Gallery" %}</a></li>
+        </ul>
+    {% else %}
+        &nbsp; {# need this to give subnav some height when empty #}
+    {% endif %}
+{% endblock %}

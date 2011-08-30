@@ -8,9 +8,6 @@ import pinax
 PINAX_ROOT = os.path.abspath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-# tells Pinax to use the default theme
-PINAX_THEME = "default"
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -75,7 +72,6 @@ STATIC_URL = "/site_media/static/"
 # Additional directories which hold static files
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, "static"),
-    os.path.join(PINAX_ROOT, "themes", PINAX_THEME, "static"),
 ]
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
@@ -108,7 +104,6 @@ ROOT_URLCONF = "mwc_gallery.urls"
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
-    os.path.join(PINAX_ROOT, "themes", PINAX_THEME, "templates"),
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
@@ -152,6 +147,7 @@ INSTALLED_APPS = [
     "nashvegas",
     "compressor",
     "mediaman",
+    "bootstrap_theme",
     
     # Pinax
     "pinax.apps.account",

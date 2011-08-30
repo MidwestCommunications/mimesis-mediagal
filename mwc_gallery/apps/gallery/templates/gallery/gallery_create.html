@@ -1,21 +1,28 @@
 {% extends "gallery/base.html" %}
 
 {% load i18n %}
-{% load uni_form_tags %}
+{% load bootstrap_form_filters %}
 
 {% block head_title %}{% trans "Create a New Gallery" %}{% endblock %}
 
 {% block body %}
 
 <form action="{% url gallery_create %}" method="POST" encType="multipart/form-data" class="uniForm">
-	{% csrf_token %}
-	{{ gallery_form|as_uni_form }}
-	{{ photo_formset.management_form }}
-	{% for form in photo_formset.forms %}
-		<br>
-		{{ form|as_uni_form }}
-	{% endfor %}
-	<div><input type="submit" value="Create" /></div>
+    {% csrf_token %}
+    <fieldset>
+        <legend>Gallery Details</legend>
+        {{ gallery_form|as_bootstrap }}
+    </fieldset>
+    {{ photo_formset.management_form }}
+    {% for form in photo_formset.forms %}
+        <fieldset>
+            <legend>Photo Details</legend>
+            {{ form|as_bootstrap }}
+        </fieldset>
+    {% endfor %}
+    <div class="actions">
+        <button type="submit" class="btn primary">{% trans "Create this Gallery" %}</button>
+    </div>
 </form>
 
 {% endblock %}

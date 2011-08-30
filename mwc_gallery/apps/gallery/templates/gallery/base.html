@@ -6,13 +6,20 @@
 
 {% block body_class %}galleries{% endblock %}
 
-{% block subnav %}
-    {% if user.is_authenticated %}
-        <ul>
-            <li><a href="{% url gallery_list %}">{% trans "My Galleries" %}</a></li>
-            <li><a href="{% url gallery_create %}">{% trans "Create Gallery" %}</a></li>
-        </ul>
-    {% else %}
-        &nbsp; {# need this to give subnav some height when empty #}
-    {% endif %}
+{% block body_base %}
+    <div class="container">
+        <div class="row">
+            <div class="span4 columns">
+                <h3>{% trans "Galleries" %}</h3>
+                <ul>
+                    <li><a href="{% url gallery_list %}">{% trans "Gallery List" %}</a></li>
+                    <li><a href="{% url gallery_create %}">{% trans "Create Gallery" %}</a></li>
+                </ul>
+            </div>
+            <div class="span12 columns">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -6,6 +6,7 @@
 --extra-index-url=http://dist.gondor.io/dev/
 --extra-index-url=http://dist.pinaxproject.com/dev/
 --extra-index-url=http://dist.pinaxproject.com/fresh-start/
+--extra-index-url=http://eldarion:python4life@dist.eldarion.com/dev/
 
 -e git+http://github.com/jlecker/django-rubberstamp.git@master#egg=rubberstamp
 -e git+http://github.com/MidwestCommunications/mimesis.git@master#egg=mimesis
@@ -16,4 +17,4 @@ nashvegas==0.6.3
 django_compressor==0.9.2
 psycopg2==2.3
 gondor==1.0b1.post13
-# See http://pip-installer.org/requirement-format.html for more information.
+pinax-bootstrap-theme

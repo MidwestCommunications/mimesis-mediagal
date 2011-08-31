@@ -8,11 +8,6 @@ from gallery.models import Gallery
 
 class PhotoForm(forms.ModelForm):
     
-    media = forms.FileField(
-            widget=forms.FileInput(
-                attrs={"accept": "image/gif, image/jpeg, image/png"}
-            )
-    )
     class Meta:
         model = MediaUpload
         fields = [

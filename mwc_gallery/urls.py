@@ -7,6 +7,8 @@ admin.autodiscover()
 
 from pinax.apps.account.openid_consumer import PinaxConsumer
 
+from staticfiles.urls import static
+
 
 handler500 = "pinax.views.server_error"
 
@@ -28,3 +30,4 @@ if settings.SERVE_MEDIA:
     urlpatterns += patterns("",
         url(r"", include("staticfiles.urls")),
     )
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

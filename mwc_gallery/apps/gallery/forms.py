@@ -21,8 +21,7 @@ class PhotoForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(PhotoForm,self).__init__(*args, **kwargs)
-        self.fields["media"].label = "Picture"
-        self.fields["description"].label = "Picture Description"
+        self.fields["description"].label = "Media Description"
         
 PhotoFormSet = formset_factory(PhotoForm, extra=0)
 

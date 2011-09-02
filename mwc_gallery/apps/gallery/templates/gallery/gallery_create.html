@@ -3,6 +3,10 @@
 {% load i18n %}
 {% load bootstrap_form_filters %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}mediaman/media-selector.css" />
+{% endblock %}
+
 {% block head_title %}{% trans "Create a New Gallery" %}{% endblock %}
 
 {% block body %}
@@ -13,10 +17,10 @@
         <legend>Gallery Details</legend>
         {{ gallery_form|as_bootstrap }}
     </fieldset>
-    {{ photo_formset.management_form }}
-    {% for form in photo_formset.forms %}
+    {{ media_formset.management_form }}
+    {% for form in media_formset.forms %}
         <fieldset>
-            <legend>Photo Details</legend>
+            <legend>Media Details</legend>
             {{ form|as_bootstrap }}
         </fieldset>
     {% endfor %}
@@ -25,4 +29,8 @@
     </div>
 </form>
 
+{% endblock %}
+
+{% block extra_body %}
+    <script src="{{STATIC_URL}}mediaman/mediaman.js" type="text/javascript"></script>
 {% endblock %}

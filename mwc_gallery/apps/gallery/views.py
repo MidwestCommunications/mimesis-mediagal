@@ -4,7 +4,7 @@ from django.template import RequestContext
 
 from django.contrib.auth.decorators import login_required
 
-from gallery.forms import PhotoFormSet, GalleryDetailsForm
+from gallery.forms import MediaFormSet, GalleryDetailsForm
 from gallery.models import Gallery, GalleryPhotos
 
 def gallery_list(request):
@@ -46,17 +46,17 @@ def gallery_create(request):
     
     template_name = "gallery/gallery_create.html"
     if request.method == "POST":
-        photo_formset = PhotoFormSet(request.POST, request.FILES)
+        media_formset = MediaFormSet(request.POST, request.FILES)
         gallery_form = GalleryDetailsForm(request.POST)
 
-        if photo_formset.is_valid() and gallery_form.is_valid():
-            photos = []
-            for form in photo_formset.forms:
+        if media_formset.is_valid() and gallery_form.is_valid():
+            items = []
+            for form in media_formset.forms:
                 media_item = form.save()
                 if media_item.media_type == "image":
                     media_item.save()
-                    photos += [media_item]
-            if photos:
+                    items += [media_item]
+            if items:
                 g_name = gallery_form.cleaned_data["name"]
                 g_desc = gallery_form.cleaned_data["description"]
                 gallery = Gallery(
@@ -66,28 +66,26 @@ def gallery_create(request):
                 )
                 gallery.save()
 
-                for photo in photos:
+                for photo in items:
                     GalleryPhotos.objects.create(photo=photo, gallery=gallery)
 
                 print "Gallery created."
                 return redirect("gallery_list")
             else:
-                print "No photos!"
-                #import pdb; pdb.set_trace()
+                print "No items!"
         else:
-            #import pdb; pdb.set_trace()
             pass
     else:
         initial_photo_data = [{"creator": request.user.pk}] * 3
         
-        photo_formset = PhotoFormSet(initial=initial_photo_data)
+        media_formset = MediaFormSet(initial=initial_photo_data)
 
         gallery_form = GalleryDetailsForm()
         
     
     return render_to_response(template_name, {
         "gallery_form": gallery_form,
-        "photo_formset": photo_formset
+        "media_formset": media_formset
     }, context_instance=RequestContext(request))
     
 def gallery_add_photo(request):

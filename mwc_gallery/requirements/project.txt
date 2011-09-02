@@ -9,9 +9,8 @@
 --extra-index-url=http://eldarion:python4life@dist.eldarion.com/dev/
 
 -e git+http://github.com/jlecker/django-rubberstamp.git@master#egg=rubberstamp
--e git+http://github.com/MidwestCommunications/mimesis.git@master#egg=mimesis
-# @@@ this is a temporary repo until the official one gets updated with a setup.py file
--e git+http://github.com/nrb/mimesis-mediaman.git#egg=mediaman
+-e git+http://github.com/MidwestCommunications/mimesis.git@mwc-thumbnail-property#egg=mimesis
+-e git+http://github.com/MidwestCommunications/mimesis-mediaman.git#egg=mediaman
 
 django-photologue==2.2
 django-taggit==0.8.0

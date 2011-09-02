@@ -14,7 +14,7 @@ class MediaForm(MediaModelForm):
         fields = [
                 "creator",
                 "media",
-                "description",
+                "caption",
         ]
         widgets = {
             "creator": forms.HiddenInput,
@@ -22,7 +22,7 @@ class MediaForm(MediaModelForm):
     
     def __init__(self, *args, **kwargs):
         super(MediaForm,self).__init__(*args, **kwargs)
-        self.fields["description"].label = "Media Description"
+        self.fields["caption"].label = "Media Description"
         
 MediaFormSet = formset_factory(MediaForm, extra=0)
 

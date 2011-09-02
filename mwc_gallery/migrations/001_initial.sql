@@ -147,9 +147,8 @@ CREATE TABLE "emailconfirmation_emailconfirmation" (
 ### New Model: mimesis.MediaUpload
 CREATE TABLE "mimesis_mediaupload" (
     "id" serial NOT NULL PRIMARY KEY,
-    "title" varchar(150) NOT NULL,
-    "description" text NOT NULL,
-    "media" varchar(100) NOT NULL,
+    "caption" varchar(500) NOT NULL,
+    "media" varchar(500) NOT NULL,
     "creator_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED,
     "created" timestamp with time zone NOT NULL,
     "media_type" varchar(100) NOT NULL,
@@ -160,9 +159,10 @@ CREATE TABLE "mimesis_mediaupload" (
 CREATE TABLE "mimesis_mediaassociation" (
     "id" serial NOT NULL PRIMARY KEY,
     "media_id" integer NOT NULL REFERENCES "mimesis_mediaupload" ("id") DEFERRABLE INITIALLY DEFERRED,
-    "description" text NOT NULL,
     "content_type_id" integer NOT NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED,
-    "object_pk" integer CHECK ("object_pk" >= 0) NOT NULL
+    "object_pk" integer CHECK ("object_pk" >= 0) NOT NULL,
+    "is_primary" boolean NOT NULL,
+    UNIQUE ("media_id", "content_type_id", "object_pk")
 )
 ;
 ### New Model: taggit.Tag
@@ -228,14 +228,6 @@ CREATE TABLE "signup_codes_signupcoderesult" (
     "timestamp" timestamp with time zone NOT NULL
 )
 ;
-### New Model: gallery.Gallery_photos
-CREATE TABLE "gallery_gallery_photos" (
-    "id" serial NOT NULL PRIMARY KEY,
-    "gallery_id" integer NOT NULL,
-    "mediaupload_id" integer NOT NULL REFERENCES "mimesis_mediaupload" ("id") DEFERRABLE INITIALLY DEFERRED,
-    UNIQUE ("gallery_id", "mediaupload_id")
-)
-;
 ### New Model: gallery.Gallery
 CREATE TABLE "gallery_gallery" (
     "id" serial NOT NULL PRIMARY KEY,
@@ -245,7 +237,13 @@ CREATE TABLE "gallery_gallery" (
     "created" timestamp with time zone NOT NULL
 )
 ;
-ALTER TABLE "gallery_gallery_photos" ADD CONSTRAINT "gallery_id_refs_id_226c6be8" FOREIGN KEY ("gallery_id") REFERENCES "gallery_gallery" ("id") DEFERRABLE INITIALLY DEFERRED;
+### New Model: gallery.GalleryPhotos
+CREATE TABLE "gallery_galleryphotos" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "gallery_id" integer NOT NULL REFERENCES "gallery_gallery" ("id") DEFERRABLE INITIALLY DEFERRED,
+    "photo_id" integer NOT NULL REFERENCES "mimesis_mediaupload" ("id") DEFERRABLE INITIALLY DEFERRED
+)
+;
 ### New Model: gallery.GalleryAssociation
 CREATE TABLE "gallery_galleryassociation" (
     "id" serial NOT NULL PRIMARY KEY,
@@ -292,6 +290,7 @@ CREATE INDEX "auth_user_user_permissions_permission_id" ON "auth_user_user_permi
 CREATE INDEX "auth_user_groups_user_id" ON "auth_user_groups" ("user_id");
 CREATE INDEX "auth_user_groups_group_id" ON "auth_user_groups" ("group_id");
 CREATE INDEX "auth_message_user_id" ON "auth_message" ("user_id");
+CREATE INDEX "django_session_expire_date" ON "django_session" ("expire_date");
 CREATE INDEX "emailconfirmation_emailaddress_user_id" ON "emailconfirmation_emailaddress" ("user_id");
 CREATE INDEX "emailconfirmation_emailconfirmation_email_address_id" ON "emailconfirmation_emailconfirmation" ("email_address_id");
 CREATE INDEX "mimesis_mediaupload_creator_id" ON "mimesis_mediaupload" ("creator_id");
@@ -304,9 +303,9 @@ CREATE INDEX "account_passwordreset_user_id" ON "account_passwordreset" ("user_i
 CREATE INDEX "signup_codes_signupcode_inviter_id" ON "signup_codes_signupcode" ("inviter_id");
 CREATE INDEX "signup_codes_signupcoderesult_signup_code_id" ON "signup_codes_signupcoderesult" ("signup_code_id");
 CREATE INDEX "signup_codes_signupcoderesult_user_id" ON "signup_codes_signupcoderesult" ("user_id");
-CREATE INDEX "gallery_gallery_photos_gallery_id" ON "gallery_gallery_photos" ("gallery_id");
-CREATE INDEX "gallery_gallery_photos_mediaupload_id" ON "gallery_gallery_photos" ("mediaupload_id");
 CREATE INDEX "gallery_gallery_owner_id" ON "gallery_gallery" ("owner_id");
+CREATE INDEX "gallery_galleryphotos_gallery_id" ON "gallery_galleryphotos" ("gallery_id");
+CREATE INDEX "gallery_galleryphotos_photo_id" ON "gallery_galleryphotos" ("photo_id");
 CREATE INDEX "gallery_galleryassociation_gallery_id" ON "gallery_galleryassociation" ("gallery_id");
 CREATE INDEX "gallery_galleryassociation_content_type_id" ON "gallery_galleryassociation" ("content_type_id");
 CREATE INDEX "django_openid_useropenidassociation_user_id" ON "django_openid_useropenidassociation" ("user_id");

@@ -147,7 +147,7 @@ INSTALLED_APPS = [
     "nashvegas",
     "compressor",
     "mediaman",
-    "bootstrap_theme",
+    "pinax_theme_bootstrap",
     
     # Pinax
     "pinax.apps.account",

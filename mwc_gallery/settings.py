@@ -132,6 +132,9 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     
     "pinax.templatetags",
+
+    # theme
+    "pinax_theme_bootstrap",
     
     # external
     "staticfiles",
@@ -147,7 +150,6 @@ INSTALLED_APPS = [
     "nashvegas",
     "compressor",
     "mediaman",
-    "pinax_theme_bootstrap",
     
     # Pinax
     "pinax.apps.account",

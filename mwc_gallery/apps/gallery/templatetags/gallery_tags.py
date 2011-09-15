@@ -43,8 +43,8 @@ def do_render_media(parser, token):
         raise template.TemplateSyntaxError("%r requires a single argument" % token.contents.split()[0])
     
     return MediaUploadNode(var_name)
-
-
+    
+    
 register.tag("render_media", do_render_media)
 
 

@@ -9,7 +9,7 @@
             "is_active": true, 
             "is_superuser": true, 
             "is_staff": true, 
-            "last_login": "2011-09-15 15:27:41", 
+            "last_login": "2011-09-15 16:59:23", 
             "groups": [], 
             "user_permissions": [], 
             "password": "sha1$f896c$12f7465543a54476bd6cb29120f2c434b24a95c8", 
@@ -27,6 +27,18 @@
             "caption": "Test upload.", 
             "media_type": "image", 
             "media_subtype": "png"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "mimesis.mediaupload", 
+        "fields": {
+            "creator": 1, 
+            "media": "mimesis/2011-09/15/test_1.txt", 
+            "created": "2011-09-15 16:59:34", 
+            "caption": "A test text file.", 
+            "media_type": "text", 
+            "media_subtype": "plain"
         }
     }
 ]

@@ -4,8 +4,8 @@
 
 <h1>{{ gallery.name }}</h1>
 
-{% for photo in photos %}
-<img src="{{ MEDIA_URL }}{{ photo.media.name }}" />
+{% for item in media %}
+<img src="{{ MEDIA_URL }}{{ item.media.name }}" />
 {% endfor %}
 
 {% endblock %}

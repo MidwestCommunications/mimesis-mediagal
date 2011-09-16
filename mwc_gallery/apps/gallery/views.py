@@ -31,11 +31,11 @@ def gallery_details(request, gallery_id):
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
-    medias = gallery.medias.all()
+    media = gallery.media.all()
     
     return render_to_response(template_name, {
         "gallery": gallery,
-        "medias": medias,
+        "media": media,
     }, context_instance=RequestContext(request))
     
 @login_required

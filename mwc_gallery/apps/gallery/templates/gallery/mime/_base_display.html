@@ -12,8 +12,11 @@
 
     <div id="{{ media_type }}_{{ id }}_info">
         {% block info %}
-            Created by {{ creator }} on {{ created }}.
-            Tags: {{ tags }}
+            Created by {{ creator }} on {{ created }}
+            {% if tags %}
+                {{ tags|join:", " }}
+            {% else %}
+            {% endif %}
         {% endblock %}
     </div>
 </div>

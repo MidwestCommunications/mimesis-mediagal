@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.template import Context
 from django.template.loader import get_template
 from django import template
@@ -29,6 +30,7 @@ class MediaUploadNode(template.Node):
             "creator": var.creator,
             "created": var.created,
             "tags": var.tags.all(),
+            "MEDIA_URL": settings.MEDIA_URL,
         })
         return template.render(c)
 

@@ -1,11 +1,13 @@
 {% extends "gallery/base.html" %}
 
+{% load gallery_tags %}
+
 {% block body %}
 
 <h1>{{ gallery.name }}</h1>
 
 {% for item in media %}
-<img src="{{ MEDIA_URL }}{{ item.media.name }}" />
+	{% render_media item %}
 {% endfor %}
 
 {% endblock %}

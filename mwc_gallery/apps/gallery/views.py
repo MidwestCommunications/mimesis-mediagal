@@ -31,7 +31,7 @@ def gallery_details(request, gallery_id):
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
-    media = gallery.media.all()
+    medias = gallery.media.all()
     
     return render_to_response(template_name, {
         "gallery": gallery,
@@ -76,7 +76,7 @@ def gallery_create(request):
         else:
             pass
     else:
-        initial_media_data = [{"creator": request.user.pk}] * 3
+        initial_media_data = [{"creator": request.user.pk}]
         
         media_formset = MediaFormSet(initial=initial_media_data)
 

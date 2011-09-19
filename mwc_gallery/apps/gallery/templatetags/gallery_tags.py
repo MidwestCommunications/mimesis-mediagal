@@ -7,6 +7,7 @@ from mimesis.models import MediaUpload
 
 register = template.Library()
 
+
 class MediaUploadNode(template.Node):
     """
     Takes a context variable name and renders that variable using it's mimetype
@@ -14,10 +15,11 @@ class MediaUploadNode(template.Node):
     """
     def __init__(self, var_name):
         self.var_name = var_name
+        
     def render(self, context):
         var = context[self.var_name]
         type_ = var.media_type
-        # @@@ may need to catch non-existant templates.
+        # @@@ Somehow pass in RequestContext?
         t_name = "gallery/mime/_%s_display.html" % type_
         template = get_template(t_name)
         c = Context({
@@ -33,8 +35,8 @@ class MediaUploadNode(template.Node):
             "MEDIA_URL": settings.MEDIA_URL,
         })
         return template.render(c)
-
-
+        
+        
 def do_render_media(parser, token):
     """
     Parses the tag to separate the tag name and the variable.
@@ -43,7 +45,7 @@ def do_render_media(parser, token):
         tag_name, var_name = token.split_contents()
     except ValueError:
         raise template.TemplateSyntaxError("%r requires a single argument" % token.contents.split()[0])
-    
+        
     return MediaUploadNode(var_name)
     
     

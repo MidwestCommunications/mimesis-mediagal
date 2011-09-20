@@ -1,5 +1,8 @@
 {% extends "site_base.html" %}
 
+{% load i18n %}
+{% load bootstrap_tags %}
+
 {% block extra_head %}
     <script src="{{ STATIC_URL }}js/swfupload.js"></script>
     <script src="{{ STATIC_URL}}js/swfupload.cookies.js"></script>
@@ -17,9 +20,30 @@
                 button_cursor: SWFUpload.CURSOR.HAND,
                 button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
                 
-                file_dialog_complete_handler: function () { this.startUpload(); },
-                upload_complete_handler: function () { this.startUpload(); },
+                file_dialog_start_handler: function () { this.fileDialogStart(); ),
+                file_dialog_complete_handler: function () { this.fileDialogComplete(); ),
             });
+        });
+        
+        function doSubmit(e) {
+            console.log("Called submit.");
+            e = e || window.event;
+            
+            if (e.stopPropagation) {
+                e.StopPropagation();
+            }
+            e.cancelBubble = true;
+            
+            try {
+                swfupload.startUpload();
+            } catch (ex) {
+                console.log("Couldn't start file upload.");
+            }
+            return false;
+        };
+        
+        $("#gallery_create").click(function () {
+           doSubmit();
         });
     </script>
     <style type="text/css">
@@ -32,13 +56,19 @@
 
 <form method="POST" action="{% url gallery_bulk_create %}" encType="multipart/form-data" class="uniForm" id="gallery_bulk_form">
     {% csrf_token %}
+    <div class="gallery_details">
     <fieldset>
+        <legend>Gallery Details</legend>
+        {{ gallery_form|as_bootstrap }}
+    </div>
+    <div class="actions">
         <span id="upload_btn"></span>
-        <button id="btn_upload" class="btn primary">Select Files</button>
-    </fieldset>
-    <button type="submit" class="btn primary">
-        Create Gallery
-    </button>
+        <button id="btn_upload" class="btn primary">{% trans "Select Files" %}</button>
+
+        <button type="submit" class="btn primary" id="gallery_create">
+            {% trans "Create Gallery" %}
+        </button>
+    </div>
 </form>
 
 {% endblock body %}

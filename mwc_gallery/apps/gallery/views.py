@@ -1,8 +1,11 @@
-
+from django.http import HttpResponse
+from django.middleware.csrf import get_token
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from django.contrib.auth.decorators import login_required
+
+from mimesis.models import MediaUpload
 
 from gallery.forms import MediaFormSet, GalleryDetailsForm
 from gallery.models import Gallery, GalleryMedia
@@ -112,3 +115,24 @@ def gallery_delete(request):
     """
 
     pass
+    
+    
+@login_required
+def gallery_bulk_create(request):
+    print "Made it to the view."
+    template_name = "gallery/gallery_bulk_create.html"
+    
+    if request.method == "POST":
+        for field_name in request.FILES:
+            print "Received file %s" % field_name
+            uploaded_file = request.FILES[field_name]
+            MediaUpload.objects.create(
+                media=uploaded_file,
+                creator_id=request.user.pk
+            )
+            return HttpResponse("ok", mimetype="text/plain")
+    else:
+        print "Got %s instead" % request.method
+    return render_to_response(template_name, {
+        "csrftoken": get_token(request),
+    }, context_instance=RequestContext(request))

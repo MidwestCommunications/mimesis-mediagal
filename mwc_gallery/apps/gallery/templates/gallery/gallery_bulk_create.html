@@ -1,0 +1,32 @@
+{% extends "site_base.html" %}
+
+{% block extra_head %}
+    <script src="{{ STATIC_URL }}js/swfupload.js"></script>
+    <script src="{{ STATIC_URL}}js/swfupload.cookies.js"></script>
+    <script>
+        var swfupload;
+        $(function () {
+            swfupload = new SWFUpload({
+                debug: false,
+                upload_url: "{% url gallery_bulk_create %}",
+                flash_url: "{{ STATIC_URL }}swf/swfupload.swf",
+                post_params: {
+                    "csrfmiddlewaretoken": "{{ csrftoken }}"
+                },
+                button_placeholder_id: "upload_btn",
+                button_width: "40",
+                button_height: "16",
+                button_cursor: SWFUpload.CURSOR_HAND,
+                button_text: "Upload",
+                
+                file_dialog_complete_handler: function () { this.startUpload(); },
+                upload_complete_handler: function () { this.startUpload(); },
+            });
+        });
+    </script>
+{% endblock %}
+
+
+{% block body %}
+    <div id="upload_btn"></div>
+{% endblock body %}

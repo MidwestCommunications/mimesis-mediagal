@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
 from gallery.forms import MediaFormSet, GalleryDetailsForm
-from gallery.models import Gallery, GalleryPhotos
+from gallery.models import Gallery, GalleryMedia
 
 def gallery_list(request):
     """
@@ -31,11 +31,11 @@ def gallery_details(request, gallery_id):
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
-    photos = gallery.photos.all()
+    medias = gallery.media.all()
     
     return render_to_response(template_name, {
         "gallery": gallery,
-        "photos": photos,
+        "media": media,
     }, context_instance=RequestContext(request))
     
 @login_required
@@ -66,8 +66,8 @@ def gallery_create(request):
                 )
                 gallery.save()
 
-                for photo in items:
-                    GalleryPhotos.objects.create(photo=photo, gallery=gallery)
+                for media in items:
+                    GalleryMedia.objects.create(media=media, gallery=gallery)
 
                 print "Gallery created."
                 return redirect("gallery_list")
@@ -76,9 +76,9 @@ def gallery_create(request):
         else:
             pass
     else:
-        initial_photo_data = [{"creator": request.user.pk}] * 3
+        initial_media_data = [{"creator": request.user.pk}]
         
-        media_formset = MediaFormSet(initial=initial_photo_data)
+        media_formset = MediaFormSet(initial=initial_media_data)
 
         gallery_form = GalleryDetailsForm()
         
@@ -88,17 +88,17 @@ def gallery_create(request):
         "media_formset": media_formset
     }, context_instance=RequestContext(request))
     
-def gallery_add_photo(request):
+def gallery_add_media(request):
     """
-    Add a photo to the gallery.
+    Add a media to the gallery.
     """
     
     pass
     
     
-def gallery_remove_photo(request):
+def gallery_remove_media(request):
     """
-    Remove a photo from a gallery.
+    Remove a media from a gallery.
     """
     
     pass

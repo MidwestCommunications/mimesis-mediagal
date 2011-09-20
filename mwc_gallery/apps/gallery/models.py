@@ -16,10 +16,10 @@ class Gallery(models.Model):
     owner = models.ForeignKey(User)
     created = models.DateTimeField(default=datetime.datetime.now)
     
-    photos = models.ManyToManyField(
+    media = models.ManyToManyField(
             MediaUpload,
             related_name="galleries",
-            through="GalleryPhotos"
+            through="GalleryMedia"
     )
     
     def __unicode__(self):
@@ -28,9 +28,9 @@ class Gallery(models.Model):
     def get_absolute_url(self):
         return reverse("gallery_details", args=(self.pk,))
 
-class GalleryPhotos(models.Model):
+class GalleryMedia(models.Model):
     gallery = models.ForeignKey(Gallery)
-    photo = models.ForeignKey(MediaUpload)
+    media = models.ForeignKey(MediaUpload)
 
 class GalleryAssociation(models.Model):
     

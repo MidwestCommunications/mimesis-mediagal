@@ -1,0 +1,5 @@
+{% extends "gallery/mime/_base_display.html" %}
+
+{% block item %}
+            <img src="{{ MEDIA_URL }}{{ media.name }}" alt="{{ caption }}" />
+{% endblock %}

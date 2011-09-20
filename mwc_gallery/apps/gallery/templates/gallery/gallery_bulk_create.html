@@ -10,23 +10,35 @@
                 debug: false,
                 upload_url: "{% url gallery_bulk_create %}",
                 flash_url: "{{ STATIC_URL }}swf/swfupload.swf",
-                post_params: {
-                    "csrfmiddlewaretoken": "{{ csrftoken }}"
-                },
+
                 button_placeholder_id: "upload_btn",
-                button_width: "40",
-                button_height: "16",
-                button_cursor: SWFUpload.CURSOR_HAND,
-                button_text: "Upload",
+                button_width: "97",
+                button_height: "28",
+                button_cursor: SWFUpload.CURSOR.HAND,
+                button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
                 
                 file_dialog_complete_handler: function () { this.startUpload(); },
                 upload_complete_handler: function () { this.startUpload(); },
             });
         });
     </script>
+    <style type="text/css">
+    .swfupload {position: absolute; z-index: 1;}
+    </style>
 {% endblock %}
 
 
 {% block body %}
-    <div id="upload_btn"></div>
+
+<form method="POST" action="{% url gallery_bulk_create %}" encType="multipart/form-data" class="uniForm" id="gallery_bulk_form">
+    {% csrf_token %}
+    <fieldset>
+        <span id="upload_btn"></span>
+        <button id="btn_upload" class="btn primary">Select Files</button>
+    </fieldset>
+    <button type="submit" class="btn primary">
+        Create Gallery
+    </button>
+</form>
+
 {% endblock body %}

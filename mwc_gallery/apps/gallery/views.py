@@ -150,3 +150,15 @@ def gallery_bulk_create(request):
         "csrftoken": get_token(request),
         "gallery_form": gallery_form,
     }, context_instance=RequestContext(request))
+    
+    
+@login_required
+def gallery_resource_upload(request):
+    
+    if request.method == "POST":
+        for key, file_data in request.FILES:
+            MediaUpload.objects.create(
+                media=file_data,
+                creator_id=request.user.pk
+            )
+    return HttpResponse("ok", mimetype="text/plain")

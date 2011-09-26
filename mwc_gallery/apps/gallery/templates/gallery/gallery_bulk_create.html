@@ -13,6 +13,7 @@
                 debug: false,
                 upload_url: "{% url gallery_bulk_create %}",
                 flash_url: "{{ STATIC_URL }}swf/swfupload.swf",
+                post_params: { "csrfmiddlewaretoken": "{{ csrftoken }}" },
 
                 button_placeholder_id: "upload_btn",
                 button_width: "97",
@@ -74,8 +75,7 @@
 {% block extra_body %}
     <script>
         $("#gallery_create").click(function () {
-            alert("Clicked.");
+            doSubmit();
         });
-        console.log($("#gallery_create").data('events'));
     </script>
 {% endblock extra_body %}

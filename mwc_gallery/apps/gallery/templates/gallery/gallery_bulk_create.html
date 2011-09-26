@@ -21,32 +21,34 @@
                 button_cursor: SWFUpload.CURSOR.HAND,
                 button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
                 
-                file_dialog_start_handler: function () { this.fileDialogStart(); ),
-                file_dialog_complete_handler: function () { this.fileDialogComplete(); ),
+                // Handler functions
+                upload_complete_handler: uploadDone,
+                // file_dialog_complete_handler: function () { this.fileDialogComplete(); },
             });
         });
         
         function doSubmit(e) {
-            console.log("Called submit.");
             e = e || window.event;
             
             if (e.stopPropagation) {
-                e.StopPropagation();
+                e.stopPropagation();
             }
             e.cancelBubble = true;
             
             try {
                 swfupload.startUpload();
             } catch (ex) {
-                console.log("Couldn't start file upload.");
+                alert("Can't upload file.");
             }
+            
             return false;
         };
         
-        $("#gallery_create").click(function () {
-           doSubmit();
-        });
+        function uploadDone() {
+            alert("Upload handler called");
+        };
     </script>
+    <!-- Hover the invisible button over the "real" button. -->
     <style type="text/css">
     .swfupload {position: absolute; z-index: 1;}
     </style>

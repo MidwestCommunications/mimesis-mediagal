@@ -45,7 +45,12 @@
         };
         
         function uploadDone() {
-            alert("Upload handler called");
+            var uploads = swfupload.getStats().successful_uploads,
+                i = 0;
+            
+            for (i; i++; i < uploads) {
+                
+            }
         };
     </script>
     <!-- Hover the invisible button over the "real" button. -->

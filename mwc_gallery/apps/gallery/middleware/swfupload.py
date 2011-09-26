@@ -21,6 +21,5 @@ class SWFUploadMiddleware(object):
             (request.path == reverse('gallery_resource_upload')) and
             settings.SESSION_COOKIE_NAME in request.POST):
             request.COOKIES[settings.SESSION_COOKIE_NAME] = request.POST[settings.SESSION_COOKIE_NAME]
-        if "csrftoken" in request.POST:
-            request.COOKIES["csrftoken"] = request.POST["csrftoken"]
-             
+        if "csrfmiddlewaretoken" in request.POST:
+            request.COOKIES["csrfmiddlewaretoken"] = request.POST["csrfmiddlewaretoken"]

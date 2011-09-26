@@ -1,5 +1,5 @@
+from django.core.context_processors import csrf
 from django.http import HttpResponse
-from django.middleware.csrf import get_token
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
@@ -146,10 +146,11 @@ def gallery_bulk_create(request):
         return redirect("gallery_list")
     else:
         gallery_form = GalleryDetailsForm()
-    return render_to_response(template_name, {
-        "csrftoken": get_token(request),
-        "gallery_form": gallery_form,
-    }, context_instance=RequestContext(request))
+    ctx = {"gallery_form": gallery_form}
+    ctx.update(csrf(request))
+    return render_to_response(template_name, ctx,
+        context_instance=RequestContext(request)
+    )
     
     
 @login_required

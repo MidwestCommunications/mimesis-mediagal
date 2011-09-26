@@ -13,7 +13,7 @@
                 debug: false,
                 upload_url: "{% url gallery_resource_upload %}",
                 flash_url: "{{ STATIC_URL }}swf/swfupload.swf",
-                post_params: { "csrftoken": "{{ csrftoken }}" },
+                post_params: { "csrfmiddlewaretoken": "{{ csrf_token }}" },
 
                 button_placeholder_id: "upload_btn",
                 button_width: "97",
@@ -62,20 +62,12 @@
 
 {% block body %}
 
-<form method="POST" action="{% url gallery_resource_upload %}" encType="multipart/form-data" class="uniForm" id="gallery_bulk_form">
-    {% csrf_token %}
-    <div class="gallery_details">
-    <fieldset>
-        <legend>Gallery Details</legend>
-        {{ gallery_form|as_bootstrap }}
-    </div>
     <div class="actions">
         <span id="upload_btn"></span>
         <button id="btn_upload" class="btn primary">{% trans "Select Files" %}</button>
 
         <button type="" class="btn primary" id="gallery_create">{% trans "Create Gallery" %}</button>
     </div>
-</form>
 
 {% endblock body %}
 

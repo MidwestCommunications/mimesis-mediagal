@@ -22,4 +22,4 @@ class SWFUploadMiddleware(object):
             settings.SESSION_COOKIE_NAME in request.POST):
             request.COOKIES[settings.SESSION_COOKIE_NAME] = request.POST[settings.SESSION_COOKIE_NAME]
         if "csrfmiddlewaretoken" in request.POST:
-            request.COOKIES["csrfmiddlewaretoken"] = request.POST["csrfmiddlewaretoken"]
+            request.COOKIES["csrftoken"] = request.POST["csrfmiddlewaretoken"]

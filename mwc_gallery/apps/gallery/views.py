@@ -155,11 +155,11 @@ def gallery_bulk_create(request):
     
 @login_required
 def gallery_resource_upload(request):
-    
+
     if request.method == "POST":
-        for key, file_data in request.FILES:
+        for key in request.FILES:
             MediaUpload.objects.create(
-                media=file_data,
+                media=request.FILES[key],
                 creator_id=request.user.pk
             )
     return HttpResponse("ok", mimetype="text/plain")

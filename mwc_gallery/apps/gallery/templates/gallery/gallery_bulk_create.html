@@ -87,17 +87,17 @@
 
 {% block body %}
 
-    <div id="file_viewer">
-        <ul id="file_list">
-            <li>No files selected yet.</li>
-        </ul>
-    </div>
-
     <div class="actions">
         <span id="upload_btn"></span>
         <button id="btn_upload" class="btn primary">{% trans "Select Files" %}</button>
 
         <button type="" class="btn primary" id="gallery_create">{% trans "Create Gallery" %}</button>
+    </div>
+
+    <div id="file_viewer">
+        <ul id="file_list">
+            <li>No files selected yet.</li>
+        </ul>
     </div>
 
 {% endblock body %}

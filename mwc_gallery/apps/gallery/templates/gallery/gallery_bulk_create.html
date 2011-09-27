@@ -23,7 +23,7 @@
                 
                 // Handler functions
                 upload_complete_handler: uploadDone,
-                // file_dialog_complete_handler: function () { this.fileDialogComplete(); },
+                file_dialog_complete_handler: dialogDone,
             });
         });
         
@@ -49,8 +49,33 @@
                 i = 0;
             
             for (i; i++; i < uploads) {
-                
-            }
+                console.log(swfupload.getFiles(i));
+            };
+        };
+        
+        /* 
+        Parameters: num_select - number of files selected in the dialog
+                    num_queued - number of files successfully added to the queue
+                    total_queued - total number of files in the queue
+        */
+        function dialogDone(num_selected, num_queued, total_queued) {
+            var file_list = [],
+                list_str = "",
+                i;
+            
+            // Note that we're basically overwriting the entire list if the user
+            // accesses the dialog more than once, so accessing via the total_queued
+            // nunmber won't result in dupes.
+            for (i=0; i < total_queued; i++) {
+                var f = swfupload.getFile(i);
+                console.log(i);
+                file_list.push(f);
+                list_str += '<li class="file_list_entry" id="file_' + i + '">' + f.name + '</li>'
+            };
+            
+            console.log(file_list);
+            
+            $("#file_list").html(list_str);
         };
     </script>
     <!-- Hover the invisible button over the "real" button. -->
@@ -61,6 +86,12 @@
 
 
 {% block body %}
+
+    <div id="file_viewer">
+        <ul id="file_list">
+            <li>No files selected yet.</li>
+        </ul>
+    </div>
 
     <div class="actions">
         <span id="upload_btn"></span>

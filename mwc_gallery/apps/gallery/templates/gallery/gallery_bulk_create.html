@@ -23,8 +23,13 @@
                 button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
                 
                 // Handler functions
+                upload_progress_handler: uploadProgress,
                 upload_complete_handler: uploadDone,
                 file_dialog_complete_handler: dialogDone,
+                
+                custom_settings: {
+                    progress_target: "progress_out"
+                }
             });
         });
 
@@ -38,6 +43,7 @@
 
 {% block body %}
 
+    <div class="flash" id="progress_out"></div>
     <div class="actions">
         <span id="upload_btn"></span>
         <button id="btn_upload" class="btn primary">{% trans "Select Files" %}</button>

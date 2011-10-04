@@ -6,9 +6,22 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
 from mimesis.models import MediaUpload
+from uploadify.views import upload_received
 
 from gallery.forms import MediaFormSet, GalleryDetailsForm
 from gallery.models import Gallery, GalleryMedia
+
+
+def upload_received_handler(sender, data, user, **kwargs):
+    mu = MediaUpload.objects.create(
+            media=data,
+            creator=user
+        )
+    # @@@ Need some way of indicating that these files need to be associated with a gallery.
+    # Possibly by changing the GalleryMedia to have a nullable gallery attribute, creating them here,
+    # then populating the Gallery attribute when the gallery is fully created?
+    
+upload_received.connect(upload_received_handler, dispatch_uid="gallery.upload_received")
 
 
 def gallery_list(request):

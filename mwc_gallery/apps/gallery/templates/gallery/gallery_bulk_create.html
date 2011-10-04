@@ -2,67 +2,16 @@
 
 {% load i18n %}
 {% load bootstrap_tags %}
+{% load uploadify_tags %}
 
-{% block extra_head %}
-    <script src="{{ STATIC_URL }}js/swfupload.js"></script>
-    <script src="{{ STATIC_URL}}js/swfupload.cookies.js"></script>
-    <script src="{{ STATIC_URL }}js/handlers.js"></script>
-    <script>
-        var swfupload;
-        $(function () {
-            swfupload = new SWFUpload({
-                debug: false,
-                upload_url: "{% url gallery_resource_upload %}",
-                flash_url: "{{ STATIC_URL }}swf/swfupload.swf",
-                post_params: { "csrfmiddlewaretoken": "{{ csrf_token }}" },
-
-                button_placeholder_id: "upload_btn",
-                button_width: "97",
-                button_height: "28",
-                button_cursor: SWFUpload.CURSOR.HAND,
-                button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
-                
-                // Handler functions
-                upload_progress_handler: uploadProgress,
-                upload_complete_handler: uploadDone,
-                file_dialog_complete_handler: dialogDone,
-                
-                custom_settings: {
-                    progress_target: "progress_out"
-                }
-            });
-        });
-
-    </script>
-    <!-- Hover the invisible button over the "real" button. -->
-    <style type="text/css">
-    .swfupload {position: absolute; z-index: 1;}
-    </style>
-{% endblock %}
 
 
 {% block body %}
 
-    <div class="flash" id="progress_out"></div>
-    <div class="actions">
-        <span id="upload_btn"></span>
-        <button id="btn_upload" class="btn primary">{% trans "Select Files" %}</button>
-
-        <button type="" class="btn primary" id="gallery_create">{% trans "Create Gallery" %}</button>
-    </div>
-
-    <div id="file_viewer">
-        <ul id="file_list">
-            <li>No files selected yet.</li>
-        </ul>
-    </div>
+    {% url gallery_info as gallery_info %}
+    {% multi_file_upload gallery_info %}
 
 {% endblock body %}
 
 {% block extra_body %}
-    <script>
-        $("#gallery_create").click(function () {
-            doSubmit();
-        });
-    </script>
 {% endblock extra_body %}

@@ -132,35 +132,8 @@ def gallery_delete(request):
     
 @login_required
 def gallery_bulk_create(request):
-    print "Made it to the view."
     template_name = "gallery/gallery_bulk_create.html"
-    
-    if request.method == "POST":
-        print "Have a gallery form."
-        gallery_form = GalleryDetailsForm(request.POST)
-        if gallery_form.is_valid():
-            g_name = gallery_form.cleaned_data["name"]
-            g_desc = gallery_form.cleaned_data["description"]
-            gallery = Gallery(
-                    name=g_name,
-                    description=g_desc,
-                    owner=request.user,
-            )
-        print "Files: %s" % len(request.FILES)
-        for field_name in request.FILES:
-            uploaded_file = request.FILES[field_name]
-            print "Got an uploaded file."
-            m = MediaUpload.objects.create(
-                media=uploaded_file,
-                creator_id=request.user.pk
-            )
-            GalleryMedia.objects.create(media=m, gallery=gallery)
-            print "Made the gallery/media connection."
-        return redirect("gallery_list")
-    else:
-        gallery_form = GalleryDetailsForm()
-    ctx = {"gallery_form": gallery_form}
-    ctx.update(csrf(request))
+    ctx = {}
     return render_to_response(template_name, ctx,
         context_instance=RequestContext(request)
     )

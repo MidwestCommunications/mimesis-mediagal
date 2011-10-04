@@ -166,11 +166,23 @@ def gallery_edit_details(request):
         if "media" in request.POST:
             media_pks = request.POST.getlist("media")
             media_list = MediaUpload.objects.filter(pk__in=media_pks)
-            # @@ create a formset that will include image thumbnails, so the user knows what they're editing.
-            # For now, we'll just send the media list on to the template
-            ctx = {"media": media_list}
+            initial_media_data = [
+                    {"creator": media.creator,
+                    "pk": media.pk,
+                    "media": media.media}
+                    for media in media_list
+            ]
+
+            media_formset = MediaFormSet(initial=initial_media_data)
         else:
-            ctx = {"media": None}
+            media_list = None
+            media_formset = None
+        
+        ctx = {
+            "media": media_list,
+            "gallery_form": GalleryDetailsForm(),
+            "media_formset": media_formset,
+        }
     return render_to_response(template_name, ctx,
         context_instance=RequestContext(request)
     )

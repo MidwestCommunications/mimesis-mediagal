@@ -1,0 +1,11 @@
+{% extends "site_base.html" %}
+
+{% load gallery_tags %}
+
+{% block body %}
+    {% for m in media %}
+        {% render_media m %}
+    {% empty %}
+        No media to display!
+    {% endfor %}
+{% endblock body %}

@@ -157,6 +157,26 @@ def gallery_images_uploaded(request):
     
     
 @login_required
+def gallery_edit_details(request):
+    
+    template_name = "gallery/gallery_edit_details.html"
+    
+    import pdb; pdb.set_trace()
+    if request.POST:
+        if "media" in request.POST:
+            media_pks = request.POST.getlist("media")
+            media_list = MediaUpload.objects.filter(pk__in=media_pks)
+            # @@ create a formset that will include image thumbnails, so the user knows what they're editing.
+            # For now, we'll just send the media list on to the template
+            ctx = {"media": media_list}
+        else:
+            ctx = {"media": None}
+    return render_to_response(template_name, ctx,
+        context_instance=RequestContext(request)
+    )
+    
+    
+@login_required
 def gallery_resource_upload(request):
 
     if request.method == "POST":

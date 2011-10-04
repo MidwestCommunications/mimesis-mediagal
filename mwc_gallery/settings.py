@@ -194,8 +194,8 @@ DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
 
-UPLOADIFY_PATH = os.path.join(STATIC_URL,"js","uploadify")
-UPLOADIFY_UPLOAD_PATH = os.path.join(MEDIA_ROOT, "uploads")
+UPLOADIFY_PATH = os.path.join(STATIC_URL,"js","uploadify/")
+UPLOADIFY_UPLOAD_PATH = os.path.join(MEDIA_ROOT, "uploads/")
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

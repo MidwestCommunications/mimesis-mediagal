@@ -64,7 +64,13 @@ def gallery_create(request):
 
     template_name = "gallery/gallery_create.html"
     if request.method == "POST":
-        media_formset = MediaFormSet(request.POST, request.FILES)
+        # @@@ Attempt to make this view viable for both the 'bulk uploader' and normal forms;
+        # it doesn't work.
+        if request.FILES:
+            media_formset = MediaFormSet(request.POST, request.FILES)
+        else:
+            media_formset = MediaFormSet(request.POST)
+            
         gallery_form = GalleryDetailsForm(request.POST)
 
         if media_formset.is_valid() and gallery_form.is_valid():

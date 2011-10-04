@@ -8,8 +8,11 @@
 
 {% block body %}
 
-    {% url gallery_info as gallery_info %}
-    {% multi_file_upload gallery_info %}
+    {% comment %}
+    This is kind of a hack, since multi_file_upload doesn't directly support url reversing.
+    {% endcomment %}
+    {% url gallery_images_uploaded as upload_complete %}
+    {% multi_file_upload upload_complete %}
 
 {% endblock body %}
 

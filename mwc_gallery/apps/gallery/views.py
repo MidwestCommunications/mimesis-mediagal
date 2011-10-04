@@ -165,6 +165,23 @@ def gallery_bulk_create(request):
         context_instance=RequestContext(request)
     )
     
+
+@login_required
+def gallery_images_uploaded(request):
+    
+    template_name = "gallery/galler_images_uploaded.html"
+    if request.POST:
+        print request.POST
+        # Get ids for all of this user's uploads that are not associated with a gallery.
+        uploads = MediaUpload.objects.filter(creator=request.user.pk, gallerymedia__isnull=True).values_list("pk")
+        ctx = {"uploads": uploads}
+    else:
+        ctx = {"invalid_request": True}
+        
+    return render_tor_response(template_name, ctx,
+        context_instance=RequestContext(request)
+    )
+    
     
 @login_required
 def gallery_resource_upload(request):

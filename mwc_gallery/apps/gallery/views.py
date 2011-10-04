@@ -142,7 +142,7 @@ def gallery_bulk_create(request):
 @login_required
 def gallery_images_uploaded(request):
     
-    template_name = "gallery/galler_images_uploaded.html"
+    template_name = "gallery/gallery_images_uploaded.html"
     if request.POST:
         print request.POST
         # Get ids for all of this user's uploads that are not associated with a gallery.
@@ -151,7 +151,7 @@ def gallery_images_uploaded(request):
     else:
         ctx = {"invalid_request": True}
         
-    return render_tor_response(template_name, ctx,
+    return render_to_response(template_name, ctx,
         context_instance=RequestContext(request)
     )
     

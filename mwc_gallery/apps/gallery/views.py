@@ -146,7 +146,7 @@ def gallery_images_uploaded(request):
     if request.POST:
         print request.POST
         # Get ids for all of this user's uploads that are not associated with a gallery.
-        uploads = MediaUpload.objects.filter(creator=request.user.pk, gallerymedia__isnull=True).values_list("pk")
+        uploads = MediaUpload.objects.filter(creator=request.user.pk, gallerymedia__isnull=True).values_list("pk", flat=True)
         ctx = {"uploads": uploads}
     else:
         ctx = {"invalid_request": True}

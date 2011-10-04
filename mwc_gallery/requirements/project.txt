@@ -11,6 +11,7 @@
 -e git+http://github.com/jlecker/django-rubberstamp.git@master#egg=rubberstamp
 -e git+http://github.com/MidwestCommunications/mimesis.git@mwc-thumbnail-property#egg=mimesis
 -e git+http://github.com/MidwestCommunications/mimesis-mediaman.git#egg=mediaman
+-e git+http://github.com/nrb/django-uploadify#egg=uploadify
 
 django-photologue==2.2
 django-taggit==0.8.0

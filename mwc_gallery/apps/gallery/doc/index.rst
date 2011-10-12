@@ -6,20 +6,14 @@
 Welcome to MWC Gallery's documentation!
 =======================================
 
-Contents:
+=======
+Modules
+=======
 
 .. toctree::
    :maxdepth: 2
 
-
-=====
-Index
-=====
-
-Known Issues
-============
-
-	* There are no subtype templates.
+   modules/views
 
 
 Indices and tables

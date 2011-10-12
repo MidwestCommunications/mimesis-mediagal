@@ -20,6 +20,10 @@ Modules
 
    modules/models
 
+.. toctree::
+   :maxdepth: 2
+
+   modules/forms
 
 Indices and tables
 ==================

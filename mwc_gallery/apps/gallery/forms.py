@@ -1,3 +1,10 @@
+"""
+=====
+Forms
+=====
+
+Forms for the MWC Gallery app.
+"""
 from django import forms
 from django.forms.formsets import formset_factory
 
@@ -8,6 +15,15 @@ from apps.gallery.models import Gallery
 
 
 class MediaForm(MediaModelForm):
+    """
+    Subclass of :class:`mediaman.forms.MediaModelForm` that makes the following changes:
+    
+        * Change the widget for the *creator* field to :class:`django.forms.HiddenInput`.
+        * Change the lable of the *caption* field.
+    
+    This is returned in the :func:`apps.gallery.views.gallery_images_uploaded`, and then POSTed to :func:`apps.gallery.views.gallery_edit_details`,
+    normally as a formset.
+    """
     
     class Meta:
         model = MediaUpload
@@ -27,6 +43,12 @@ class MediaForm(MediaModelForm):
 MediaFormSet = formset_factory(MediaForm, extra=0)
 
 class GalleryDetailsForm(forms.ModelForm):
+    """
+    Form for users to provide details for a :class:`apps.gallery.models.Gallery`.
+    
+    Updates the labels for the *name* and *description* fields, since this form is normally used in conjunction with
+    MediaFormSets.
+    """
     
     class Meta:
         model = Gallery

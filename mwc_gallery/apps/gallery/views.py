@@ -44,7 +44,7 @@ def gallery_list(request):
     
         * galleries: A QuerySet of :class:`apps.gallery.models.Gallery` instances.
         
-    *URL*: 
+    *URL*: <gallery_root>/ 
     """
 
     template_name = "gallery/gallery_list.html"
@@ -68,7 +68,7 @@ def gallery_details(request, gallery_id):
         * gallery: The :class:`apps.gallery.models.Gallery` that will be displayed
         * media: The :class:`mimesis.models.MediaUpload` objects associated with the gallery.
         
-    *URL*:
+    *URL*: <gallery_root>/<gallery_id>
     """
 
     template_name = "gallery/gallery_details.html"
@@ -95,7 +95,7 @@ def gallery_create(request):
         * gallery_form: A :class:`apps.gallery.forms.GalleryDetailsForm` that allows a user to define the gallery name and a description of the gallery.
         * media_formset: A :class:`apps.gallery.forms.MediaForm` formset that allows a user to attach a file and a description of said file. Initial data for this formset includes the creating user's PK.
         
-    *URL*:
+    *URL*: <gallery_root>/create
     """
 
     template_name = "gallery/gallery_create.html"
@@ -151,6 +151,8 @@ def gallery_create(request):
 def gallery_add_media(request):
     """
     Add a media to an existing :class:`apps.gallery.models.Gallery`.
+    
+    *URL*: <gallery_root>/add_media
     """
 
     pass
@@ -159,6 +161,8 @@ def gallery_add_media(request):
 def gallery_remove_media(request):
     """
     Remove a media item from a gallery.
+    
+    *URL*: <gallery_root>/remove_media
     """
 
     pass
@@ -167,6 +171,8 @@ def gallery_remove_media(request):
 def gallery_delete(request):
     """
     Delete a gallery and associated media.
+    
+    *URL*: <gallery_root>/delete
     """
 
     pass
@@ -183,7 +189,7 @@ def gallery_bulk_create(request):
     
         * None
     
-    *URL*:
+    *URL*: <gallery_root>/bulk_create
     """
 
     template_name = "gallery/gallery_bulk_create.html"
@@ -207,7 +213,7 @@ def gallery_images_uploaded(request):
         * uploads: List of primary keys for :class:`mimesis.models.MediaUpload` objects that belong to the requesting user and aren't in a gallery yet.
         * invalid_request: Flag that indicates if the view was accessed with a GET.
 
-    *URL*:
+    *URL*: <gallery_root>/images_uploaded
     """
     
     template_name = "gallery/gallery_images_uploaded.html"
@@ -239,7 +245,7 @@ def gallery_edit_details(request):
         * gallery_form: Instance of :class:`apps.gallery.forms.GalleryDetailsForm` for inputting gallery name and description.
         * media_formset: Set of :class:`apps.gallery.forms.MediaForm` of the media associated with the gallery. Initial data includes the creators, primary key, and the media itself.
         
-    *URL*:
+    *URL*: <gallery_root>/edit_details
     """
     
     template_name = "gallery/gallery_edit_details.html"

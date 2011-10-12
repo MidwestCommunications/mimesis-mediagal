@@ -1,3 +1,11 @@
+"""
+=====
+Views
+=====
+
+Functions listed here are intended to be used as Django views.
+"""
+
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.shortcuts import redirect, render_to_response, get_object_or_404
@@ -265,6 +273,8 @@ def gallery_edit_details(request):
 def gallery_resource_upload(request):
     """
     .. admonition:: Deprecated
+    
+        This function was used in an earlier attempt to integrate SWFUpload.
     
     Endpoint for SWFUpload to upload a file to.
 

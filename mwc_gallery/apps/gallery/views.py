@@ -93,7 +93,7 @@ def gallery_create(request):
     *Context Variables*:
     
         * gallery_form: A :class:`apps.gallery.forms.GalleryDetailsForm` that allows a user to define the gallery name and a description of the gallery.
-        * media_formset: A :class:`apps.gallery.forms.MediaFormSet` formset that allows a user to attach a file and a description of said file. Initial data for this formset includes the creating user's PK.
+        * media_formset: A :class:`apps.gallery.forms.MediaForm` formset that allows a user to attach a file and a description of said file. Initial data for this formset includes the creating user's PK.
         
     *URL*:
     """
@@ -239,7 +239,7 @@ def gallery_edit_details(request):
     
         * media: QuerySet of :class:`mimesis.models.MediaUpload` objects that were requested from a POST, or empty when none are POSTed
         * gallery_form: Instance of :class:`apps.gallery.forms.GalleryDetailsForm` for inputting gallery name and description.
-        * media_formset: :class:`apps.gallery.forms.MediaFormSet` of the media associated with the gallery. Initial data includes the creators, primary key, and the media itself.
+        * media_formset: Set of :class:`apps.gallery.forms.MediaForm` of the media associated with the gallery. Initial data includes the creators, primary key, and the media itself.
         
     *URL*:
     """

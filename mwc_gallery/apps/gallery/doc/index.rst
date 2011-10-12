@@ -6,6 +6,8 @@
 Welcome to MWC Gallery's documentation!
 =======================================
 
+.. include:: intro.rst
+
 =======
 Modules
 =======

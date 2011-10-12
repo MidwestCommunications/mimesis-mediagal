@@ -21,6 +21,8 @@ from apps.gallery.models import Gallery, GalleryMedia
 
 
 def upload_received_handler(sender, data, user, **kwargs):
+    """
+    """
     mu = MediaUpload.objects.create(
             media=data,
             creator=user
@@ -40,7 +42,7 @@ def gallery_list(request):
     
     *Context Variables*:
     
-        * galleries: A QuerySet of :class:`Gallery` instances.
+        * galleries: A QuerySet of :class:`apps.gallery.models.Gallery` instances.
         
     *URL*: 
     """
@@ -63,8 +65,8 @@ def gallery_details(request, gallery_id):
     
     *Context Variables*:
 
-        * gallery: The :class:`Gallery` that will be displayed
-        * media: The :class:`MediaUpload` objects associated with the gallery.
+        * gallery: The :class:`apps.gallery.models.Gallery` that will be displayed
+        * media: The :class:`mimesis.models.MediaUpload` objects associated with the gallery.
         
     *URL*:
     """
@@ -90,8 +92,8 @@ def gallery_create(request):
     
     *Context Variables*:
     
-        * gallery_form: A :class:`GalleryDetailsForm` that allows a user to define the gallery name and a description of the gallery.
-        * media_formset: A :class:`MediaFormSet` formset that allows a user to attach a file and a description of said file. Initial data for this formset includes the creating user's PK.
+        * gallery_form: A :class:`apps.gallery.forms.GalleryDetailsForm` that allows a user to define the gallery name and a description of the gallery.
+        * media_formset: A :class:`apps.gallery.forms.MediaFormSet` formset that allows a user to attach a file and a description of said file. Initial data for this formset includes the creating user's PK.
         
     *URL*:
     """
@@ -148,7 +150,7 @@ def gallery_create(request):
 
 def gallery_add_media(request):
     """
-    Add a media to an existing gallery.
+    Add a media to an existing :class:`apps.gallery.models.Gallery`.
     """
 
     pass
@@ -176,9 +178,11 @@ def gallery_bulk_create(request):
     Starting point for using a Flash bulk uploader to create a new gallery.
     
     *Template Name*: gallery/gallery_bulk_create.html
-    
-    *Context Variables*:
-    
+   
+    -----------------
+    Context Variables
+    -----------------
+
         * None
     
     *URL*:
@@ -202,7 +206,7 @@ def gallery_images_uploaded(request):
     
     *Context Variables*:
     
-        * uploads: List of primary keys for :class:`MediaUpload` objects that belong to the requesting user and aren't in a gallery yet.
+        * uploads: List of primary keys for :class:`mimesis.models.MediaUpload` objects that belong to the requesting user and aren't in a gallery yet.
         * invalid_request: Flag that indicates if the view was accessed with a GET.
 
     *URL*:
@@ -233,9 +237,9 @@ def gallery_edit_details(request):
     
     *Context Variables*:
     
-        * media: QuerySet of :class:`MediaUpload` objects that were requested from a POST, or empty when none are POSTed
-        * gallery_form: Instance of :class:`GalleryDetailsForm` for inputting gallery name and description.
-        * media_formset: :class:`MediaFormSet` of the media associated with the gallery. Initial data includes the creators, primary key, and the media itself.
+        * media: QuerySet of :class:`mimesis.models.MediaUpload` objects that were requested from a POST, or empty when none are POSTed
+        * gallery_form: Instance of :class:`apps.gallery.forms.GalleryDetailsForm` for inputting gallery name and description.
+        * media_formset: :class:`apps.gallery.forms.MediaFormSet` of the media associated with the gallery. Initial data includes the creators, primary key, and the media itself.
         
     *URL*:
     """

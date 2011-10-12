@@ -25,6 +25,11 @@ Modules
 
    modules/forms
 
+.. toctree::
+   :maxdepth: 2
+
+   modules/templatetags
+
 Indices and tables
 ==================
 

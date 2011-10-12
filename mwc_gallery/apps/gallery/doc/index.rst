@@ -14,6 +14,11 @@ Modules
    :maxdepth: 2
 
    modules/views
+   
+.. toctree::
+   :maxdepth: 2
+
+   modules/models
 
 
 Indices and tables

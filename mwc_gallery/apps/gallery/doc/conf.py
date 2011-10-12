@@ -15,8 +15,17 @@ import sys, os
 
 
 # path hacks to make Sphinx import the Django modules for autodoc.
-APP_DIR = "../../"
-sys.path.append(os.path.abspath(APP_DIR))
+
+# Set up Django imports
+projdir = os.path.abspath("../../../../")
+sys.path.insert(0, projdir)
+from django.core.management import setup_environ
+import mwc_gallery.settings
+setup_environ(mwc_gallery.settings)
+
+# Add the "apps" dir to the path so that our package references are a little clearer.
+appdir = os.path.abspath("../../../")
+sys.path.insert(0, appdir)
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the

@@ -12,6 +12,7 @@
 -e git+http://github.com/MidwestCommunications/mimesis.git@mwc-thumbnail-property#egg=mimesis
 -e git+http://github.com/MidwestCommunications/mimesis-mediaman.git#egg=mediaman
 -e git+https://github.com/pinax/pinax-theme-bootstrap.git#egg=pinax-theme-bootstrap
+-e git+http://github.com/nrb/django-uploadify#egg=uploadify
 
 django-photologue==2.2
 django-taggit==0.8.0

@@ -2,3 +2,6 @@
 *.swp
 *.pyo
 *~
+
+doc/.build
+doc/_build

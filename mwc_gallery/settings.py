@@ -90,6 +90,7 @@ TEMPLATE_LOADERS = [
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.common.CommonMiddleware",
+    "uploadify.middleware.UploadifyCSRFMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -150,6 +151,8 @@ INSTALLED_APPS = [
     "nashvegas",
     "compressor",
     "mediaman",
+    "pinax_theme_bootstrap",
+    "uploadify",
     
     # Pinax
     "pinax.apps.account",
@@ -193,6 +196,9 @@ MIMESIS_USE_FLASH_UPLOAD = True
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
+
+UPLOADIFY_PATH = os.path.join(STATIC_URL,"js","uploadify/")
+UPLOADIFY_UPLOAD_PATH = os.path.join(MEDIA_ROOT, "uploads/")
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

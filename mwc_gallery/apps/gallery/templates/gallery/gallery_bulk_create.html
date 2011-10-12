@@ -1,0 +1,20 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load bootstrap_tags %}
+{% load uploadify_tags %}
+
+
+
+{% block body %}
+
+    {% comment %}
+    This is kind of a hack, since multi_file_upload doesn't directly support url reversing.
+    {% endcomment %}
+    {% url gallery_images_uploaded as upload_complete %}
+    {% multi_file_upload upload_complete %}
+
+{% endblock body %}
+
+{% block extra_body %}
+{% endblock extra_body %}

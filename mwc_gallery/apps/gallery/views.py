@@ -16,8 +16,8 @@ from django.contrib.auth.decorators import login_required
 from mimesis.models import MediaUpload
 from uploadify.views import upload_received
 
-from gallery.forms import MediaFormSet, GalleryDetailsForm
-from gallery.models import Gallery, GalleryMedia
+from apps.gallery.forms import MediaFormSet, GalleryDetailsForm
+from apps.gallery.models import Gallery, GalleryMedia
 
 
 def upload_received_handler(sender, data, user, **kwargs):

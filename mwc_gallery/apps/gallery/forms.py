@@ -4,7 +4,7 @@ from django.forms.formsets import formset_factory
 from mimesis.models import MediaUpload
 from mediaman.forms import MediaModelForm
 
-from gallery.models import Gallery
+from apps.gallery.models import Gallery
 
 
 class MediaForm(MediaModelForm):

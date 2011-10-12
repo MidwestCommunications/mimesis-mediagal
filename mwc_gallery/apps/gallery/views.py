@@ -40,7 +40,7 @@ def gallery_list(request):
     
     *Template Name:* gallery/gallery_list.html
     
-    *Context Variables*:
+    **Context Variables**:
     
         * galleries: A QuerySet of :class:`apps.gallery.models.Gallery` instances.
         
@@ -63,7 +63,7 @@ def gallery_details(request, gallery_id):
     
     *Template Name:* gallery/gallery_details.html
     
-    *Context Variables*:
+    **Context Variables**:
 
         * gallery: The :class:`apps.gallery.models.Gallery` that will be displayed
         * media: The :class:`mimesis.models.MediaUpload` objects associated with the gallery.
@@ -90,7 +90,7 @@ def gallery_create(request):
     
     *Template Name*: gallery/gallery_create.html
     
-    *Context Variables*:
+    **Context Variables**:
     
         * gallery_form: A :class:`apps.gallery.forms.GalleryDetailsForm` that allows a user to define the gallery name and a description of the gallery.
         * media_formset: A :class:`apps.gallery.forms.MediaForm` formset that allows a user to attach a file and a description of said file. Initial data for this formset includes the creating user's PK.
@@ -178,11 +178,9 @@ def gallery_bulk_create(request):
     Starting point for using a Flash bulk uploader to create a new gallery.
     
     *Template Name*: gallery/gallery_bulk_create.html
-   
-    -----------------
-    Context Variables
-    -----------------
-
+    
+    **Context Variables**:
+    
         * None
     
     *URL*:
@@ -204,7 +202,7 @@ def gallery_images_uploaded(request):
     
     *Template Name:* gallery/gallery_images_uploaded.html
     
-    *Context Variables*:
+    **Context Variables**:
     
         * uploads: List of primary keys for :class:`mimesis.models.MediaUpload` objects that belong to the requesting user and aren't in a gallery yet.
         * invalid_request: Flag that indicates if the view was accessed with a GET.
@@ -235,7 +233,7 @@ def gallery_edit_details(request):
     
     *Template Name*: gallery/gallery_edit_details.html
     
-    *Context Variables*:
+    **Context Variables**:
     
         * media: QuerySet of :class:`mimesis.models.MediaUpload` objects that were requested from a POST, or empty when none are POSTed
         * gallery_form: Instance of :class:`apps.gallery.forms.GalleryDetailsForm` for inputting gallery name and description.

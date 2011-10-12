@@ -22,6 +22,15 @@ from apps.gallery.models import Gallery, GalleryMedia
 
 def upload_received_handler(sender, data, user, **kwargs):
     """
+    .. admonition:: Relocate
+    
+        Since this is a signal handler, not a view function, this should probably be moved somewhere else.
+        
+    Handler for the django-uploadify upload_received signal. It creates a :class:`mimesis.models.MediaUpload`,
+    which in turn creates the actual file and associates it with a user.
+    
+    Some future work might be to flag the object as being not associated with a gallery.
+    
     """
     mu = MediaUpload.objects.create(
             media=data,

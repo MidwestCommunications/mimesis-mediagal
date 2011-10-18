@@ -11,6 +11,7 @@ from django.forms.models import modelformset_factory
 
 from mimesis.models import MediaUpload
 from mediaman.forms import MediaModelForm
+from taggit.forms import TagField
 
 from apps.gallery.models import Gallery
 
@@ -29,6 +30,8 @@ class MediaForm(MediaModelForm):
         This class does *not* provide a field for selecting a gallery's cover image.  This is because that field is unique in the formset, not an individual form.  Instead this field is included as an radio button in the `gallery/templates/gallery/_media_form.html` template.
     """
     delete = forms.BooleanField(required=False)
+    caption = forms.CharField(required=False)
+    tags = TagField(required=False)
 
     class Meta:
         model = MediaUpload

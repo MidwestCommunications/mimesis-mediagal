@@ -90,7 +90,6 @@ TEMPLATE_LOADERS = [
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.common.CommonMiddleware",
-    "uploadify.middleware.UploadifyCSRFMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -152,7 +151,6 @@ INSTALLED_APPS = [
     "compressor",
     "mediaman",
     "pinax_theme_bootstrap",
-    "uploadify",
     
     # Pinax
     "pinax.apps.account",

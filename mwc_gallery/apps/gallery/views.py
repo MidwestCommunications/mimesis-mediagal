@@ -6,41 +6,15 @@ Views
 Functions listed here are intended to be used as Django views.
 """
 
-from django.core.context_processors import csrf
-from django.http import HttpResponse
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from django.contrib.auth.decorators import login_required
 
 from mimesis.models import MediaUpload
-from uploadify.views import upload_received
 
 from apps.gallery.forms import MediaFormSet, GalleryDetailsForm
 from apps.gallery.models import Gallery, GalleryMedia
-
-
-def upload_received_handler(sender, data, user, **kwargs):
-    """
-    .. admonition:: Relocate
-    
-        Since this is a signal handler, not a view function, this should probably be moved somewhere else.
-        
-    Handler for the django-uploadify upload_received signal. It creates a :class:`mimesis.models.MediaUpload`,
-    which in turn creates the actual file and associates it with a user.
-    
-    Some future work might be to flag the object as being not associated with a gallery.
-    
-    """
-    mu = MediaUpload.objects.create(
-            media=data,
-            creator=user
-        )
-    # @@@ Need some way of indicating that these files need to be associated with a gallery.
-    # Possibly by changing the GalleryMedia to have a nullable gallery attribute, creating them here,
-    # then populating the Gallery attribute when the gallery is fully created?
-    
-upload_received.connect(upload_received_handler, dispatch_uid="gallery.upload_received")
 
 
 def gallery_list(request):
@@ -187,57 +161,6 @@ def gallery_delete(request):
     pass
     
     
-@login_required
-def gallery_bulk_create(request):
-    """
-    Starting point for using a Flash bulk uploader to create a new gallery.
-    
-    *Template Name*: gallery/gallery_bulk_create.html
-    
-    **Context Variables**:
-    
-        * None
-    
-    *URL*: <gallery_root>/bulk_create
-    """
-
-    template_name = "gallery/gallery_bulk_create.html"
-    ctx = {}
-    return render_to_response(template_name, ctx,
-        context_instance=RequestContext(request)
-    )
-    
-
-@login_required
-def gallery_images_uploaded(request):
-    """
-    Returns a form with the PKs of MediaUpload objects created by the django-uploadify uploaded signal.
-    
-    This should only be through POST requests right now, since django-uploadify has this URL as it's "upload-finished" URL.
-    
-    *Template Name:* gallery/gallery_images_uploaded.html
-    
-    **Context Variables**:
-    
-        * uploads: List of primary keys for :class:`mimesis.models.MediaUpload` objects that belong to the requesting user and aren't in a gallery yet.
-        * invalid_request: Flag that indicates if the view was accessed with a GET.
-
-    *URL*: <gallery_root>/images_uploaded
-    """
-    
-    template_name = "gallery/gallery_images_uploaded.html"
-    if request.POST:
-        print request.POST
-        # Get ids for all of this user's uploads that are not associated with a gallery.
-        uploads = MediaUpload.objects.filter(creator=request.user.pk, gallerymedia__isnull=True).values_list("pk", flat=True)
-        ctx = {"uploads": uploads}
-    else:
-        ctx = {"invalid_request": True}
-        
-    return render_to_response(template_name, ctx,
-        context_instance=RequestContext(request)
-    )
-    
     
 @login_required
 def gallery_edit_details(request):
@@ -286,21 +209,3 @@ def gallery_edit_details(request):
     )
     
     
-@login_required
-def gallery_resource_upload(request):
-    """
-    .. admonition:: Deprecated
-    
-        This function was used in an earlier attempt to integrate SWFUpload.
-    
-    Endpoint for SWFUpload to upload a file to.
-
-    """
-
-    if request.method == "POST":
-        for key in request.FILES:
-            MediaUpload.objects.create(
-                media=request.FILES[key],
-                creator_id=request.user.pk
-            )
-    return HttpResponse("ok", mimetype="text/plain")

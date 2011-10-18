@@ -49,11 +49,6 @@ MediaFormSet =  modelformset_factory(
                         "created",
                     ]
                 )
-MediaFormSet.__doc__ = """
-Formset that allows end users to modify :class:`mimesis.models.MediaUpload` instances in bulk.
-
-Excludes the `creator` and `created` fields.  Does not create an extra form for adding a new instance.
-"""
 
 class GalleryDetailsForm(forms.ModelForm):
     """

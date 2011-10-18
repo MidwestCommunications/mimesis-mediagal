@@ -151,6 +151,7 @@ INSTALLED_APPS = [
     "compressor",
     "mediaman",
     "pinax_theme_bootstrap",
+    "djcelery",
     
     # Pinax
     "pinax.apps.account",
@@ -197,6 +198,9 @@ DEBUG_TOOLBAR_CONFIG = {
 
 UPLOADIFY_PATH = os.path.join(STATIC_URL,"js","uploadify/")
 UPLOADIFY_UPLOAD_PATH = os.path.join(MEDIA_ROOT, "uploads/")
+
+import djcelery
+djcelery.setup_loader()
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

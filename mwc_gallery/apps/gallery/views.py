@@ -102,7 +102,7 @@ def gallery_create(request):
             
             messages.success(request, "Created gallery '%s'" % gallery.name)
 
-            return redirect("gallery_edit_details", args=(gallery.pk,))
+            return redirect("gallery_edit_details", gallery.pk)
         else:
             messages.error(request, "Could not create new gallery.")
     else:

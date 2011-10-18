@@ -2,6 +2,8 @@
     <div class="mimesis_details" id="details_{{ form.instance.pk }}">
         <p>{{ form.caption.label_tag }}: {{ form.caption }}</p>
         <p>{{ form.tags.label_tag }}: {{ form.tags }}</p>
+        <p><label for="cover_image_{{ form.instance.pk }}">Gallery Cover</label>: <input type="radio" id="cover_image_{{ form.instance.pk }}" name="cover_image" value="{{ form.instance.pk }}"></p>
+        <p>{{ form.delete.label_tag }}:   {{ form.delete }}</p>
     </div>
     <div class="mimesis_edit_image" id="img_{{ form.instance.pk }}">
         <img src="{{ MEDIA_URL }}{{ form.instance.media.name }}" />

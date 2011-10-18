@@ -19,35 +19,29 @@ class MediaForm(MediaModelForm):
     """
     Subclass of :class:`mediaman.forms.MediaModelForm` that makes the following changes:
     
-        * Change the widget for the *creator* field to :class:`django.forms.HiddenInput`.
-        * Change the lable of the *caption* field.
+        * Exclude the creator and created classes.
+        * Add an optional delete field.
+
+    This is used in the :func:`apps.gallery.views.gallery_edit_details` as a formset, allowing the user to edit galleries in bulk.
     
-    This is returned in the :func:`apps.gallery.views.gallery_images_uploaded`, and then POSTed to :func:`apps.gallery.views.gallery_edit_details`,
-    normally as a formset.
+    .. admonition:: Cover Images
+    
+        This class does *not* provide a field for selecting a gallery's cover image.  This is because that field is unique in the formset, not an individual form.  Instead this field is included as an radio button in the `gallery/templates/gallery/_media_form.html` template.
     """
-    
+    delete = forms.BooleanField(required=False)
+
     class Meta:
         model = MediaUpload
-        fields = [
+        exclude = [
                 "creator",
-                "media",
-                "caption",
+                "created",
         ]
-        widgets = {
-            "creator": forms.HiddenInput,
-        }
-    
-    def __init__(self, *args, **kwargs):
-        super(MediaForm,self).__init__(*args, **kwargs)
-        self.fields["caption"].label = "Media Description"
+        
         
 MediaFormSet =  modelformset_factory(
                     MediaUpload,
                     extra=0,
-                    exclude = [
-                        "creator",
-                        "created",
-                    ]
+                    form=MediaForm
                 )
 
 class GalleryDetailsForm(forms.ModelForm):

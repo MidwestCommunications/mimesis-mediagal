@@ -59,7 +59,7 @@ def gallery_details(request, gallery_id):
 
     gallery = get_object_or_404(Gallery, pk=gallery_id)
 
-    media = gallery.media.all()
+    media = gallery.media.all().order_by("-created")
 
     return render_to_response(template_name, {
         "gallery": gallery,
@@ -175,7 +175,7 @@ def gallery_edit_details(request, gallery_id):
         else:
             messages.error(request, "Could not update gallery.")
     else:
-        media_formset = MediaFormSet(queryset=gallery.media.all())
+        media_formset = MediaFormSet(queryset=gallery.media.all().order_by("-created"))
     
     ctx = {
         "gallery": gallery,

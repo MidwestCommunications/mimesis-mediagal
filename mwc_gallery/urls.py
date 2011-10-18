@@ -24,7 +24,6 @@ urlpatterns = patterns("",
     url(r"^openid/(.*)", PinaxConsumer()),
     url(r"^galleries/", include("gallery.urls")),
     url(r"^mediaman/", include("mediaman.urls")),
-    url(r"^uploadify/", include("uploadify.urls")),
 )
 
 

@@ -196,9 +196,6 @@ DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
 
-UPLOADIFY_PATH = os.path.join(STATIC_URL,"js","uploadify/")
-UPLOADIFY_UPLOAD_PATH = os.path.join(MEDIA_ROOT, "uploads/")
-
 import djcelery
 djcelery.setup_loader()
 

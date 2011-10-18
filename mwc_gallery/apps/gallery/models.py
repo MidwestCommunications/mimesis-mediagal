@@ -99,6 +99,20 @@ class Gallery(models.Model):
         zip.close()
         
         
+    def remove_media(self, media):
+        """
+        Removes a :class:`mimesis.models.MediaUpload` instance from this gallery.
+        """
+        try:
+            m = self.media.get(id=media.id)
+            m.delete()
+        except Exception:
+            deleted = False
+        else:
+            deleted = True
+        return deleted
+        
+        
 class GalleryMedia(models.Model):
     """
     A 'pass through' model for ManyToMany relationsips between :class:`Gallery` and :class:`mimesis.models.MediaUpload` objects.

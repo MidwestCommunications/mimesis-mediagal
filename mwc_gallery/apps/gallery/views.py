@@ -168,15 +168,32 @@ def gallery_edit_details(request, gallery_id):
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
     if request.method == "POST":
+        update_formset = False
+
         media_formset = MediaFormSet(request.POST)
         if media_formset.is_valid():
-            media_formset.save()
+            for form in media_formset.forms:
+                if form.cleaned_data["delete"]:
+                    deleted = gallery.remove_media(form.cleaned_data["id"])
+                    if not deleted:
+                        messages.error(request, "Could not delete image")
+                    else:
+                        # If media was deleted, we need to refresh the formset from the database,
+                        # since otherwise the formset would still contain items from the POST that
+                        # requested deletion.
+                        update_formset = True
+                else:
+                    form.save()
+
             messages.success(request, "Gallery updated.")
         else:
             messages.error(request, "Could not update gallery.")
     else:
-        media_formset = MediaFormSet(queryset=gallery.media.all().order_by("created"))
+        update_formset = True
     
+    if update_formset:
+        media_formset = MediaFormSet(queryset=gallery.media.all().order_by("created"))
+
     ctx = {
         "gallery": gallery,
         "media_formset": media_formset,

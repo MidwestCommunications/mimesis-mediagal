@@ -9,6 +9,7 @@ Functions listed here are intended to be used as Django views.
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from mimesis.models import MediaUpload
@@ -162,7 +163,15 @@ def gallery_edit_details(request, gallery_id):
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
-    media_formset = MediaFormSet(queryset=gallery.media.all())
+    if request.method == "POST":
+        media_formset = MediaFormSet(request.POST)
+        if media_formset.is_valid():
+            media_formset.save()
+            messages.success(request, "Gallery updated.")
+        else:
+            messages.error(request, "Could not update gallery.")
+    else:
+        media_formset = MediaFormSet(queryset=gallery.media.all())
     
     ctx = {
         "gallery": gallery,

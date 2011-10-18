@@ -7,6 +7,7 @@ Forms for the MWC Gallery app.
 """
 from django import forms
 from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
 
 from mimesis.models import MediaUpload
 from mediaman.forms import MediaModelForm
@@ -40,7 +41,19 @@ class MediaForm(MediaModelForm):
         super(MediaForm,self).__init__(*args, **kwargs)
         self.fields["caption"].label = "Media Description"
         
-MediaFormSet = formset_factory(MediaForm, extra=0)
+MediaFormSet =  modelformset_factory(
+                    MediaUpload,
+                    extra=0,
+                    exclude = [
+                        "creator",
+                        "created",
+                    ]
+                )
+MediaFormSet.__doc__ = """
+Formset that allows end users to modify :class:`mimesis.models.MediaUpload` instances in bulk.
+
+Excludes the `creator` and `created` fields.  Does not create an extra form for adding a new instance.
+"""
 
 class GalleryDetailsForm(forms.ModelForm):
     """

@@ -10,26 +10,22 @@
 {% endblock extra_head %}
 
 {% block body %}
+
+<h1>Editing details for {{ gallery.name }}</h1>
     
-    <form method="POST" action="{% url gallery_create %}" class="uniForm" id="gallery_form">
+<form method="POST" action="{% url gallery_edit_details gallery.pk %}" class="uniForm" id="gallery_form">
+
     {% csrf_token %}
-    <div class="gallery_details">
-    <fieldset>
-        <legend>Gallery Details</legend>
-        {{ gallery_form|as_bootstrap }}
-    </fieldset>
-    </div>
-    <div class="media_details">
     {{ media_formset.management_form }}
-    {% for form in media_formset.forms %}
-        <fieldset>
-            <legend>Media Details</legend>
-                {{ form|as_bootstrap }}
-        </fieldset>
+
+    {% for form in media_formset %}
+        {{ form.id }}
+        {% include "gallery/_media_form.html" with form=form %}
     {% endfor %}
-    </div>
+        
     <div class="actions">
-        <button type="submit" class="btn primary">{% trans "Create Gallery" %}</button>
+
+        <button type="submit" class="btn primary">{% trans "Update Gallery" %}</button>
     </div>
     </form>
 {% endblock body %}

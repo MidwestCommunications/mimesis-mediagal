@@ -71,6 +71,8 @@ def gallery_create(request):
     """
     Create a gallery using standard HTML forms.
     
+    Redirects to :func:`gallery_edit_details` on creation of a new gallery.
+    
     *Template Name*: gallery/gallery_create.html
     
     **Context Variables**:
@@ -85,6 +87,7 @@ def gallery_create(request):
         gallery_form = GalleryDetailsForm(request.POST, request.FILES)
 
         if gallery_form.is_valid():
+            # @@@ check for duplicated gallery names?
             g_name = gallery_form.cleaned_data["name"]
             g_desc = gallery_form.cleaned_data["description"]
             gallery = Gallery(
@@ -96,7 +99,7 @@ def gallery_create(request):
             
             gallery.from_zip(request.FILES["photos"])
 
-            return redirect("gallery_list")
+            return redirect("gallery_edit_details", args=(gallery.pk,))
     else:
         gallery_form = GalleryDetailsForm()
 
@@ -137,47 +140,35 @@ def gallery_delete(request):
     
     
 @login_required
-def gallery_edit_details(request):
+def gallery_edit_details(request, gallery_id):
     """
     Allows a user to edit details and media tied to an existing gallery.
     
-    This is the 'final' endpoint in chain of bulk-upload URLs, but probably should be used independently.
+    This view will return a :class:`apps.gallery.forms.MediaFormSet` that allows users to view the uploaded media, as well as change it's caption and tags.
     
-    *Template Name*: gallery/gallery_edit_details.html
+    Additionally, the user can use this form to delete an image or set it as the gallery's primary image.  This means it will display as the gallery's thumbnail.
+    
+    *Template Name*: gallery/gallery_edit_details.html (gallery/_media_form.html as a subtemplate)
     
     **Context Variables**:
-    
-        * media: QuerySet of :class:`mimesis.models.MediaUpload` objects that were requested from a POST, or empty when none are POSTed
-        * gallery_form: Instance of :class:`apps.gallery.forms.GalleryDetailsForm` for inputting gallery name and description.
-        * media_formset: Set of :class:`apps.gallery.forms.MediaForm` of the media associated with the gallery. Initial data includes the creators, primary key, and the media itself.
         
+        * gallery: A :class:`apps.gallery.models.Gallery` instance that references the photos the user will edit.
+        * media_formset: A :class:`apps.gallery.forms.MediaFormSet` that uses all the media attached to the `gallery` variable as it's QuerySet data.
+
     *URL*: <gallery_root>/edit_details
     """
     
     template_name = "gallery/gallery_edit_details.html"
     
-    import pdb; pdb.set_trace()
-    if request.POST:
-        if "media" in request.POST:
-            media_pks = request.POST.getlist("media")
-            media_list = MediaUpload.objects.filter(pk__in=media_pks)
-            initial_media_data = [
-                    {"creator": media.creator,
-                    "pk": media.pk,
-                    "media": media.media}
-                    for media in media_list
-            ]
+    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    
+    media_formset = MediaFormSet(queryset=gallery.media.all())
+    
+    ctx = {
+        "gallery": gallery,
+        "media_formset": media_formset,
+    }
 
-            media_formset = MediaFormSet(initial=initial_media_data)
-        else:
-            media_list = None
-            media_formset = None
-        
-        ctx = {
-            "media": media_list,
-            "gallery_form": GalleryDetailsForm(),
-            "media_formset": media_formset,
-        }
     return render_to_response(template_name, ctx,
         context_instance=RequestContext(request)
     )

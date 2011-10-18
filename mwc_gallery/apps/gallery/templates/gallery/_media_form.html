@@ -1,7 +1,9 @@
-<div class="mimesis_details" id="details_{{ form.instance.pk }}">
-    <p>{{ form.caption.label_tag }}: {{ form.caption }}</p>
-    <p>{{ form.tags.label_tag }}: {{ form.tags }}</p>
-</div>
-<div class="mimesis_image" id="img_{{ form.instance.pk }}">
-    <img src="{{ MEDIA_URL }}{{ form.instance.media.name }}" />
+<div class="mimesis_object">
+    <div class="mimesis_details" id="details_{{ form.instance.pk }}">
+        <p>{{ form.caption.label_tag }}: {{ form.caption }}</p>
+        <p>{{ form.tags.label_tag }}: {{ form.tags }}</p>
+    </div>
+    <div class="mimesis_edit_image" id="img_{{ form.instance.pk }}">
+        <img src="{{ MEDIA_URL }}{{ form.instance.media.name }}" />
+    </div>
 </div>

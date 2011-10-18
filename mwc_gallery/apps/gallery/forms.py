@@ -44,20 +44,22 @@ MediaFormSet = formset_factory(MediaForm, extra=0)
 
 class GalleryDetailsForm(forms.ModelForm):
     """
-    Form for users to provide details for a :class:`apps.gallery.models.Gallery`.
+    Form for users to provide details for a :class:`apps.gallery.models.Gallery`.  Also provides a :class:`forms.FileField` so that users can upload a zip archive of photos to attach to the gallery.
     
-    Updates the labels for the *name* and *description* fields, since this form is normally used in conjunction with
-    MediaFormSets.
+    Updates the labels for the *name* and *description* fields.
     """
-    
+    photos = forms.FileField()
+
     class Meta:
         model = Gallery
         fields = [
                 "name",
                 "description",
+                "tags",
         ]
         
     def __init__(self, *args, **kwargs):
         super(GalleryDetailsForm, self).__init__(*args, **kwargs)
         self.fields["name"].label = "Gallery Name"
         self.fields["description"].label = "Gallery Description"
+        self.fields["photos"].label = "Photos (zip file)"

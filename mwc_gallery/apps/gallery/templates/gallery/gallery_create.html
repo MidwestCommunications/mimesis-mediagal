@@ -20,15 +20,6 @@
         {{ gallery_form|as_bootstrap }}
     </fieldset>
     </div>
-    {{ media_formset.management_form }}
-    <div class="media_details">
-    {% for form in media_formset.forms %}
-        <fieldset>
-            <legend>Media Details</legend>
-            {{ form|as_bootstrap }}
-        </fieldset>
-    {% endfor %}
-    </div>
     <div class="actions">
         <button type="submit" class="btn primary">{% trans "Create this Gallery" %}</button>
     </div>

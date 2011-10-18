@@ -7,7 +7,11 @@ Models used within the Gallery app.  The main model class is the :class:`Gallery
 """
 
 import datetime
+import os
+import zipfile
 
+from django.conf import settings
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.db import models
 
@@ -48,7 +52,61 @@ class Gallery(models.Model):
         
     def get_absolute_url(self):
         return reverse("gallery_details", args=(self.pk,))
+    
+    def add_media(self, media_upload):
+        """
+        Associates a :class:`mimesis.MediaUpload` object with this gallery.
+        """
+        return GalleryMedia.objects.create(
+                gallery=self,
+                media=media_upload
+        )
+    
+    def from_zip(self, zip_file):
+        """
+        Populates a gallery with photos within a zip archive.
+        
+        When a zip archive comes in, it is first checked for corrupt files.
+        If nothing's corrupted, it's contents are unpacked into MEDIA_ROOT, and an
+        associated :class:`mimesis.MediaUpload` model/file are created and bound to the gallery.  Once that is finished, the file in MEDIA_ROOT is deleted.
 
+        Most of this function is based on Photologue's GalleryUpload.process_zipefile method, changed to use the :class:`mimesis.MediaUpload` models.
+        """
+        zip = zipfile.ZipFile(zip_file)
+        bad_file = zip.testzip()
+        if bad_file:
+            raise Exception("'%s' in the zip file is corrupt." % bad_file)
+
+        for filename in zip.namelist():
+            if filename.startswith("__"):  # skip meta files.
+                continue
+                
+            data = zip.read(filename)
+            
+            if len(data):
+                media_upload = MediaUpload.objects.create(
+                        creator=self.owner,
+                        caption="",
+                        media=filename
+                )
+                media_upload.save()
+                
+                with open(media_upload.media.path, "wb+") as f:
+                    # Write out the file contents to the file
+                    # associated with this MediaUpload object,
+                    # since unzipping it puts it somewhere else.
+                    temp_file = ContentFile(data)
+                    for chunk in temp_file.chunks():
+                        f.write(data)
+
+                self.add_media(media_upload)
+                
+                # Once we're successfully created the file, remove the unzipped versions.
+                # @@@ Does not handle directories right now; probably want to skip them.
+                os.remove(os.path.join(settings.MEDIA_ROOT, filename))
+        zip.close()
+        
+        
 class GalleryMedia(models.Model):
     """
     A 'pass through' model for ManyToMany relationsips between :class:`Gallery` and :class:`mimesis.models.MediaUpload` objects.

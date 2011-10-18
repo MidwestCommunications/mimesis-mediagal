@@ -75,59 +75,33 @@ def gallery_create(request):
     
     **Context Variables**:
     
-        * gallery_form: A :class:`apps.gallery.forms.GalleryDetailsForm` that allows a user to define the gallery name and a description of the gallery.
-        * media_formset: A :class:`apps.gallery.forms.MediaForm` formset that allows a user to attach a file and a description of said file. Initial data for this formset includes the creating user's PK.
+        * gallery_form: A :class:`apps.gallery.forms.GalleryDetailsForm` that allows a user to define the gallery name, a description of the gallery, and attach a zip archive of photos to associate with gallery.
         
     *URL*: <gallery_root>/create
     """
 
     template_name = "gallery/gallery_create.html"
     if request.method == "POST":
-        # @@@ Attempt to make this view viable for both the 'bulk uploader' and normal forms;
-        # it doesn't work.
-        if request.FILES:
-            media_formset = MediaFormSet(request.POST, request.FILES)
-        else:
-            media_formset = MediaFormSet(request.POST)
+        gallery_form = GalleryDetailsForm(request.POST, request.FILES)
+
+        if gallery_form.is_valid():
+            g_name = gallery_form.cleaned_data["name"]
+            g_desc = gallery_form.cleaned_data["description"]
+            gallery = Gallery(
+                    name=g_name,
+                    description=g_desc,
+                    owner=request.user,
+            )
+            gallery.save()
             
-        gallery_form = GalleryDetailsForm(request.POST)
+            gallery.from_zip(request.FILES["photos"])
 
-        if media_formset.is_valid() and gallery_form.is_valid():
-            items = []
-            for form in media_formset.forms:
-                media_item = form.save()
-                if media_item.media_type == "image":
-                    media_item.save()
-                    items += [media_item]
-            if items:
-                g_name = gallery_form.cleaned_data["name"]
-                g_desc = gallery_form.cleaned_data["description"]
-                gallery = Gallery(
-                        name=g_name,
-                        description=g_desc,
-                        owner=request.user,
-                )
-                gallery.save()
-
-                for media in items:
-                    GalleryMedia.objects.create(media=media, gallery=gallery)
-
-                print "Gallery created."
-                return redirect("gallery_list")
-            else:
-                print "No items!"
-        else:
-            pass
+            return redirect("gallery_list")
     else:
-        initial_media_data = [{"creator": request.user.pk}]
-
-        media_formset = MediaFormSet(initial=initial_media_data)
-
         gallery_form = GalleryDetailsForm()
 
     return render_to_response(template_name, {
         "gallery_form": gallery_form,
-        "media_formset": media_formset
     }, context_instance=RequestContext(request))
 
 

@@ -12,6 +12,7 @@ import zipfile
 
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.db import models
 
@@ -76,34 +77,25 @@ class Gallery(models.Model):
         bad_file = zip.testzip()
         if bad_file:
             raise Exception("'%s' in the zip file is corrupt." % bad_file)
-
+        
         for filename in zip.namelist():
             if filename.startswith("__"):  # skip meta files.
                 continue
                 
             data = zip.read(filename)
             
+            
             if len(data):
+                file = SimpleUploadedFile(filename, data)
                 media_upload = MediaUpload.objects.create(
                         creator=self.owner,
                         caption="",
-                        media=filename
+                        media=file
                 )
                 media_upload.save()
                 
-                with open(media_upload.media.path, "wb+") as f:
-                    # Write out the file contents to the file
-                    # associated with this MediaUpload object,
-                    # since unzipping it puts it somewhere else.
-                    temp_file = ContentFile(data)
-                    for chunk in temp_file.chunks():
-                        f.write(data)
-
                 self.add_media(media_upload)
                 
-                # Once we're successfully created the file, remove the unzipped versions.
-                # @@@ Does not handle directories right now; probably want to skip them.
-                os.remove(os.path.join(settings.MEDIA_ROOT, filename))
         zip.close()
         
         

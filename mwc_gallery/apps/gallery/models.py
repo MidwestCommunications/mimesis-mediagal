@@ -16,6 +16,7 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
 from mimesis.models import MediaUpload
+from taggit.managers import TaggableManager
 
 class Gallery(models.Model):
     """
@@ -33,6 +34,8 @@ class Gallery(models.Model):
     description = models.TextField(blank=True)
     owner = models.ForeignKey(User)
     created = models.DateTimeField(default=datetime.datetime.now)
+    
+    tags = TaggableManager()
     
     media = models.ManyToManyField(
             MediaUpload,

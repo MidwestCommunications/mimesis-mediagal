@@ -14,7 +14,7 @@
 -e git+https://github.com/pinax/pinax-theme-bootstrap.git#egg=pinax-theme-bootstrap
 
 django-photologue==2.2
-django-taggit==0.8.0
+django-taggit==0.9.3
 nashvegas==0.6.3
 django_compressor==0.9.2
 psycopg2==2.3

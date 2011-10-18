@@ -99,8 +99,12 @@ def gallery_create(request):
             gallery.save()
             
             gallery.from_zip(request.FILES["photos"])
+            
+            messages.success(request, "Created gallery '%s'" % gallery.name)
 
             return redirect("gallery_edit_details", args=(gallery.pk,))
+        else:
+            messages.error(request, "Could not create new gallery.")
     else:
         gallery_form = GalleryDetailsForm()
 

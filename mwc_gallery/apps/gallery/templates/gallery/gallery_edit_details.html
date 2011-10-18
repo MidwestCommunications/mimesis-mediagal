@@ -12,7 +12,9 @@
 {% block body %}
 
 <h1>Editing details for {{ gallery.name }}</h1>
-    
+
+<a href="{% url gallery_details gallery.id %}">View gallery</a>
+
 <form method="POST" action="{% url gallery_edit_details gallery.pk %}" id="gallery_form">
 
     {% csrf_token %}

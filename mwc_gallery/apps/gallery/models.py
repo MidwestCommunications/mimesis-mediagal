@@ -131,7 +131,7 @@ class GallerySites(models.Model):
     Pass through model to link :class:`Gallery` objects to :class:`django.contrib.sites.models.Site`s.
     """
     gallery = models.ForeignKey(Gallery)
-    media = models.ForeignKey(Site)
+    site = models.ForeignKey(Site)
 
 
 class GalleryAssociation(models.Model):

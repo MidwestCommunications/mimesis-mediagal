@@ -71,5 +71,8 @@ class GalleryDetailsForm(forms.ModelForm):
         self.fields["photos"].label = "Photos (zip file)"
 
 class GalleryUpdateForm(forms.Form):
+    """
+    Simple, one-field form for allowing a user to upload a zip file to be attached to a gallery.
+    """
     photos = forms.FileField()
 

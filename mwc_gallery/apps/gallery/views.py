@@ -140,15 +140,6 @@ def gallery_add_media(request, gallery_id):
         "form": form,
     }, context_instance=RequestContext(request))
 
-def gallery_remove_media(request):
-    """
-    Remove a media item from a gallery.
-    
-    *URL*: <gallery_root>/remove_media
-    """
-
-    pass
-
 
 def gallery_delete(request):
     """

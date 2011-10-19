@@ -51,7 +51,7 @@ class Gallery(models.Model):
             through="GalleryMedia"
     )
     cover = models.ForeignKey(MediaUpload, null=True) # Nullable for backwards compat.
-    sites = models.ManyToManyField(Site, null=True) # Nullable for backwards compat.
+    sites = models.ManyToManyField(Site, through="GallerySites", null=True) # Nullable for backwards compat.
     
     def __unicode__(self):
         return self.name
@@ -124,6 +124,15 @@ class GalleryMedia(models.Model):
     """
     gallery = models.ForeignKey(Gallery)
     media = models.ForeignKey(MediaUpload)
+
+
+class GallerySites(models.Model):
+    """
+    Pass through model to link :class:`Gallery` objects to :class:`django.contrib.sites.models.Site`s.
+    """
+    gallery = models.ForeignKey(Gallery)
+    media = models.ForeignKey(Site)
+
 
 class GalleryAssociation(models.Model):
     """

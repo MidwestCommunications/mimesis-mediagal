@@ -1,0 +1,22 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block head_title %}{% trans "Add Photos to Gallery" %}{% endblock %}
+
+{% block body %}
+
+<h1>Add photos to {{ gallery.name }}</h1>
+<form action="{% url gallery_add_media gallery.id %}" method="POST" encType="multipart/form-data" class="uniForm" id="media_add_form">
+    {% csrf_token %}
+    {{ form|as_bootstrap }}
+
+    <div class="actions">
+        <button type="submit" class="btn primary">{% trans "Add Photos" %}</button>
+    </div>
+</form>
+{% endblock %}

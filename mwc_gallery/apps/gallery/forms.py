@@ -69,3 +69,7 @@ class GalleryDetailsForm(forms.ModelForm):
         self.fields["name"].label = "Gallery Name"
         self.fields["description"].label = "Gallery Description"
         self.fields["photos"].label = "Photos (zip file)"
+
+class GalleryUpdateForm(forms.Form):
+    photos = forms.FileField()
+

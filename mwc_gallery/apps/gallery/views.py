@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 from mimesis.models import MediaUpload
 
-from apps.gallery.forms import MediaFormSet, GalleryDetailsForm
+from apps.gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm
 from apps.gallery.models import Gallery, GalleryMedia
 
 
@@ -112,16 +112,33 @@ def gallery_create(request):
         "gallery_form": gallery_form,
     }, context_instance=RequestContext(request))
 
-
-def gallery_add_media(request):
+@login_required
+def gallery_add_media(request, gallery_id):
     """
     Add a media to an existing :class:`apps.gallery.models.Gallery`.
+    
+    Creates an instance of :class:`apps.gallery.forms.GalleryUpdateForm` to get a user's zip file.
     
     *URL*: <gallery_root>/add_media
     """
 
-    pass
-
+    template_name = "gallery/gallery_add_photo.html"
+    
+    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    
+    if request.method == "POST":
+        form = GalleryUpdateForm(request.POST, request.FILES)
+        if form.is_valid():
+            gallery.from_zip(request.FILES["photos"])
+            messages.success(request, "Photos added!")
+            return redirect("gallery_edit_details", gallery.pk)
+    else:
+        form = GalleryUpdateForm()
+    
+    return render_to_response(template_name, {
+        "gallery": gallery,
+        "form": form,
+    }, context_instance=RequestContext(request))
 
 def gallery_remove_media(request):
     """

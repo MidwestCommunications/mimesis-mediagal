@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from mimesis.models import MediaUpload
 
 from apps.gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm
-from apps.gallery.models import Gallery, GalleryMedia
+from apps.gallery.models import Gallery, GallerySites
 
 
 def gallery_list(request):
@@ -97,6 +97,11 @@ def gallery_create(request):
                     owner=request.user,
             )
             gallery.save()
+            for site in gallery_form.cleaned_data["sites"]:
+                GallerySites.objects.create(
+                        site=site,
+                        gallery=gallery
+                )
             
             gallery.from_zip(request.FILES["photos"])
             

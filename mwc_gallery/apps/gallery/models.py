@@ -19,6 +19,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
 
 from mimesis.models import MediaUpload
 from taggit.managers import TaggableManager
@@ -32,6 +33,8 @@ class Gallery(models.Model):
         * An owner (Foreign key to :class:`django.contrib.auth.models.User`)
         * Creation date/time
         * ManyToManyField to :class:`mimesis.models.MediaUpload`, through a :class:`GalleryMedia` obejct
+        * Cover image, a ForeignKey to :class:`mimesis.models.MediaUpload` that will appear as the thumbnail for the gallery.
+        * Sites, a ManyToManyField to :class:`django.contrib.sites.models.Site`.
         
     """
     
@@ -47,6 +50,8 @@ class Gallery(models.Model):
             related_name="galleries",
             through="GalleryMedia"
     )
+    cover = models.ForeignKey(MediaUpload, null=True) # Nullable for backwards compat.
+    sites = models.ManyToManyField(Site, null=True) # Nullable for backwards compat.
     
     def __unicode__(self):
         return self.name

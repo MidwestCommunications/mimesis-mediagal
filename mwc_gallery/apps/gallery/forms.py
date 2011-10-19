@@ -61,6 +61,7 @@ class GalleryDetailsForm(forms.ModelForm):
                 "name",
                 "description",
                 "tags",
+                "site",
         ]
         
     def __init__(self, *args, **kwargs):

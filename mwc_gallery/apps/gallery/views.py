@@ -98,12 +98,8 @@ def gallery_create(request):
             )
             gallery.save()
             for site in gallery_form.cleaned_data["sites"]:
-                GallerySites.objects.create(
-                        site=site,
-                        gallery=gallery
-                )
-            
-            gallery.from_zip(request.FILES["photos"])
+                gallery.add_site(site)
+            gallery.from_zip(request.FILES["photos"], initial=True)
             
             messages.success(request, "Created gallery '%s'" % gallery.name)
 

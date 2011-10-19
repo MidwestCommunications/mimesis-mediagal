@@ -6,17 +6,14 @@
 
     <div id="{{ media_type }}_{{ id }}_caption">
         {% block caption %}
-            {{ caption }}
+        <p>{{ caption }}</p>
         {% endblock %}
     </div>
 
     <div id="{{ media_type }}_{{ id }}_info">
         {% block info %}
-            Created by {{ creator }} on {{ created }}
-            {% if tags %}
-                {{ tags|join:", " }}
-            {% else %}
-            {% endif %}
+        <p>Created by {{ creator }} on {{ created }}</p>
+        <p>Tags: {{ tags|join:", " }}</p>
         {% endblock %}
     </div>
 </div>

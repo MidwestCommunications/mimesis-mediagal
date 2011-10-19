@@ -200,6 +200,11 @@ def gallery_edit_details(request, gallery_id):
                         # requested deletion.
                         update_formset = True
                 else:
+                    if "cover_image" in request.POST:
+                        if form.cleaned_data["id"].id == int(request.POST["cover_image"]):
+                            # set the gallery's cover image to the media object
+                            gallery.cover = form.instance
+                            gallery.save()
                     form.save()
 
             messages.success(request, "Gallery updated.")

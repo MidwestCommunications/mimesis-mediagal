@@ -24,6 +24,9 @@ from django.contrib.sites.models import Site
 from mimesis.models import MediaUpload
 from taggit.managers import TaggableManager
 
+from apps.gallery.thumbnails import generate_all_thumbnails
+from apps.gallery.tasks import square_thumbnail
+
 class Gallery(models.Model):
     """
     A gallery that has the following:
@@ -120,6 +123,8 @@ class Gallery(models.Model):
                     default = media_upload
                 
                 self.add_media(media_upload)
+                
+                generate_all_thumbnails(media_upload.media)
                 
         zip.close()
         if initial:

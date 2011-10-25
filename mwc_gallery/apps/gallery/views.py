@@ -28,6 +28,7 @@ def gallery_list(request):
     **Context Variables**:
     
         * galleries: A QuerySet of :class:`apps.gallery.models.Gallery` instances.
+        * thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)
         
     *URL*: <gallery_root>/ 
     """
@@ -36,10 +37,14 @@ def gallery_list(request):
 
     # @@@ filter them based on public/private?
     galleries = Gallery.objects.all()
-
-    return render_to_response(template_name, {
+    
+    ctx = {
         "galleries": galleries,
-    }, context_instance=RequestContext(request))
+        "thumbnail_sizes": settings.THUMBNAIL_SIZES,
+    }
+
+    return render_to_response(template_name, ctx,
+        context_instance=RequestContext(request))
 
 
 def gallery_details(request, gallery_id):

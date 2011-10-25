@@ -33,18 +33,17 @@ class MediaUploadNode(template.Node):
         * id: The primary key for the passed in object.
         * caption: Caption provided by the object.
         * thumb: Thumbnail URL
-        * media: The actual media that is wrapped by the model.
+        * media_item: The actual media that is wrapped by the model.
         * media_type: Type of the media, i.e. :mimetype:`photo`.
         * media_subtype: Subtype of media, i.e. :mimetype:`jpg`
         * creator: Primary key for the user who created this model.
         * created: Date and time the media was created.
         * tags: QuerySet for all the tags associated with the media
-        * MEDIA_URL: remapping of settings.MEDIA_URL.
+        * Also, any context passed into the parent templates will be available. The default image template relies on this fact.
 
     .. admonition:: Improvements
     
         * The ``tags`` variable should take an existing QuerySet, rather than make the call itself.
-        * MEDIA_URL should probably be referenced from the globale context, since we already have it.
     """
     def __init__(self, var_name):
         self.var_name = var_name
@@ -52,21 +51,20 @@ class MediaUploadNode(template.Node):
     def render(self, context):
         var = context[self.var_name]
         type_ = var.media_type
-        # @@@ Somehow pass in RequestContext?
         t_name = "gallery/mime/_%s_display.html" % type_
         template = get_template(t_name)
         c = Context({
             "id": var.pk,
             "caption": var.caption,
             "thumb": var.thumbnail_img_url,
-            "media": var.media,
+            "media_item": var.media,
             "media_type": var.media_type,
             "media_subtype": var.media_subtype,
             "creator": var.creator,
             "created": var.created,
             "tags": var.tags.all(),
-            "MEDIA_URL": settings.MEDIA_URL,
         })
+        c.update(context)
         return template.render(c)
         
         

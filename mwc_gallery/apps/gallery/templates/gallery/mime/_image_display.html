@@ -1,5 +1,7 @@
 {% extends "gallery/mime/_base_display.html" %}
 
+{% load thumbnail %}
+
 {% block item %}
-            <img src="{{ MEDIA_URL }}{{ media.name }}" alt="{{ caption }}" />
+    <img src="{% thumbnail media_item thumbnail_sizes.medium %}" alt="{{ caption }}" />
 {% endblock %}

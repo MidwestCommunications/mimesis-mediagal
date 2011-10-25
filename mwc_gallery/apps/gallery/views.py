@@ -6,6 +6,7 @@ Views
 Functions listed here are intended to be used as Django views.
 """
 
+from django.conf import settings
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
@@ -51,6 +52,7 @@ def gallery_details(request, gallery_id):
 
         * gallery: The :class:`apps.gallery.models.Gallery` that will be displayed
         * media: The :class:`mimesis.models.MediaUpload` objects associated with the gallery.
+        * thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)
         
     *URL*: <gallery_root>/<gallery_id>
     """
@@ -60,11 +62,15 @@ def gallery_details(request, gallery_id):
     gallery = get_object_or_404(Gallery, pk=gallery_id)
 
     media = gallery.media.all().order_by("created")
-
-    return render_to_response(template_name, {
+    
+    ctx = {
         "gallery": gallery,
         "media": media,
-    }, context_instance=RequestContext(request))
+        "thumbnail_sizes": settings.THUMBNAIL_SIZES,
+    }
+
+    return render_to_response(template_name, ctx,
+        context_instance=RequestContext(request))
 
 
 @login_required
@@ -168,6 +174,7 @@ def gallery_edit_details(request, gallery_id):
         
         * gallery: A :class:`apps.gallery.models.Gallery` instance that references the photos the user will edit.
         * media_formset: A :class:`apps.gallery.forms.MediaFormSet` that uses all the media attached to the `gallery` variable as it's QuerySet data.
+        * thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)
 
     *URL*: <gallery_root>/edit_details
     """
@@ -211,8 +218,9 @@ def gallery_edit_details(request, gallery_id):
     ctx = {
         "gallery": gallery,
         "media_formset": media_formset,
+        "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
-
+    
     return render_to_response(template_name, ctx,
         context_instance=RequestContext(request)
     )

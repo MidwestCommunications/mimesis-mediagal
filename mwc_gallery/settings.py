@@ -152,6 +152,7 @@ INSTALLED_APPS = [
     "mediaman",
     "pinax_theme_bootstrap",
     "djcelery",
+    "easy_thumbnails",
     
     # Pinax
     "pinax.apps.account",

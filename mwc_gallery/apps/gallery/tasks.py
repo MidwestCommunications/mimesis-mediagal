@@ -10,7 +10,7 @@ from celery.task import task
 
 from easy_thumbnails.files import get_thumbnailer, ThumbnailFile
 
-def square_thumbnail(source, size, out_path):
+def square_thumbnail(source, size):
     """
     Generates a square thumbnail from a source image, saving the thumbnail to the specified out_path.
     """
@@ -22,10 +22,10 @@ def square_thumbnail(source, size, out_path):
 
 
 @task
-def generate_thumbnail(image, ratio, out_path, *args, **kwargs):
+def generate_thumbnail(image, ratio, *args, **kwargs):
     """
     Creates a new image of the given ratio, saving it to the provided output path.
     """
     
-    thumbnail = square_thumbnail(image, ratio, out_path)
+    thumbnail = square_thumbnail(image, ratio)
     

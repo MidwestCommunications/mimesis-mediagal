@@ -154,7 +154,7 @@ class GalleryMedia(models.Model):
     media = models.ForeignKey(MediaUpload)
     
     def __unicode__(self):
-        return "<Gallery: %s, Media: %s>" % (self.gallery.name, self.media.title)
+        return "<Gallery: %s, Media: %s>" % (self.gallery.name, self.media.caption)
         
     class Meta:
         verbose_name = "Gallery Media"

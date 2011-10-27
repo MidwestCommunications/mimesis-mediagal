@@ -6,7 +6,7 @@ Tasks
 Tasks are provided for the Celery job management library that generate thumbnails for uploaded images in the background.
 """
 
-from celery.task import task
+from celery.decorators import task
 
 from easy_thumbnails.files import get_thumbnailer
 

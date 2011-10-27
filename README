@@ -1,0 +1,14 @@
+MWC Gallery
+===========
+
+A gallery applications written for for Midwest Communications, written by Eldarion.
+
+Dependencies:
+
+    * Django >= 1.2
+    * celery / django-celery >= 2.3.3
+    * PIL >= 1.1.7
+    * easy_thumbnails >= 1.0-alpha-18
+    * django-taggit >= 0.9.3
+    * MWC's mimesis
+    * MWC's mimesis-mediaman

@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Views &mdash; MWC Gallery 0.0.1a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MWC Gallery 0.0.1a1 documentation" href="../index.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="Welcome to MWC Gallery’s documentation!" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to MWC Gallery’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">MWC Gallery 0.0.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="module-gallery.views"></span><div class="section" id="views">
+<h1>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h1>
+<p>Functions listed here are intended to be used as Django views.</p>
+<dl class="function">
+<dt id="gallery.views.gallery_add_media">
+<tt class="descclassname">gallery.views.</tt><tt class="descname">gallery_add_media</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gallery.views.gallery_add_media" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a media to an existing <a class="reference internal" href="models.html#gallery.models.Gallery" title="gallery.models.Gallery"><tt class="xref py py-class docutils literal"><span class="pre">gallery.models.Gallery</span></tt></a>.</p>
+<p>Creates an instance of <a class="reference internal" href="forms.html#gallery.forms.GalleryUpdateForm" title="gallery.forms.GalleryUpdateForm"><tt class="xref py py-class docutils literal"><span class="pre">gallery.forms.GalleryUpdateForm</span></tt></a> to get a user&#8217;s zip file.</p>
+<p><em>URL</em>: &lt;gallery_root&gt;/add_media</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gallery.views.gallery_create">
+<tt class="descclassname">gallery.views.</tt><tt class="descname">gallery_create</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gallery.views.gallery_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a gallery using standard HTML forms.</p>
+<p>Redirects to <a class="reference internal" href="#gallery.views.gallery_edit_details" title="gallery.views.gallery_edit_details"><tt class="xref py py-func docutils literal"><span class="pre">gallery_edit_details()</span></tt></a> on creation of a new gallery.</p>
+<p><em>Template Name</em>: gallery/gallery_create.html</p>
+<p><strong>Context Variables</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>gallery_form: A <a class="reference internal" href="forms.html#gallery.forms.GalleryDetailsForm" title="gallery.forms.GalleryDetailsForm"><tt class="xref py py-class docutils literal"><span class="pre">gallery.forms.GalleryDetailsForm</span></tt></a> that allows a user to define the gallery name, a description of the gallery, and attach a zip archive of photos to associate with gallery.</li>
+</ul>
+</div></blockquote>
+<p><em>URL</em>: &lt;gallery_root&gt;/create</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gallery.views.gallery_delete">
+<tt class="descclassname">gallery.views.</tt><tt class="descname">gallery_delete</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#gallery.views.gallery_delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a gallery and associated media.</p>
+<p><em>URL</em>: &lt;gallery_root&gt;/delete</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gallery.views.gallery_details">
+<tt class="descclassname">gallery.views.</tt><tt class="descname">gallery_details</tt><big>(</big><em>request</em>, <em>gallery_id</em><big>)</big><a class="headerlink" href="#gallery.views.gallery_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>View a gallery&#8217;s details.</p>
+<p><em>Template Name:</em> gallery/gallery_details.html</p>
+<p><strong>Context Variables</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>gallery: The <a class="reference internal" href="models.html#gallery.models.Gallery" title="gallery.models.Gallery"><tt class="xref py py-class docutils literal"><span class="pre">gallery.models.Gallery</span></tt></a> that will be displayed</li>
+<li>media: The <tt class="xref py py-class docutils literal"><span class="pre">mimesis.models.MediaUpload</span></tt> objects associated with the gallery.</li>
+<li>thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)</li>
+</ul>
+</div></blockquote>
+<p><em>URL</em>: &lt;gallery_root&gt;/&lt;gallery_id&gt;</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gallery.views.gallery_edit_details">
+<tt class="descclassname">gallery.views.</tt><tt class="descname">gallery_edit_details</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gallery.views.gallery_edit_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows a user to edit details and media tied to an existing gallery.</p>
+<p>This view will return a <tt class="xref py py-class docutils literal"><span class="pre">gallery.forms.MediaFormSet</span></tt> that allows users to view the uploaded media, as well as change it&#8217;s caption and tags.</p>
+<p>Additionally, the user can use this form to delete an image or set it as the gallery&#8217;s primary image.  This means it will display as the gallery&#8217;s thumbnail.</p>
+<p><em>Template Name</em>: gallery/gallery_edit_details.html (gallery/_media_form.html as a subtemplate)</p>
+<p><strong>Context Variables</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>gallery: A <a class="reference internal" href="models.html#gallery.models.Gallery" title="gallery.models.Gallery"><tt class="xref py py-class docutils literal"><span class="pre">gallery.models.Gallery</span></tt></a> instance that references the photos the user will edit.</li>
+<li>media_formset: A <tt class="xref py py-class docutils literal"><span class="pre">gallery.forms.MediaFormSet</span></tt> that uses all the media attached to the <cite>gallery</cite> variable as it&#8217;s QuerySet data.</li>
+<li>thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)</li>
+</ul>
+</div></blockquote>
+<p><em>URL</em>: &lt;gallery_root&gt;/edit_details</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gallery.views.gallery_image_details">
+<tt class="descclassname">gallery.views.</tt><tt class="descname">gallery_image_details</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#gallery.views.gallery_image_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns full details of an image, and the full image for individual viewing.</p>
+<p><em>Template Name</em>: gallery/gallery_image_details.html</p>
+<p><strong>Context Variables</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>media: A <tt class="xref py py-class docutils literal"><span class="pre">mimesis.models.MediaUpload</span></tt> object that is associated with the requested <a class="reference internal" href="models.html#gallery.models.Gallery" title="gallery.models.Gallery"><tt class="xref py py-class docutils literal"><span class="pre">gallery.models.Gallery</span></tt></a></li>
+</ul>
+</div></blockquote>
+<p><em>URL</em>: &lt;gallery_root&gt;/&lt;gallery_id&gt;/image_details/&lt;image_id&gt;</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gallery.views.gallery_list">
+<tt class="descclassname">gallery.views.</tt><tt class="descname">gallery_list</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#gallery.views.gallery_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists the available galleries.</p>
+<p><em>Template Name:</em> gallery/gallery_list.html</p>
+<p><strong>Context Variables</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li>galleries: A QuerySet of <a class="reference internal" href="models.html#gallery.models.Gallery" title="gallery.models.Gallery"><tt class="xref py py-class docutils literal"><span class="pre">gallery.models.Gallery</span></tt></a> instances.</li>
+<li>thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)</li>
+</ul>
+</div></blockquote>
+<p><em>URL</em>: &lt;gallery_root&gt;/</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Welcome to MWC Gallery&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="next chapter">Models</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/modules/views.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to MWC Gallery’s documentation!"
+             >previous</a> |</li>
+        <li><a href="../index.html">MWC Gallery 0.0.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Nolan Brubaker.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

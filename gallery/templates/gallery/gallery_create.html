@@ -1,0 +1,39 @@
+{% extends "gallery/base.html" %}
+
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}mediaman/media-selector.css" />
+<script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+{% endblock %}
+
+{% block head_title %}{% trans "Create a New Gallery" %}{% endblock %}
+
+{% block body %}
+
+<form action="{% url gallery_create %}" method="POST" encType="multipart/form-data" class="uniForm" id="gallery_form">
+    {% csrf_token %}
+    <div class="gallery_details">
+    <fieldset>
+        <legend>Gallery Details</legend>
+        {{ gallery_form|as_bootstrap }}
+    </fieldset>
+    </div>
+    <div class="actions">
+        <button type="submit" class="btn primary">{% trans "Create this Gallery" %}</button>
+    </div>
+</form>
+
+{% endblock %}
+
+{% block extra_body %}
+    <script src="{{STATIC_URL}}mediaman/mediaman.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(function() {
+        $('#gallery_form div.media_details').formset({
+            prefix: "{{ media_formset.prefix }}"
+        });
+    });
+    </script>
+{% endblock %}

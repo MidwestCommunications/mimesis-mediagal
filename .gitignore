@@ -1,0 +1,7 @@
+*.pyc
+*.swp
+*.pyo
+*~
+
+gallery/apps/gallery/doc/.build/
+gallery/apps/gallery/doc/_build/

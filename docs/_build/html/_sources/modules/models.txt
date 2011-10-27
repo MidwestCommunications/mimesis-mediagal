@@ -1,0 +1,2 @@
+.. automodule:: gallery.models
+        :members:

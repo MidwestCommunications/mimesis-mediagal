@@ -230,4 +230,30 @@ def gallery_edit_details(request, gallery_id):
         context_instance=RequestContext(request)
     )
     
+@login_required
+def gallery_image_details(request, gallery_id, media_id):
+    """
+    Returns full details of an image, and the full image for individual viewing.
     
+    *Template Name*: gallery/gallery_image_details.html
+    
+    **Context Variables**:
+    
+        * media: A :class:`mimesis.models.MediaUpload` object that is associated with the requested :class:`apps.gallery.models.Gallery`
+        
+    *URL*: <gallery_root>/<gallery_id>/image_details/<image_id>
+    """
+    
+    template_name = "gallery/gallery_image_details.html"
+    
+    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    media = get_object_or_404(gallery.media, pk=media_id)
+    
+    ctx = {
+        "media": media,
+    }
+    
+    return render_to_response(template_name, ctx,
+        context_instance=RequestContext(request)
+    )
+

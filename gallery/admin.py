@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.gallery.models import Gallery, GalleryMedia, GallerySites
+from gallery.models import Gallery, GalleryMedia, GallerySites
 
 class GalleryMediaInline(admin.TabularInline):
     model = GalleryMedia

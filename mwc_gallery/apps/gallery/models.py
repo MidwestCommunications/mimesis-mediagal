@@ -59,6 +59,9 @@ class Gallery(models.Model):
     def get_absolute_url(self):
         return reverse("gallery_details", args=(self.pk,))
     
+    class Meta:
+        verbose_name_plural = "Galleries"
+        
     def add_media(self, media_upload):
         """
         Associates a :class:`mimesis.MediaUpload` object with this gallery.
@@ -149,16 +152,30 @@ class GalleryMedia(models.Model):
     """
     gallery = models.ForeignKey(Gallery)
     media = models.ForeignKey(MediaUpload)
-
-
+    
+    def __unicode__(self):
+        return "<Gallery: %s, Media: %s>" % (gallery.name, media.title)
+        
+    class Meta:
+        verbose_name = "Gallery Media"
+        verbose_name_plural = "Gallery Media"
+        
+        
 class GallerySites(models.Model):
     """
     Pass through model to link :class:`Gallery` objects to :class:`django.contrib.sites.models.Site`.
     """
     gallery = models.ForeignKey(Gallery)
     site = models.ForeignKey(Site)
-
-
+    
+    def __unicode__(self):
+        return "<Gallery: %s, Site: %s>" % (gallery.name, site.name)
+        
+    class Meta:
+        verbose_name = "Gallery Sites"
+        verbose_name_plural = "Gallery Sites"
+        
+        
 class GalleryAssociation(models.Model):
     """
     Generic relationship between a gallery and any other Django model.

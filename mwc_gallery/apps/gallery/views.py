@@ -13,10 +13,8 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from mimesis.models import MediaUpload
-
 from apps.gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm
-from apps.gallery.models import Gallery, GallerySites
+from apps.gallery.models import Gallery
 
 
 def gallery_list(request):

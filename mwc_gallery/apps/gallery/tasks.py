@@ -8,7 +8,7 @@ Tasks are provided for the Celery job management library that generate thumbnail
 
 from celery.task import task
 
-from easy_thumbnails.files import get_thumbnailer, ThumbnailFile
+from easy_thumbnails.files import get_thumbnailer
 
 def square_thumbnail(source, size):
     """

@@ -7,11 +7,8 @@ Models used within the Gallery app.  The main model class is the :class:`Gallery
 """
 
 import datetime
-import os
 import zipfile
 
-from django.conf import settings
-from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -25,7 +22,7 @@ from mimesis.models import MediaUpload
 from taggit.managers import TaggableManager
 
 from apps.gallery.thumbnails import generate_all_thumbnails
-from apps.gallery.tasks import square_thumbnail
+
 
 class Gallery(models.Model):
     """

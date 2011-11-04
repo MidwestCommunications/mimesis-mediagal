@@ -3,5 +3,5 @@
 *.pyo
 *~
 
-mwc_gallery/apps/gallery/doc/.build/
-mwc_gallery/apps/gallery/doc/_build/
+gallery/apps/gallery/doc/.build/
+gallery/apps/gallery/doc/_build/

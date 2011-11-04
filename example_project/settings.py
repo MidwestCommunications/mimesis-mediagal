@@ -162,7 +162,6 @@ INSTALLED_APPS = [
     "pinax.apps.signup_codes",
     
     # project
-    "about",
     "gallery",
 ]
 

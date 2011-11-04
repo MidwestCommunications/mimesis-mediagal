@@ -7,8 +7,7 @@ environ["DJANGO_SETTINGS_MODULE"] = "example_project.settings"
 
 from django.conf import settings as django_settings
 
-setattr(django_settings, "DATABASE_ENGINE", "sqlite3")
-
+django_settings.DATABASES["default"]["ENGINE"] = "sqlite3"
 def runtests(*test_args):
     if not test_args:
         test_args = ["gallery"]

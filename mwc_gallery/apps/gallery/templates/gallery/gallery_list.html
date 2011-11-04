@@ -1,5 +1,7 @@
 {% extends "gallery/base.html" %}
 
+{% load thumbnail %}
+
 {% block body %}
 
 {% if galleries %}
@@ -9,9 +11,12 @@
 </tr>
 {% for gallery in galleries %}
 <tr>
-	<td>
-		<b><a href="{{ gallery.get_absolute_url }}">{{ gallery.name }}</a></b>
-	</td>
+    <td>
+        {% if gallery.cover %}
+        <img src="{% thumbnail gallery.cover.media thumbnail_sizes.large %}" alt="{{ gallery.name }}"/>
+        {% endif %}
+        <b><a href="{{ gallery.get_absolute_url }}">{{ gallery.name }}</a></b>
+    </td>
 </tr>
 {% endfor %}
 </table>

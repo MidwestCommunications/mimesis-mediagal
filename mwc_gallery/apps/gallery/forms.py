@@ -6,7 +6,6 @@ Forms
 Forms for the MWC Gallery app.
 """
 from django import forms
-from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 
 from mimesis.models import MediaUpload

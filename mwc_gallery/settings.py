@@ -152,6 +152,7 @@ INSTALLED_APPS = [
     "mediaman",
     "pinax_theme_bootstrap",
     "djcelery",
+    "easy_thumbnails",
     
     # Pinax
     "pinax.apps.account",
@@ -198,6 +199,8 @@ DEBUG_TOOLBAR_CONFIG = {
 
 import djcelery
 djcelery.setup_loader()
+
+CELERY_ALWAYS_EAGER = True
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

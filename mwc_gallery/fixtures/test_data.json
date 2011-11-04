@@ -1,0 +1,71 @@
+[
+    {
+        "pk": 2, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "test", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2011-10-24 20:07:19", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$820dc$539c80d0a3937d479d39abe9e2dc66eaff230348", 
+            "email": "test@test.com", 
+            "date_joined": "2011-10-24 20:07:19"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "gallery.gallery", 
+        "fields": {
+            "owner": 2, 
+            "created": "2011-10-24 20:07:56", 
+            "cover": 1, 
+            "name": "Test Gallery", 
+            "description": "A gallery for testing things."
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "gallery.gallerymedia", 
+        "fields": {
+            "media": 1, 
+            "gallery": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "gallery.gallerymedia", 
+        "fields": {
+            "media": 2, 
+            "gallery": 1
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "mimesis.mediaupload", 
+        "fields": {
+            "creator": 2, 
+            "media": "mimesis/2011-10/24/test.png", 
+            "created": "2011-10-24 20:07:56", 
+            "caption": "The first image.", 
+            "media_type": "image", 
+            "media_subtype": "png"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "mimesis.mediaupload", 
+        "fields": {
+            "creator": 2, 
+            "media": "mimesis/2011-10/24/test2.png", 
+            "created": "2011-10-24 20:07:57", 
+            "caption": "The second image", 
+            "media_type": "image", 
+            "media_subtype": "png"
+        }
+    }
+]

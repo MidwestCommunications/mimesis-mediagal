@@ -7,11 +7,8 @@ Models used within the Gallery app.  The main model class is the :class:`Gallery
 """
 
 import datetime
-import os
 import zipfile
 
-from django.conf import settings
-from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -23,6 +20,9 @@ from django.contrib.sites.models import Site
 
 from mimesis.models import MediaUpload
 from taggit.managers import TaggableManager
+
+from apps.gallery.thumbnails import generate_all_thumbnails
+
 
 class Gallery(models.Model):
     """
@@ -59,6 +59,9 @@ class Gallery(models.Model):
     def get_absolute_url(self):
         return reverse("gallery_details", args=(self.pk,))
     
+    class Meta:
+        verbose_name_plural = "Galleries"
+        
     def add_media(self, media_upload):
         """
         Associates a :class:`mimesis.MediaUpload` object with this gallery.
@@ -121,6 +124,8 @@ class Gallery(models.Model):
                 
                 self.add_media(media_upload)
                 
+                generate_all_thumbnails(media_upload.media)
+                
         zip.close()
         if initial:
             self.cover = default
@@ -147,16 +152,30 @@ class GalleryMedia(models.Model):
     """
     gallery = models.ForeignKey(Gallery)
     media = models.ForeignKey(MediaUpload)
-
-
+    
+    def __unicode__(self):
+        return "<Gallery: %s, Media: %s>" % (self.gallery.name, self.media.caption)
+        
+    class Meta:
+        verbose_name = "Gallery Media"
+        verbose_name_plural = "Gallery Media"
+        
+        
 class GallerySites(models.Model):
     """
-    Pass through model to link :class:`Gallery` objects to :class:`django.contrib.sites.models.Site`s.
+    Pass through model to link :class:`Gallery` objects to :class:`django.contrib.sites.models.Site`.
     """
     gallery = models.ForeignKey(Gallery)
     site = models.ForeignKey(Site)
-
-
+    
+    def __unicode__(self):
+        return "<Gallery: %s, Site: %s>" % (self.gallery.name, self.site.name)
+        
+    class Meta:
+        verbose_name = "Gallery Sites"
+        verbose_name_plural = "Gallery Sites"
+        
+        
 class GalleryAssociation(models.Model):
     """
     Generic relationship between a gallery and any other Django model.

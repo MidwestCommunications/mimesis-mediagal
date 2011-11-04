@@ -1,44 +1,63 @@
 [
     {
-        "pk": 1, 
-        "model": "auth.user", 
+        "pk": 1,
+        "model": "auth.user",
         "fields": {
-            "username": "testor", 
-            "first_name": "", 
-            "last_name": "", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2011-09-15 16:59:23", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$f896c$12f7465543a54476bd6cb29120f2c434b24a95c8", 
-            "email": "test@test.com", 
+            "username": "testor",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2011-09-15 16:59:23",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$f896c$12f7465543a54476bd6cb29120f2c434b24a95c8",
+            "email": "test@test.com",
             "date_joined": "2011-09-15 15:26:46"
         }
-    }, 
+    },
     {
-        "pk": 1, 
-        "model": "mimesis.mediaupload", 
+        "pk": 1,
+        "model": "mimesis.mediaupload",
         "fields": {
-            "creator": 1, 
-            "media": "mimesis/2011-09/15/test.png", 
-            "created": "2011-09-15 15:27:54", 
-            "caption": "Test upload.", 
-            "media_type": "image", 
+            "creator": 1,
+            "media": "mimesis/2011-09/15/test.png",
+            "created": "2011-09-15 15:27:54",
+            "caption": "Test upload.",
+            "media_type": "image",
             "media_subtype": "png"
         }
-    }, 
+    },
     {
-        "pk": 2, 
-        "model": "mimesis.mediaupload", 
+        "pk": 2,
+        "model": "mimesis.mediaupload",
         "fields": {
-            "creator": 1, 
-            "media": "mimesis/2011-09/15/test_1.txt", 
-            "created": "2011-09-15 16:59:34", 
-            "caption": "A test text file.", 
-            "media_type": "text", 
+            "creator": 1,
+            "media": "mimesis/2011-09/15/test_1.txt",
+            "created": "2011-09-15 16:59:34",
+            "caption": "A test text file.",
+            "media_type": "text",
             "media_subtype": "plain"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "gallery.gallery",
+        "fields": {
+            "owner": 1,
+            "created": "2011-11-04 00:18:02",
+            "cover": 1,
+            "name": "Test gallery",
+            "description": ""
+        }
+    },
+    {
+        "pk": 1,
+        "model": "gallery.gallerymedia",
+        "fields": {
+            "media": 1,
+            "gallery": 1
         }
     }
 ]

@@ -15,7 +15,7 @@ class TemplateTagTest(TestCase):
     def test_render_image(self):
         
         image = MediaUpload.objects.get(pk=1)
-        c = Context({"image": image})
+        c = Context({"image": image, "gallery": image.galleries.all()[0]})
         t = "{% render_media image %}"
 
         rendered = self.render_template(t, c)

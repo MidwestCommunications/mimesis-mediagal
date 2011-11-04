@@ -5,6 +5,9 @@ import os.path
 import posixpath
 import pinax
 
+import sys
+sys.path.insert(0, "..")
+
 PINAX_ROOT = os.path.abspath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
@@ -100,7 +103,7 @@ MIDDLEWARE_CLASSES = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-ROOT_URLCONF = "mwc_gallery.urls"
+ROOT_URLCONF = "example_project.urls"
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),

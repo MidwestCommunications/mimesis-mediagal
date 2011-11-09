@@ -68,3 +68,15 @@ class TestAddingMedia(TestModelsBase):
         self.assertTrue(im2 in all_media)
         self.assertTrue(im3 in all_media)
         
+    def test_remove_media(self):
+        im = MediaUpload(caption="", media=self.test_file, creator=self.user)
+        im.save()
+        
+        self.g.add_media(im)
+        
+        self.assertTrue(im in self.g.media.all())
+        
+        self.g.remove_media(im)
+        
+        self.assertTrue(im not in self.g.media.all())
+        

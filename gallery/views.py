@@ -30,9 +30,9 @@ def gallery_list(request):
         
     *URL*: <gallery_root>/ 
     """
-
+    
     template_name = "gallery/gallery_list.html"
-
+    
     # @@@ filter them based on public/private?
     galleries = Gallery.objects.all()
     
@@ -40,11 +40,11 @@ def gallery_list(request):
         "galleries": galleries,
         "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
-
+    
     return render_to_response(template_name, ctx,
         context_instance=RequestContext(request))
-
-
+        
+        
 def gallery_details(request, gallery_id):
     """
     View a gallery's details.
@@ -52,18 +52,18 @@ def gallery_details(request, gallery_id):
     *Template Name:* gallery/gallery_details.html
     
     **Context Variables**:
-
+    
         * gallery: The :class:`gallery.models.Gallery` that will be displayed
         * media: The :class:`mimesis.models.MediaUpload` objects associated with the gallery.
         * thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)
         
     *URL*: <gallery_root>/<gallery_id>
     """
-
+    
     template_name = "gallery/gallery_details.html"
-
+    
     gallery = get_object_or_404(Gallery, pk=gallery_id)
-
+    
     media = gallery.media.all().order_by("created")
     
     ctx = {
@@ -71,11 +71,11 @@ def gallery_details(request, gallery_id):
         "media": media,
         "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
-
+    
     return render_to_response(template_name, ctx,
         context_instance=RequestContext(request))
-
-
+        
+        
 @login_required
 def gallery_create(request):
     """
@@ -91,11 +91,11 @@ def gallery_create(request):
         
     *URL*: <gallery_root>/create
     """
-
+    
     template_name = "gallery/gallery_create.html"
     if request.method == "POST":
         gallery_form = GalleryDetailsForm(request.POST, request.FILES)
-
+        
         if gallery_form.is_valid():
             # @@@ check for duplicated gallery names?
             g_name = gallery_form.cleaned_data["name"]
@@ -111,17 +111,18 @@ def gallery_create(request):
             gallery.from_zip(request.FILES["photos"], initial=True)
             
             messages.success(request, "Created gallery '%s'" % gallery.name)
-
+            
             return redirect("gallery_edit_details", gallery.pk)
         else:
             messages.error(request, "Could not create new gallery.")
     else:
         gallery_form = GalleryDetailsForm()
-
+        
     return render_to_response(template_name, {
         "gallery_form": gallery_form,
     }, context_instance=RequestContext(request))
-
+    
+    
 @login_required
 def gallery_add_media(request, gallery_id):
     """
@@ -131,7 +132,7 @@ def gallery_add_media(request, gallery_id):
     
     *URL*: <gallery_root>/add_media
     """
-
+    
     template_name = "gallery/gallery_add_photo.html"
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
@@ -144,12 +145,13 @@ def gallery_add_media(request, gallery_id):
             return redirect("gallery_edit_details", gallery.pk)
     else:
         form = GalleryUpdateForm()
-    
+        
     return render_to_response(template_name, {
         "gallery": gallery,
         "form": form,
     }, context_instance=RequestContext(request))
-
+    
+    
 @login_required
 def gallery_delete(request):
     """
@@ -167,7 +169,7 @@ def gallery_delete(request):
         form = GalleryDeleteForm(request.POST)
         if form.is_valid():
             gallery = Gallery.objects.get(id=form.cleaned_data["gallery_id"])
-
+            
             gallery_name = gallery.name
             
             gallery.media.all().delete()
@@ -175,9 +177,8 @@ def gallery_delete(request):
             
             messages.success(request, "Gallery '%s' was deleted." % gallery_name)
             return redirect("gallery_list")
-    
-    
-    
+            
+            
 @login_required
 def gallery_edit_details(request, gallery_id):
     """
@@ -190,11 +191,11 @@ def gallery_edit_details(request, gallery_id):
     *Template Name*: gallery/gallery_edit_details.html (gallery/_media_form.html as a subtemplate)
     
     **Context Variables**:
-        
+    
         * gallery: A :class:`gallery.models.Gallery` instance that references the photos the user will edit.
         * media_formset: A :class:`gallery.forms.MediaFormSet` that uses all the media attached to the `gallery` variable as it's QuerySet data.
         * thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)
-
+        
     *URL*: <gallery_root>/edit_details
     """
     
@@ -204,7 +205,7 @@ def gallery_edit_details(request, gallery_id):
     
     if request.method == "POST":
         update_formset = False
-
+        
         media_formset = MediaFormSet(request.POST)
         if media_formset.is_valid():
             for form in media_formset.forms:
@@ -224,18 +225,18 @@ def gallery_edit_details(request, gallery_id):
                             gallery.cover = form.instance
                             gallery.save()
                     form.save()
-
+                    
             messages.success(request, "Gallery updated.")
         else:
             messages.error(request, "Could not update gallery.")
     else:
         update_formset = True
-    
+        
     if update_formset:
         media_formset = MediaFormSet(queryset=gallery.media.all().order_by("created"))
         
     delete_form = GalleryDeleteForm({"gallery_id": gallery.id})
-
+    
     ctx = {
         "gallery": gallery,
         "media_formset": media_formset,
@@ -246,6 +247,7 @@ def gallery_edit_details(request, gallery_id):
     return render_to_response(template_name, ctx,
         context_instance=RequestContext(request)
     )
+    
     
 @login_required
 def gallery_image_details(request, gallery_id, media_id):
@@ -273,4 +275,4 @@ def gallery_image_details(request, gallery_id, media_id):
     return render_to_response(template_name, ctx,
         context_instance=RequestContext(request)
     )
-
+    

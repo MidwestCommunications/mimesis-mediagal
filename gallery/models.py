@@ -56,11 +56,14 @@ class Gallery(models.Model):
     def __unicode__(self):
         return self.name
         
+        
     def get_absolute_url(self):
         return reverse("gallery_details", args=(self.pk,))
-    
+        
+        
     class Meta:
         verbose_name_plural = "Galleries"
+        
         
     def add_media(self, media_upload):
         """
@@ -80,8 +83,8 @@ class Gallery(models.Model):
             gallery=self,
             site=site
         )
-    
-    
+        
+        
     def from_zip(self, zip_file, initial=False):
         """
         Populates a gallery with photos within a zip archive.
@@ -89,16 +92,16 @@ class Gallery(models.Model):
         When a zip archive comes in, it is first checked for corrupt files.
         If nothing's corrupted, it's contents are unpacked into MEDIA_ROOT, and an
         associated :class:`mimesis.MediaUpload` model/file are created and bound to the gallery.  Once that is finished, the file in MEDIA_ROOT is deleted.
-
+        
         If the `initial` argument is True, then this function will set the gallery's cover image to the first file extracted from the archive.
-
+        
         Most of this function is based on Photologue's GalleryUpload.process_zipefile method, changed to use the :class:`mimesis.MediaUpload` models.
         """
         zip = zipfile.ZipFile(zip_file)
         bad_file = zip.testzip()
         if bad_file:
             raise Exception("'%s' in the zip file is corrupt." % bad_file)
-        
+            
         if initial:
             default = None
             
@@ -121,7 +124,7 @@ class Gallery(models.Model):
                 # Capture the first image to be used as the default cover image.
                 if initial and not default:
                     default = media_upload
-                
+                    
                 self.add_media(media_upload)
                 
                 generate_all_thumbnails(media_upload.media)
@@ -130,8 +133,8 @@ class Gallery(models.Model):
         if initial:
             self.cover = default
             self.save()
-        
-        
+            
+            
     def remove_media(self, media):
         """
         Removes a :class:`mimesis.models.MediaUpload` instance from this gallery.
@@ -155,6 +158,7 @@ class GalleryMedia(models.Model):
     
     def __unicode__(self):
         return "<Gallery: %s, Media: %s>" % (self.gallery.name, self.media.caption)
+        
         
     class Meta:
         verbose_name = "Gallery Media"
@@ -189,5 +193,5 @@ class GalleryAssociation(models.Model):
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey()
-
-
+    
+    

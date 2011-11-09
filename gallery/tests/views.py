@@ -22,6 +22,8 @@ class GalleryViewTest(TestCase):
         self.media = MediaUpload.objects.create(caption="", media=test_file, creator=self.user)
         test_file.close()
         
+        self.g.add_media(self.media)
+        
         self.client.login(username="test", password="test")
         
     def test_gallery_list_template(self):
@@ -90,3 +92,14 @@ class GalleryViewTest(TestCase):
         self.assertTrue("media_formset" in response.context)
         self.assertTrue("thumbnail_sizes" in response.context)
         
+    def test_gallery_image_details_template(self):
+        url = reverse("gallery_image_details", args=(self.g.id, self.media.id))
+        response = self.client.get(url)
+        
+        self.assertTemplateUsed(response, "gallery/gallery_image_details.html")
+        
+    def test_gallery_image_details_context(self):
+        url = reverse("gallery_image_details", args=(self.g.id,self.media.id))
+        response = self.client.get(url)
+        
+        self.assertTrue("media" in response.context)

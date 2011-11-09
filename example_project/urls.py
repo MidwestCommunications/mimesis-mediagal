@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 
 from django.contrib import admin
 admin.autodiscover()
@@ -23,6 +23,10 @@ urlpatterns = patterns("",
     url(r"^openid/(.*)", PinaxConsumer()),
     url(r"^galleries/", include("gallery.urls")),
     url(r"^mediaman/", include("mediaman.urls")),
+    # This next line allows us to get around the about app being removed.
+    url(r"^next$", redirect_to, {
+        "url": "/galleries",
+    }, name="what_next"),
 )
 
 

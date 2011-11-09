@@ -8,6 +8,7 @@ from django.test import TestCase
 
 from django.contrib.auth.models import User
 
+from django.contrib.sites.models import Site
 from mimesis.models import MediaUpload
 
 from gallery.models import Gallery
@@ -23,6 +24,8 @@ class GalleryViewTest(TestCase):
         test_file.close()
         
         self.g.add_media(self.media)
+        
+        Site.objects.create(name="localhost", domain="localhost")
         
         self.client.login(username="test", password="test")
         
@@ -64,6 +67,25 @@ class GalleryViewTest(TestCase):
         response = self.client.get(url)
         
         self.assertTrue("gallery_form" in response.context)
+        
+    def test_gallery_create_functional_test(self):
+        url = reverse("gallery_create")
+        
+        site = Site.objects.get(name="localhost")
+        name = "A new gallery"
+        description = "My new test gallery."
+        tags = "tag,"
+        file = open(join(django_settings.MEDIA_ROOT, "test.zip"))
+        
+        response = self.client.post(url, {"name": name, "description": description, "photos": file, "sites": site.id, "tags": tags}, follow=True)
+        
+        self.assertTemplateUsed(response, "gallery/gallery_edit_details.html")
+        
+        gallery = Gallery.objects.get(name=name, description=description)
+        
+        media = gallery.media.all()
+        
+        self.assertTrue(5, len(media))
         
     def test_gallery_add_media_template(self):
         url = reverse("gallery_add_media", args=(self.g.id,))

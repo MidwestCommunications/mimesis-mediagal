@@ -1,4 +1,4 @@
-from os.path import abspath, join, exists
+from os.path import abspath, basename, join, exists
 from shutil import rmtree
 
 from django.test import TestCase
@@ -79,4 +79,34 @@ class TestAddingMedia(TestModelsBase):
         self.g.remove_media(im)
         
         self.assertTrue(im not in self.g.media.all())
+        
+        
+class TestZips(TestModelsBase):
+    
+    def setUp(self):
+        super(TestZips, self).setUp()
+        self.zip = join(django_settings.MEDIA_ROOT, "test.zip")
+        self.g = Gallery(name="test gallery", owner=self.user)
+        self.g.save()
+        
+    def test_creating_from_zip(self):
+        self.g.from_zip(self.zip, initial=True)
+        
+        all_gallery_media = GalleryMedia.objects.all()
+        
+        self.assertEqual(5, len(all_gallery_media))
+        
+        for gallery_media in all_gallery_media:
+            self.assertEqual(self.g, gallery_media.gallery)
+            
+        self.assertEqual("test1.jpg", basename(self.g.cover.media.name))
+        
+    def test_adding_from_zip(self):
+        self.g.from_zip(self.zip)
+        
+        all_media = self.g.media.all()
+        
+        self.assertEqual(5, len(all_media))
+        
+        self.assertFalse(self.g.cover)
         

@@ -7,7 +7,14 @@
 {% block body_class %}galleries{% endblock %}
 
 {% block body_base %}
-    <div class="container">
+        <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-message{% if message.tags %} {{ message.tags }}{% endif %}">
+                 <a class="close" href="#">&times;</a><p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
         <div class="row">
             <div class="span4 columns">
                 <h3>{% trans "Galleries" %}</h3>

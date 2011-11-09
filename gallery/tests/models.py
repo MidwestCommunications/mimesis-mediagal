@@ -43,3 +43,24 @@ class TestModels(TestCase):
         g.add_media(image)
         
         self.assertTrue(image in g.media.all())
+        
+    def test_adding_multiple_media(self):
+        g = Gallery(name="test gallery", owner=self.user)
+        g.save()
+        
+        im1 = MediaUpload(caption="", media=self.test_file, creator=self.user)
+        im1.save()
+        im2 = MediaUpload(caption="", media=self.test_file, creator=self.user)
+        im2.save()
+        im3 = MediaUpload(caption="", media=self.test_file, creator=self.user)
+        im3.save()
+        
+        g.add_media(im1)
+        g.add_media(im2)
+        g.add_media(im3)
+        
+        all_media = g.media.all()
+        
+        self.assertTrue(im1 in all_media)
+        self.assertTrue(im2 in all_media)
+        self.assertTrue(im3 in all_media)

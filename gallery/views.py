@@ -13,7 +13,7 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm
+from gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, GalleryDeleteForm
 from gallery.models import Gallery
 
 
@@ -150,15 +150,31 @@ def gallery_add_media(request, gallery_id):
         "form": form,
     }, context_instance=RequestContext(request))
 
-
+@login_required
 def gallery_delete(request):
     """
-    Delete a gallery and associated media.
+    Delete a gallery and associated media on POST.
+    
+    *Template Name*: None; redirects back to gallery list.
+    
+    **Context Variables**:
+        
+        * None
     
     *URL*: <gallery_root>/delete
     """
+    if request.method == "POST":
+        form = GalleryDeleteForm(request.POST)
+        if form.is_valid():
+            gallery = Gallery.objects.get(id=form.cleaned_data["gallery_id"])
 
-    pass
+            gallery_name = gallery.name
+            
+            gallery.media.all().delete()
+            gallery.delete()
+            
+            messages.success(request, "Gallery '%s' was deleted." % gallery_name)
+            return redirect("gallery_list")
     
     
     
@@ -217,10 +233,13 @@ def gallery_edit_details(request, gallery_id):
     
     if update_formset:
         media_formset = MediaFormSet(queryset=gallery.media.all().order_by("created"))
+        
+    delete_form = GalleryDeleteForm({"gallery_id": gallery.id})
 
     ctx = {
         "gallery": gallery,
         "media_formset": media_formset,
+        "delete_form": delete_form,
         "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
     

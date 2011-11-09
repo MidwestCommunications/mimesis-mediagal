@@ -1,4 +1,4 @@
-{% extends "site_base.html" %}
+{% extends "gallery/base.html" %}
 
 {% load bootstrap_tags %}
 {% load gallery_tags %}
@@ -14,7 +14,12 @@
 
 <h1>Editing details for {{ gallery.name }}</h1>
 
-<a href="{% url gallery_details gallery.id %}">View gallery</a>  <a href="{% url gallery_add_media gallery.id %}">Add Photos</a>
+<a href="{% url gallery_details gallery.id %}">View gallery</a>  <a href="{% url gallery_add_media gallery.id %}">Add Photos</a>  <a href="#" id="delete_link">Delete Gallery</a>
+
+<form method="POST" action="{% url gallery_delete %}" id="gallery_delete_form">
+    {% csrf_token %}
+    {{ delete_form}}
+</form>
 
 <form method="POST" action="{% url gallery_edit_details gallery.pk %}" id="gallery_form">
 
@@ -32,3 +37,19 @@
     </div>
     </form>
 {% endblock body %}
+
+{% block extra_body %}
+
+<script>
+
+    $("#delete_link").click(function (event) {
+        var confirmed = confirm("Really delete this gallery?");
+
+        if (confirmed) {
+            $("#gallery_delete_form").submit();
+        }
+    });
+
+</script>
+
+{% endblock %}

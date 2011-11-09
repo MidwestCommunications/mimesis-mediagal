@@ -75,3 +75,8 @@ class GalleryUpdateForm(forms.Form):
     """
     photos = forms.FileField()
 
+class GalleryDeleteForm(forms.Form):
+    """
+    Simple form for deleting an existing gallery.
+    """
+    gallery_id = forms.IntegerField(widget=forms.HiddenInput)

@@ -78,6 +78,18 @@ class GalleryViewTest(TestCase):
         self.assertTrue("gallery" in response.context)
         self.assertTrue("form" in response.context)
         
+    def test_gallery_delete_template(self):
+        url = reverse("gallery_delete")
+        self.assertRaises(ValueError, self.client.get, url)
+        
+    def test_gallery_delete(self):
+        url = reverse("gallery_delete")
+        response = self.client.post(url, data={"gallery_id": self.g.id}, follow=True)
+        
+        self.assertTemplateUsed(response, "gallery/gallery_list.html")
+
+        self.assertFalse(Gallery.objects.all())
+
     def test_gallery_edit_details_template(self):
         url = reverse("gallery_edit_details", args=(self.g.id,))
         response = self.client.get(url)
@@ -91,6 +103,7 @@ class GalleryViewTest(TestCase):
         self.assertTrue("gallery" in response.context)
         self.assertTrue("media_formset" in response.context)
         self.assertTrue("thumbnail_sizes" in response.context)
+        self.assertTrue("delete_form" in response.context)
         
     def test_gallery_image_details_template(self):
         url = reverse("gallery_image_details", args=(self.g.id, self.media.id))

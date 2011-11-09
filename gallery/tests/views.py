@@ -76,3 +76,17 @@ class GalleryViewTest(TestCase):
         self.assertTrue("gallery" in response.context)
         self.assertTrue("form" in response.context)
         
+    def test_gallery_edit_details_template(self):
+        url = reverse("gallery_edit_details", args=(self.g.id,))
+        response = self.client.get(url)
+        
+        self.assertTemplateUsed(response, "gallery/gallery_edit_details.html")
+        
+    def test_gallery_edit_details_context(self):
+        url = reverse("gallery_edit_details", args=(self.g.id,))
+        response = self.client.get(url)
+        
+        self.assertTrue("gallery" in response.context)
+        self.assertTrue("media_formset" in response.context)
+        self.assertTrue("thumbnail_sizes" in response.context)
+        

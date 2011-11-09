@@ -14,7 +14,7 @@ from gallery.models import Gallery, GalleryMedia
 
 
 
-class TestModels(TestCase):
+class TestModelsBase(TestCase):
     
     def setUp(self):
         self.user = User(username="tester", password="test")
@@ -28,26 +28,29 @@ class TestModels(TestCase):
         mimesis_root = abspath(join(django_settings.MEDIA_ROOT, "mimesis"))
         if exists(mimesis_root):
             rmtree(mimesis_root)
+
+class TestCreatingGallery(TestModelsBase):
             
     def test_creating_gallery(self):
         g = Gallery(name="My gallery", owner=self.user)
         self.assertEqual("My gallery", g.name)
         
-    def test_adding_media(self):
-        g = Gallery(name="test gallery", owner=self.user)
-        g.save()
+class TestAddingMedia(TestModelsBase):
+    
+    def setUp(self):
+        super(TestAddingMedia, self).setUp()
+        self.g = Gallery(name="test gallery", owner=self.user)
+        self.g.save()
         
+    def test_adding_media(self):
         image = MediaUpload(caption="", media=self.test_file, creator=self.user)
         image.save()
 
-        g.add_media(image)
+        self.g.add_media(image)
         
-        self.assertTrue(image in g.media.all())
+        self.assertTrue(image in self.g.media.all())
         
     def test_adding_multiple_media(self):
-        g = Gallery(name="test gallery", owner=self.user)
-        g.save()
-        
         im1 = MediaUpload(caption="", media=self.test_file, creator=self.user)
         im1.save()
         im2 = MediaUpload(caption="", media=self.test_file, creator=self.user)
@@ -55,12 +58,13 @@ class TestModels(TestCase):
         im3 = MediaUpload(caption="", media=self.test_file, creator=self.user)
         im3.save()
         
-        g.add_media(im1)
-        g.add_media(im2)
-        g.add_media(im3)
+        self.g.add_media(im1)
+        self.g.add_media(im2)
+        self.g.add_media(im3)
         
-        all_media = g.media.all()
+        all_media = self.g.media.all()
         
         self.assertTrue(im1 in all_media)
         self.assertTrue(im2 in all_media)
         self.assertTrue(im3 in all_media)
+        

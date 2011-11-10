@@ -1,0 +1,10 @@
+{% load endless %}
+
+{% paginate 1 media_formset %}
+
+{% for form in media_formset %}
+        {{ form.id }}
+        {% include "gallery/_media_form.html" with form=form %}
+
+{% endfor %}
+{% show_more %}

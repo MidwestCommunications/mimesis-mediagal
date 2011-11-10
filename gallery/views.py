@@ -178,7 +178,8 @@ def gallery_delete(request):
             
             
 @login_required
-def gallery_edit_details(request, gallery_id, template="gallery/gallery_edit_details.html"):
+@page_template("gallery/_edit_media_details.html")
+def gallery_edit_details(request, gallery_id, template="gallery/gallery_edit_details.html", extra_context=None):
     """
     Allows a user to edit details and media tied to an existing gallery.
     
@@ -239,6 +240,9 @@ def gallery_edit_details(request, gallery_id, template="gallery/gallery_edit_det
         "delete_form": delete_form,
         "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
+    
+    if extra_context is not None:
+        ctx.update(extra_context)
     
     return render_to_response(template, ctx,
         context_instance=RequestContext(request)

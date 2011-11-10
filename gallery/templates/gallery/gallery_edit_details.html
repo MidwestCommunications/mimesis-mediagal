@@ -26,11 +26,8 @@
     {% csrf_token %}
     {{ media_formset.management_form }}
 
-    {% for form in media_formset %}
-        {{ form.id }}
-        {% include "gallery/_media_form.html" with form=form %}
-    {% endfor %}
-        
+    {% include "gallery/_edit_media_details.html" %}
+    
     <div class="actions">
 
         <button type="submit" class="btn primary">{% trans "Update Gallery" %}</button>
@@ -40,6 +37,7 @@
 
 {% block extra_body %}
 
+<script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
 <script>
 
     $("#delete_link").click(function (event) {

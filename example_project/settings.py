@@ -100,7 +100,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "pinax.apps.account.middleware.LocaleMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "example_project.urls"
@@ -141,7 +141,7 @@ INSTALLED_APPS = [
     
     # external
     "staticfiles",
-    "debug_toolbar",
+    #"debug_toolbar",
     "mailer",
     "uni_form",
     "django_openid",
@@ -156,6 +156,7 @@ INSTALLED_APPS = [
     "pinax_theme_bootstrap",
     "djcelery",
     "easy_thumbnails",
+    "endless_pagination",
     
     # Pinax
     "pinax.apps.account",

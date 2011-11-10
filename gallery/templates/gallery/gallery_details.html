@@ -1,15 +1,15 @@
 {% extends "gallery/base.html" %}
 
-{% load gallery_tags %}
-
 {% block body %}
 
 <h1>{{ gallery.name }}</h1>
 
 <a href="{% url gallery_edit_details gallery.id %}">Edit gallery</a>
 
-{% for item in media %}
-	{% render_media item %}
-{% endfor %}
+{% include page_template %}
 
+{% endblock %}
+
+{% block extra_body %}
+    <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
 {% endblock %}

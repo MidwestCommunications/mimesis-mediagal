@@ -1,0 +1,9 @@
+{% load endless %}
+{% load gallery_tags %}
+
+{% paginate media %}
+{% for item in media %}
+	{% render_media item %}
+{% endfor %}
+{% show_more %}
+

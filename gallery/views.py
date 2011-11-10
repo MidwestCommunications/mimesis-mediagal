@@ -13,6 +13,8 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+from endless_pagination.decorators import page_template
+
 from gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, GalleryDeleteForm
 from gallery.models import Gallery
 
@@ -43,7 +45,8 @@ def gallery_list(request, template_name="gallery/gallery_list.html"):
         context_instance=RequestContext(request))
         
         
-def gallery_details(request, gallery_id, template_name="gallery/gallery_details.html"):
+@page_template("gallery/_media_list.html")
+def gallery_details(request, gallery_id, template="gallery/gallery_details.html", extra_context=None):
     """
     View a gallery's details.
     
@@ -58,7 +61,6 @@ def gallery_details(request, gallery_id, template_name="gallery/gallery_details.
     *URL*: <gallery_root>/<gallery_id>
     """
     
-    
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
     media = gallery.media.all().order_by("created")
@@ -69,7 +71,10 @@ def gallery_details(request, gallery_id, template_name="gallery/gallery_details.
         "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
     
-    return render_to_response(template_name, ctx,
+    if extra_context:
+        ctx.update(extra_context)
+    
+    return render_to_response(template, ctx,
         context_instance=RequestContext(request))
         
         
@@ -173,7 +178,7 @@ def gallery_delete(request):
             
             
 @login_required
-def gallery_edit_details(request, gallery_idi, template_name="gallery/gallery_edit_details.html"):
+def gallery_edit_details(request, gallery_id, template_name="gallery/gallery_edit_details.html"):
     """
     Allows a user to edit details and media tied to an existing gallery.
     

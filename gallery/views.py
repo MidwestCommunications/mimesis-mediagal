@@ -17,7 +17,7 @@ from gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, G
 from gallery.models import Gallery
 
 
-def gallery_list(request):
+def gallery_list(request, template_name="gallery/gallery_list.html"):
     """
     Lists the available galleries.
     
@@ -31,8 +31,6 @@ def gallery_list(request):
     *URL*: <gallery_root>/ 
     """
     
-    template_name = "gallery/gallery_list.html"
-    
     # @@@ filter them based on public/private?
     galleries = Gallery.objects.all()
     
@@ -45,7 +43,7 @@ def gallery_list(request):
         context_instance=RequestContext(request))
         
         
-def gallery_details(request, gallery_id):
+def gallery_details(request, gallery_id, template_name="gallery/gallery_details.html"):
     """
     View a gallery's details.
     
@@ -60,7 +58,6 @@ def gallery_details(request, gallery_id):
     *URL*: <gallery_root>/<gallery_id>
     """
     
-    template_name = "gallery/gallery_details.html"
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
@@ -77,7 +74,7 @@ def gallery_details(request, gallery_id):
         
         
 @login_required
-def gallery_create(request):
+def gallery_create(request, template_name="gallery/gallery_create.html"):
     """
     Create a gallery using standard HTML forms.
     
@@ -92,7 +89,6 @@ def gallery_create(request):
     *URL*: <gallery_root>/create
     """
     
-    template_name = "gallery/gallery_create.html"
     if request.method == "POST":
         gallery_form = GalleryDetailsForm(request.POST, request.FILES)
         
@@ -124,7 +120,7 @@ def gallery_create(request):
     
     
 @login_required
-def gallery_add_media(request, gallery_id):
+def gallery_add_media(request, gallery_id, template_name="gallery/gallery_add_photo.html"):
     """
     Add a media to an existing :class:`gallery.models.Gallery`.
     
@@ -132,8 +128,6 @@ def gallery_add_media(request, gallery_id):
     
     *URL*: <gallery_root>/add_media
     """
-    
-    template_name = "gallery/gallery_add_photo.html"
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
@@ -179,7 +173,7 @@ def gallery_delete(request):
             
             
 @login_required
-def gallery_edit_details(request, gallery_id):
+def gallery_edit_details(request, gallery_idi, template_name="gallery/gallery_edit_details.html"):
     """
     Allows a user to edit details and media tied to an existing gallery.
     
@@ -197,8 +191,6 @@ def gallery_edit_details(request, gallery_id):
         
     *URL*: <gallery_root>/edit_details
     """
-    
-    template_name = "gallery/gallery_edit_details.html"
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     
@@ -249,7 +241,7 @@ def gallery_edit_details(request, gallery_id):
     
     
 @login_required
-def gallery_image_details(request, gallery_id, media_id):
+def gallery_image_details(request, gallery_id, media_id, template_name="gallery/gallery_image_details.html"):
     """
     Returns full details of an image, and the full image for individual viewing.
     
@@ -261,8 +253,6 @@ def gallery_image_details(request, gallery_id, media_id):
         
     *URL*: <gallery_root>/<gallery_id>/image_details/<image_id>
     """
-    
-    template_name = "gallery/gallery_image_details.html"
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
     media = get_object_or_404(gallery.media, pk=media_id)

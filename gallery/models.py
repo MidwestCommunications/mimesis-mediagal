@@ -65,6 +65,14 @@ class Gallery(models.Model):
         verbose_name_plural = "Galleries"
         
         
+    def delete(self):
+        """
+        Delete media associated with this instance.
+        """
+        self.media.all().delete()
+        super(Gallery, self).delete()
+        
+        
     def add_media(self, media_upload):
         """
         Associates a :class:`mimesis.MediaUpload` object with this gallery.

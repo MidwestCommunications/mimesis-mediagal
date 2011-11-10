@@ -35,6 +35,23 @@ class TestCreatingGallery(TestModelsBase):
         g = Gallery(name="My gallery", owner=self.user)
         self.assertEqual("My gallery", g.name)
         
+        
+    def test_deleting_gallery(self):
+        g = Gallery.objects.create(name="My gallery", owner=self.user)
+        
+        image = MediaUpload.objects.create(caption="", media=self.test_file, creator=self.user)
+        
+        test_id= image.id
+        
+        g.add_media(image)
+        
+        g.delete()
+        
+        self.assertRaises(MediaUpload.objects.get, id=test_id)
+        
+        self.assertFalse(Gallery.objects.all())
+        
+        
 class TestAddingMedia(TestModelsBase):
     
     def setUp(self):

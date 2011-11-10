@@ -172,7 +172,6 @@ def gallery_delete(request):
             
             gallery_name = gallery.name
             
-            gallery.media.all().delete()
             gallery.delete()
             
             messages.success(request, "Gallery '%s' was deleted." % gallery_name)

@@ -19,7 +19,7 @@ from gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, G
 from gallery.models import Gallery
 
 
-def gallery_list(request, template_name="gallery/gallery_list.html"):
+def gallery_list(request, template="gallery/gallery_list.html"):
     """
     Lists the available galleries.
     
@@ -41,7 +41,7 @@ def gallery_list(request, template_name="gallery/gallery_list.html"):
         "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
     
-    return render_to_response(template_name, ctx,
+    return render_to_response(template, ctx,
         context_instance=RequestContext(request))
         
         
@@ -79,7 +79,7 @@ def gallery_details(request, gallery_id, template="gallery/gallery_details.html"
         
         
 @login_required
-def gallery_create(request, template_name="gallery/gallery_create.html"):
+def gallery_create(request, template="gallery/gallery_create.html"):
     """
     Create a gallery using standard HTML forms.
     
@@ -119,13 +119,13 @@ def gallery_create(request, template_name="gallery/gallery_create.html"):
     else:
         gallery_form = GalleryDetailsForm()
         
-    return render_to_response(template_name, {
+    return render_to_response(template, {
         "gallery_form": gallery_form,
     }, context_instance=RequestContext(request))
     
     
 @login_required
-def gallery_add_media(request, gallery_id, template_name="gallery/gallery_add_photo.html"):
+def gallery_add_media(request, gallery_id, template="gallery/gallery_add_photo.html"):
     """
     Add a media to an existing :class:`gallery.models.Gallery`.
     
@@ -145,7 +145,7 @@ def gallery_add_media(request, gallery_id, template_name="gallery/gallery_add_ph
     else:
         form = GalleryUpdateForm()
         
-    return render_to_response(template_name, {
+    return render_to_response(template, {
         "gallery": gallery,
         "form": form,
     }, context_instance=RequestContext(request))
@@ -178,7 +178,7 @@ def gallery_delete(request):
             
             
 @login_required
-def gallery_edit_details(request, gallery_id, template_name="gallery/gallery_edit_details.html"):
+def gallery_edit_details(request, gallery_id, template="gallery/gallery_edit_details.html"):
     """
     Allows a user to edit details and media tied to an existing gallery.
     
@@ -240,13 +240,13 @@ def gallery_edit_details(request, gallery_id, template_name="gallery/gallery_edi
         "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
     
-    return render_to_response(template_name, ctx,
+    return render_to_response(template, ctx,
         context_instance=RequestContext(request)
     )
     
     
 @login_required
-def gallery_image_details(request, gallery_id, media_id, template_name="gallery/gallery_image_details.html"):
+def gallery_image_details(request, gallery_id, media_id, template="gallery/gallery_image_details.html"):
     """
     Returns full details of an image, and the full image for individual viewing.
     
@@ -266,7 +266,7 @@ def gallery_image_details(request, gallery_id, media_id, template_name="gallery/
         "media": media,
     }
     
-    return render_to_response(template_name, ctx,
+    return render_to_response(template, ctx,
         context_instance=RequestContext(request)
     )
     

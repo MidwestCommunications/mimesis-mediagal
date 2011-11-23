@@ -6,10 +6,11 @@ import posixpath
 import pinax
 
 import sys
-sys.path.insert(0, "..")
 
 PINAX_ROOT = os.path.abspath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+sys.path.insert(0, os.path.join(PROJECT_ROOT, ".."))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

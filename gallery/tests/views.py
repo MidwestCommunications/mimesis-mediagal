@@ -1,4 +1,4 @@
-from os.path import join
+from os.path import abspath, dirname, join
 
 from django.conf import settings as django_settings
 from django.core.files import File
@@ -20,7 +20,7 @@ class GalleryViewTest(TestCase):
         self.user = User.objects.create_user(username="test", email="test_email@address.com", password="test")
         self.g = Gallery.objects.create(name="Test gallery", owner=self.user)
         
-        test_file = File(open(join(django_settings.MEDIA_ROOT, "test.jpg")))
+        test_file = File(open(join(abspath(dirname(__file__)), "media", "test.jpg")))
         self.media = MediaUpload.objects.create(caption="", media=test_file, creator=self.user)
         test_file.close()
         

@@ -1,4 +1,4 @@
-from os.path import abspath, basename, join, exists
+from os.path import abspath, basename, dirname, join, exists
 from shutil import rmtree
 
 from django.test import TestCase
@@ -20,7 +20,8 @@ class TestModelsBase(TestCase):
         self.user = User(username="tester", password="test")
         self.user.save()
         
-        self.test_file = File(open(join(django_settings.MEDIA_ROOT, "test.jpg")))
+        from os.path import abspath
+        self.test_file = File(open(join(abspath(dirname(__file__)), "media", "test.jpg"), "rb"))
 
     def tearDown(self):
         self.test_file.close()
@@ -102,7 +103,7 @@ class TestZips(TestModelsBase):
     
     def setUp(self):
         super(TestZips, self).setUp()
-        self.zip = join(django_settings.MEDIA_ROOT, "test.zip")
+        self.zip = join(abspath(dirname(__file__)), "media", "test.zip")
         self.g = Gallery(name="test gallery", owner=self.user)
         self.g.save()
         

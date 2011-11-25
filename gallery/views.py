@@ -9,6 +9,7 @@ Functions listed here are intended to be used as Django views.
 from django.conf import settings
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.http import HttpResponseBadRequest
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -175,6 +176,7 @@ def gallery_delete(request):
             
             messages.success(request, "Gallery '%s' was deleted." % gallery_name)
             return redirect("gallery_list")
+    return HttpResponseBadRequest("Not a POST request or bad POST data.")
             
             
 @login_required

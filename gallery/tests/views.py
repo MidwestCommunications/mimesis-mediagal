@@ -114,8 +114,8 @@ class GalleryViewTest(TestCase):
         
         
     def test_gallery_delete_template(self):
-        url = reverse("gallery_delete")
-        self.assertRaises(ValueError, self.client.get, url)
+        r = self.client.get(reverse("gallery_delete"))
+        self.assertEqual(r.status_code, 400)
         
         
     def test_gallery_delete(self):

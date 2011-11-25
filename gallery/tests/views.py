@@ -85,7 +85,7 @@ class GalleryViewTest(TestCase):
         name = "A new gallery"
         description = "My new test gallery."
         tags = "tag,"
-        file = open(join(django_settings.MEDIA_ROOT, "test.zip"))
+        file = open(join(abspath(dirname(__file__)), "media", "test.zip"))
         
         response = self.client.post(url, {"name": name, "description": description, "photos": file, "sites": site.id, "tags": tags}, follow=True)
         

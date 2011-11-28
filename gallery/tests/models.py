@@ -1,5 +1,6 @@
 from os.path import abspath, basename, dirname, join, exists
 from shutil import rmtree
+from os import unlink
 
 from django.test import TestCase
 
@@ -23,12 +24,12 @@ class TestModelsBase(TestCase):
         from os.path import abspath
         self.test_file = File(open(join(abspath(dirname(__file__)), "media", "test.jpg"), "rb"))
 
+        self.cleanup_files = []
+
     def tearDown(self):
         self.test_file.close()
-        
-        mimesis_root = abspath(join(django_settings.MEDIA_ROOT, "mimesis"))
-        if exists(mimesis_root):
-            rmtree(mimesis_root)
+        for path in self.cleanup_files:
+            unlink(abspath(join(django_settings.MEDIA_ROOT, path)))
 
 class TestCreatingGallery(TestModelsBase):
             
@@ -39,13 +40,11 @@ class TestCreatingGallery(TestModelsBase):
         
     def test_deleting_gallery(self):
         g = Gallery.objects.create(name="My gallery", owner=self.user)
-        
         image = MediaUpload.objects.create(caption="", media=self.test_file, creator=self.user)
+        self.cleanup_files.append(image.media.name)
         
-        test_id= image.id
-        
+        test_id = image.id
         g.add_media(image)
-        
         g.delete()
         
         self.assertRaises(MediaUpload.objects.get, id=test_id)
@@ -63,6 +62,7 @@ class TestAddingMedia(TestModelsBase):
     def test_adding_media(self):
         image = MediaUpload(caption="", media=self.test_file, creator=self.user)
         image.save()
+        self.cleanup_files.append(image.media.name)
 
         self.g.add_media(image)
         
@@ -75,6 +75,7 @@ class TestAddingMedia(TestModelsBase):
         im2.save()
         im3 = MediaUpload(caption="", media=self.test_file, creator=self.user)
         im3.save()
+        self.cleanup_files.extend([im.media.name for im in [im1, im2, im3]])
         
         self.g.add_media(im1)
         self.g.add_media(im2)
@@ -89,13 +90,12 @@ class TestAddingMedia(TestModelsBase):
     def test_remove_media(self):
         im = MediaUpload(caption="", media=self.test_file, creator=self.user)
         im.save()
+        self.cleanup_files.append(im.media.name)
         
         self.g.add_media(im)
-        
         self.assertTrue(im in self.g.media.all())
         
         self.g.remove_media(im)
-        
         self.assertTrue(im not in self.g.media.all())
         
         
@@ -111,11 +111,11 @@ class TestZips(TestModelsBase):
         self.g.from_zip(self.zip, initial=True)
         
         all_gallery_media = GalleryMedia.objects.all()
-        
         self.assertEqual(5, len(all_gallery_media))
         
         for gallery_media in all_gallery_media:
             self.assertEqual(self.g, gallery_media.gallery)
+            self.cleanup_files.append(gallery_media.media.media.name)
             
         self.assertEqual("test1.jpg", basename(self.g.cover.media.name))
         
@@ -123,8 +123,9 @@ class TestZips(TestModelsBase):
         self.g.from_zip(self.zip)
         
         all_media = self.g.media.all()
-        
         self.assertEqual(5, len(all_media))
         
         self.assertFalse(self.g.cover)
         
+        for m in all_media:
+            self.cleanup_files.append(m.media.name)

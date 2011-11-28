@@ -1,4 +1,5 @@
 from os.path import abspath, dirname, join
+from os import unlink
 
 from django.conf import settings as django_settings
 from django.core.files import File
@@ -31,6 +32,8 @@ class GalleryViewTest(TestCase):
         self.client.login(username="test", password="test")
         
         
+    def tearDown(self):
+        unlink(abspath(join(django_settings.MEDIA_ROOT, self.media.media.name)))
             
     def test_gallery_list_template(self):
         url = reverse("gallery_list")
@@ -96,6 +99,9 @@ class GalleryViewTest(TestCase):
         media = gallery.media.all()
         
         self.assertTrue(5, len(media))
+
+        for m in media:
+            unlink(abspath(join(django_settings.MEDIA_ROOT, m.media.name)))
         
         
     def test_gallery_add_media_template(self):

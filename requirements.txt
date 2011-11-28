@@ -12,3 +12,4 @@ git+http://github.com/MidwestCommunications/mimesis-mediaman.git#egg=mediaman
 
 pinax-theme-bootstrap==0.1.dev2
 django-endless-pagination==1.1
+South==0.7.3

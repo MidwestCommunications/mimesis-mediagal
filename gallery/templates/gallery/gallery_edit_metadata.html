@@ -40,12 +40,29 @@
 <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
 <script>
 
+    {# Set the intiial management form counts to their appropriate values. #}
+    {# This is a work around to endless-pagination's QuerySet handling. #}
+    $(function () {
+        $("#id_form-TOTAL_FORMS").val({{ paginate_count }});
+        $("#id_form-INITIAL_FORMS").val({{ paginate_count }});
+        
+    });
+    
     $("#delete_link").click(function (event) {
         var confirmed = confirm("Really delete this gallery?");
 
         if (confirmed) {
             $("#gallery_delete_form").submit();
         }
+    });
+    
+    {# Make sure that loading a new set of items updates the management form appropriately. #}
+    $("a.endless_more").live("click", function (event) {
+        var tf = $("#id_form-TOTAL_FORMS"),
+            current_total = parseInt(tf.val()),
+            new_total = current_total + {{ paginate_count }};
+            
+            tf.val(new_total);
     });
 
 </script>

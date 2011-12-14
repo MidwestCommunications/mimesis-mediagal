@@ -17,6 +17,8 @@ from django.contrib.auth.decorators import login_required
 
 from endless_pagination.decorators import page_template
 
+from mimesis.models import MediaUpload
+
 from gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, GalleryDeleteForm
 from gallery.models import Gallery
 
@@ -197,6 +199,7 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
         * gallery: A :class:`gallery.models.Gallery` instance that references the photos the user will edit.
         * media_formset: A :class:`gallery.forms.MediaFormSet` that uses all the media attached to the `gallery` variable as it's QuerySet data.
         * thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)
+        * paginate_count: Number of items to be displayed per page. (interface to settings.PAGINATE_COUNT)
         
     *URL*: <gallery_root>/edit_metadata
     """
@@ -224,11 +227,18 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
                             # set the gallery's cover image to the media object
                             gallery.cover = form.instance
                             gallery.save()
+                    # Work around a bug where the form's instance is a MediaUpload object
+                    # with the correct id, but is missing the media property.
+                    # This allows editing multiple images with endless-pagination to work.
+                    m = MediaUpload.objects.get(id=form.cleaned_data['id'].id)
+                    form.instance = m
                     form.save()
             messages.success(request, "Gallery updated.")
             return redirect(reverse("gallery_details", args=(gallery.id,)))
 
         else:
+            # NOTE: Here we don't "rewind" the pagination; if there's an error, the user has to start at the top,
+            # losing their place.
             messages.error(request, "Could not update gallery.")
     else:
         update_formset = True
@@ -243,6 +253,7 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
         "media_formset": media_formset,
         "delete_form": delete_form,
         "thumbnail_sizes": settings.THUMBNAIL_SIZES,
+        "paginate_count": settings.PAGINATE_COUNT,
     }
     
     if extra_context is not None:

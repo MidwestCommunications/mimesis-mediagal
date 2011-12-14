@@ -37,6 +37,7 @@ class MediaForm(MediaModelForm):
         exclude = [
                 "creator",
                 "created",
+                "media",
         ]
         
         

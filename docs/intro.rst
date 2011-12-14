@@ -15,4 +15,10 @@ Major libraries and apps that gallery depends on:
         * mimesis (specifically, MWC's mwc-thumbnail-property branch)
         * mimesis-mediaman
         * easy_thumbnails (which requires PIL)
+        * django-endless-pagination
 
+========
+Settings
+========
+
+**PAGINATE_COUNT**: An integer setting the amount of items to be used per "page" in endless-pagination

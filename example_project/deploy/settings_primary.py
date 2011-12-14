@@ -1,1 +1,2 @@
 DEBUG = True
+SITE_ID = 1

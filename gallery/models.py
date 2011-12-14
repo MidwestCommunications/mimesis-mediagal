@@ -67,9 +67,9 @@ class Gallery(models.Model):
         
     def delete(self):
         """
-        Delete media associated with this instance.
+        Remove the association between the gallery and it's media.
         """
-        self.media.all().delete()
+        GalleryMedia.objects.filter(gallery=self).delete()
         super(Gallery, self).delete()
         
         
@@ -145,11 +145,14 @@ class Gallery(models.Model):
             
     def remove_media(self, media):
         """
-        Removes a :class:`mimesis.models.MediaUpload` instance from this gallery.
+        Removes the association between a MediaUpload instance and this gallery.
         """
         try:
             m = self.media.get(id=media.id)
-            m.delete()
+            GalleryMedia.objects.filter(
+                gallery=self,
+                media=m
+            ).delete()
         except Exception:
             deleted = False
         else:

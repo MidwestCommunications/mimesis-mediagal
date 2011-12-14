@@ -39,7 +39,6 @@ def gallery_list(request, template="gallery/gallery_list.html"):
     *URL*: <gallery_root>/ 
     """
     
-    # @@@ filter them based on public/private?
     galleries = Gallery.objects.filter(sites__id=settings.SITE_ID).annotate(media_count=Count("media"))
     
     ctx = {
@@ -285,6 +284,7 @@ def gallery_image_details(request, gallery_id, media_id, template="gallery/galle
     
     **Context Variables**:
     
+        * gallery: A :class:`gallery.models.Gallery` instance that is the parent container of the requested :class:`mimesis.models.MediaUpload`
         * media: A :class:`mimesis.models.MediaUpload` object that is associated with the requested :class:`gallery.models.Gallery`
         
     *URL*: <gallery_root>/<gallery_id>/image_details/<image_id>
@@ -301,4 +301,3 @@ def gallery_image_details(request, gallery_id, media_id, template="gallery/galle
     return render_to_response(template, ctx,
         context_instance=RequestContext(request)
     )
-    

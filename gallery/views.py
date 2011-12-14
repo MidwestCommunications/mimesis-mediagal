@@ -85,7 +85,11 @@ def gallery_details(request, gallery_id, template="gallery/gallery_details.html"
 @login_required
 def gallery_create(request, template="gallery/gallery_create.html"):
     """
-    Create a gallery using standard HTML forms.
+    Create a gallery with a given title, description, and zip file.
+    
+    This view will take a zip file and create a gallery by expanding it and
+    adding the contents as :class:`mimesis.models.MediaUpload` objects, then
+    associate those with the new gallery.
     
     Redirects to :func:`gallery_edit_metadata` on creation of a new gallery.
     

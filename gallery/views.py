@@ -226,7 +226,7 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
                             gallery.save()
                     form.save()
             messages.success(request, "Gallery updated.")
-            return redirect(reverse("gallery_detail", gallery.id))
+            return redirect(reverse("gallery_details", args=(gallery.id,)))
 
         else:
             messages.error(request, "Could not update gallery.")

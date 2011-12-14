@@ -8,11 +8,13 @@ Functions listed here are intended to be used as Django views.
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponseBadRequest
 
 from django.contrib import messages
+from django.contrib.sites.models import Site
 from django.contrib.auth.decorators import login_required
 
 from endless_pagination.decorators import page_template
@@ -38,7 +40,7 @@ def gallery_list(request, template="gallery/gallery_list.html"):
     """
     
     # @@@ filter them based on public/private?
-    galleries = Gallery.objects.all()
+    galleries = Gallery.objects.filter(sites__id=settings.SITE_ID).annotate(media_count=Count("media"))
     
     ctx = {
         "galleries": galleries,
@@ -65,7 +67,7 @@ def gallery_details(request, gallery_id, template="gallery/gallery_details.html"
     *URL*: <gallery_root>/<gallery_id>
     """
     
-    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
     
     media = gallery.media.all().order_by("created")
     
@@ -148,7 +150,7 @@ def gallery_add_media(request, gallery_id, template="gallery/gallery_add_photo.h
     *URL*: <gallery_root>/add_media
     """
     
-    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
     
     if request.method == "POST":
         form = GalleryUpdateForm(request.POST, request.FILES)
@@ -214,7 +216,7 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
     *URL*: <gallery_root>/edit_metadata
     """
     
-    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
     
     if request.method == "POST":
         update_formset = False
@@ -288,7 +290,7 @@ def gallery_image_details(request, gallery_id, media_id, template="gallery/galle
     *URL*: <gallery_root>/<gallery_id>/image_details/<image_id>
     """
     
-    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
     media = get_object_or_404(gallery.media, pk=media_id)
     
     ctx = {

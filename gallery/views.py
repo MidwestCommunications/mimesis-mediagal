@@ -7,6 +7,7 @@ Functions listed here are intended to be used as Django views.
 """
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponseBadRequest
@@ -84,7 +85,7 @@ def gallery_create(request, template="gallery/gallery_create.html"):
     """
     Create a gallery using standard HTML forms.
     
-    Redirects to :func:`gallery_edit_details` on creation of a new gallery.
+    Redirects to :func:`gallery_edit_metadata` on creation of a new gallery.
     
     *Template Name*: gallery/gallery_create.html
     
@@ -114,7 +115,7 @@ def gallery_create(request, template="gallery/gallery_create.html"):
             
             messages.success(request, "Created gallery '%s'" % gallery.name)
             
-            return redirect("gallery_edit_details", gallery.pk)
+            return redirect("gallery_edit_metadata", gallery.pk)
         else:
             messages.error(request, "Could not create new gallery.")
     else:
@@ -142,7 +143,7 @@ def gallery_add_media(request, gallery_id, template="gallery/gallery_add_photo.h
         if form.is_valid():
             gallery.from_zip(request.FILES["photos"])
             messages.success(request, "Photos added!")
-            return redirect("gallery_edit_details", gallery.pk)
+            return redirect("gallery_edit_metadata", gallery.pk)
     else:
         form = GalleryUpdateForm()
         
@@ -197,7 +198,7 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
         * media_formset: A :class:`gallery.forms.MediaFormSet` that uses all the media attached to the `gallery` variable as it's QuerySet data.
         * thumbnail_sizes: Dictionary of thumbnail sizes (interface to settings.THUMBNAIL_SIZES)
         
-    *URL*: <gallery_root>/edit_details
+    *URL*: <gallery_root>/edit_metadata
     """
     
     gallery = get_object_or_404(Gallery, pk=gallery_id)
@@ -224,8 +225,9 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
                             gallery.cover = form.instance
                             gallery.save()
                     form.save()
-                    
             messages.success(request, "Gallery updated.")
+            return redirect(reverse("gallery_detail", gallery.id))
+
         else:
             messages.error(request, "Could not update gallery.")
     else:

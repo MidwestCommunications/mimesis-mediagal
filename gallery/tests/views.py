@@ -92,7 +92,7 @@ class GalleryViewTest(TestCase):
         
         response = self.client.post(url, {"name": name, "description": description, "photos": file, "sites": site.id, "tags": tags}, follow=True)
         
-        self.assertTemplateUsed(response, "gallery/gallery_edit_details.html")
+        self.assertTemplateUsed(response, "gallery/gallery_edit_metadata.html")
         
         gallery = Gallery.objects.get(name=name, description=description)
         
@@ -133,15 +133,15 @@ class GalleryViewTest(TestCase):
         self.assertFalse(Gallery.objects.all())
 
         
-    def test_gallery_edit_details_template(self):
-        url = reverse("gallery_edit_details", args=(self.g.id,))
+    def test_gallery_edit_metadata_template(self):
+        url = reverse("gallery_edit_metadata", args=(self.g.id,))
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/gallery_edit_details.html")
+        self.assertTemplateUsed(response, "gallery/gallery_edit_metadata.html")
         
         
-    def test_gallery_edit_details_context(self):
-        url = reverse("gallery_edit_details", args=(self.g.id,))
+    def test_gallery_edit_metadata_context(self):
+        url = reverse("gallery_edit_metadata", args=(self.g.id,))
         response = self.client.get(url)
         
         self.assertTrue("gallery" in response.context)

@@ -22,7 +22,7 @@ class MediaForm(MediaModelForm):
         * Exclude the creator and created classes.
         * Add an optional delete field.
 
-    This is used in the :func:`gallery.views.gallery_edit_details` as a formset, allowing the user to edit galleries in bulk.
+    This is used in the :func:`gallery.views.gallery_edit_metadata` as a formset, allowing the user to edit galleries in bulk.
     
     .. admonition:: Cover Images
     

@@ -292,6 +292,7 @@ def gallery_image_details(request, gallery_id, media_id, template="gallery/galle
     media = get_object_or_404(gallery.media, pk=media_id)
     
     ctx = {
+        "gallery": gallery,
         "media": media,
     }
     

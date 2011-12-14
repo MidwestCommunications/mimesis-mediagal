@@ -181,7 +181,7 @@ def gallery_delete(request):
             
 @login_required
 @page_template("gallery/_edit_media_details.html")
-def gallery_edit_details(request, gallery_id, template="gallery/gallery_edit_details.html", extra_context=None):
+def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_metadata.html", extra_context=None):
     """
     Allows a user to edit details and media tied to an existing gallery.
     
@@ -189,7 +189,7 @@ def gallery_edit_details(request, gallery_id, template="gallery/gallery_edit_det
     
     Additionally, the user can use this form to delete an image or set it as the gallery's primary image.  This means it will display as the gallery's thumbnail.
     
-    *Template Name*: gallery/gallery_edit_details.html (gallery/_media_form.html as a subtemplate)
+    *Template Name*: gallery/gallery_edit_metadata.html (gallery/_media_form.html as a subtemplate, gallery/_edit_media_details.html for AJAX list loading.)
     
     **Context Variables**:
     

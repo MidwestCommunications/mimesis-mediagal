@@ -22,6 +22,10 @@ import sys, os
 app_path = os.path.abspath("..")
 sys.path.insert(0, app_path)
 
+from example_project import settings
+from django.core.management import setup_environ
+setup_environ(settings)
+
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

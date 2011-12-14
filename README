@@ -12,3 +12,10 @@ Dependencies:
     * django-taggit >= 0.9.3
     * MWC's mimesis
     * MWC's mimesis-mediaman
+    
+Building docs::
+
+    cd docs/
+    make html
+
+The index file is then kept in docs/_build/html/index.html

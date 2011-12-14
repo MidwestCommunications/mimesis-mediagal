@@ -83,9 +83,9 @@ def gallery_details(request, gallery_id, template="gallery/gallery_details.html"
         
         
 @login_required
-def gallery_create(request, template="gallery/gallery_create.html"):
+def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_create_edit.html"):
     """
-    Create a gallery with a given title, description, and zip file.
+    Create or edit a gallery with a given title, description, and zip file.
     
     This view will take a zip file and create a gallery by expanding it and
     adding the contents as :class:`mimesis.models.MediaUpload` objects, then
@@ -99,9 +99,12 @@ def gallery_create(request, template="gallery/gallery_create.html"):
     
         * gallery_form: A :class:`gallery.forms.GalleryDetailsForm` that allows a user to define the gallery name, a description of the gallery, and attach a zip archive of photos to associate with gallery.
         
-    *URL*: <gallery_root>/create
+    *URL*: <gallery_root>/create -or- <gallery_root>/edit/<gallery_id>/
     """
-    
+    if gallery_id:
+        gallery = get_object_or_404(Gallery, pk=gallery_id)
+    else:
+        gallery = None
     if request.method == "POST":
         gallery_form = GalleryDetailsForm(request.POST, request.FILES)
         
@@ -125,7 +128,10 @@ def gallery_create(request, template="gallery/gallery_create.html"):
         else:
             messages.error(request, "Could not create new gallery.")
     else:
-        gallery_form = GalleryDetailsForm()
+        if gallery:
+            gallery_form = GalleryDetailsForm(instance=gallery)
+        else:
+            gallery_form = GalleryDetailsForm()
         
     return render_to_response(template, {
         "gallery_form": gallery_form,

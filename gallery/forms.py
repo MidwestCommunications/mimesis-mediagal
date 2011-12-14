@@ -51,7 +51,7 @@ class GalleryDetailsForm(forms.ModelForm):
     """
     Form for users to provide details for a :class:`gallery.models.Gallery`.  Also provides a :class:`forms.FileField` so that users can upload a zip archive of photos to attach to the gallery.
     
-    Updates the labels for the *name* and *description* fields.
+    Updates the labels for the *name*, *description*, and *photos* fields.  The *photos* field also changes based on whether a user is editing or creating a gallery.
     """
     photos = forms.FileField()
 
@@ -68,7 +68,10 @@ class GalleryDetailsForm(forms.ModelForm):
         super(GalleryDetailsForm, self).__init__(*args, **kwargs)
         self.fields["name"].label = "Gallery Name"
         self.fields["description"].label = "Gallery Description"
-        self.fields["photos"].label = "Photos (zip file)"
+        if self.instance:
+            self.fields["photos"].label = "Add More Photos (zip file)"
+        else:
+            self.fields["photos"].label = "Photos (zip file)"
 
 class GalleryUpdateForm(forms.Form):
     """

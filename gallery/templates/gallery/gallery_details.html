@@ -4,7 +4,8 @@
 
 <h1>{{ gallery.name }}</h1>
 
-<a href="{% url gallery_edit_metadata gallery.id %}">Edit gallery</a>
+<a href="{% url gallery_edit_metadata gallery.id %}">Edit gallery images</a>
+<a href="{% url gallery_edit gallery.id %}">Edit gallery details or add images</a>
 
 {% include page_template %}
 

@@ -42,6 +42,7 @@ class Gallery(models.Model):
     description = models.TextField(blank=True)
     owner = models.ForeignKey(User)
     created = models.DateTimeField(default=datetime.datetime.now)
+    updated = models.DateTimeField(default=datetime.datetime.now)
     
     tags = TaggableManager()
     
@@ -63,6 +64,7 @@ class Gallery(models.Model):
         
     class Meta:
         verbose_name_plural = "Galleries"
+        ordering = ["-updated"]
         
         
     def delete(self):
@@ -77,6 +79,8 @@ class Gallery(models.Model):
         """
         Associates a :class:`mimesis.MediaUpload` object with this gallery.
         """
+        self.updated = datetime.datetime.now()
+        self.save()
         return GalleryMedia.objects.create(
                 gallery=self,
                 media=media_upload

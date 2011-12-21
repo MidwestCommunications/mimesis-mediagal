@@ -91,11 +91,11 @@ class Gallery(models.Model):
         """
         Associates a :class:`django.contrib.sites.models.Site` object with this gallery.
         """
-        return GallerySites.objects.create(
+        obj, created =  GallerySites.objects.get_or_create(
             gallery=self,
             site=site
         )
-        
+        return obj
         
     def from_zip(self, zip_file, initial=False):
         """

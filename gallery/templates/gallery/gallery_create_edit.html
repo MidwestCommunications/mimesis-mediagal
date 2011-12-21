@@ -21,7 +21,8 @@
     </fieldset>
     </div>
     <div class="actions">
-        <button type="submit" class="btn primary">{% trans "Create this Gallery" %}</button>
+        {# blocktrans here because the 'trans' tag doesn't work with template variables. #}
+        <button type="submit" class="btn primary">{% blocktrans with action as action %}{{ action }} this Gallery{% endblocktrans %}</button>
     </div>
 </form>
 

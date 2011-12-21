@@ -15,6 +15,7 @@ class Migration(SchemaMigration):
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('owner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('updated', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
             ('cover', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mimesis.MediaUpload'], null=True)),
         ))
         db.send_create_signal('gallery', ['Gallery'])

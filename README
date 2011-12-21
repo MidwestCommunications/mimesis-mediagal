@@ -13,7 +13,10 @@ Dependencies:
     * MWC's mimesis
     * MWC's mimesis-mediaman
     
-Building docs::
+Building docs
+-------------
+
+The documentation for this app is done with inline docstrings that are automatically extracted with Sphinx.  To compile HTML versions of the documentation::
 
     cd docs/
     make html

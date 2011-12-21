@@ -104,8 +104,11 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
     """
     if gallery_id:
         gallery = get_object_or_404(Gallery, pk=gallery_id)
+        action = "Edit"
     else:
         gallery = None
+        action = "Create"
+        
     if request.method == "POST":
         gallery_form = GalleryDetailsForm(request.POST, request.FILES)
         
@@ -113,21 +116,31 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
             # @@@ check for duplicated gallery names?
             g_name = gallery_form.cleaned_data["name"]
             g_desc = gallery_form.cleaned_data["description"]
-            gallery = Gallery(
-                    name=g_name,
-                    description=g_desc,
-                    owner=request.user,
-            )
+            
+            if gallery:
+                gallery.name = g_name
+                gallery.description = g_desc
+                initial = False
+            else:
+                gallery = Gallery(
+                        name=g_name,
+                        description=g_desc,
+                        owner=request.user,
+                )
+                initial = True
+
             gallery.save()
+            
             for site in gallery_form.cleaned_data["sites"]:
                 gallery.add_site(site)
-            gallery.from_zip(request.FILES["photos"], initial=True)
+                
+            gallery.from_zip(request.FILES["photos"], initial=initial)
             
-            messages.success(request, "Created gallery '%s'" % gallery.name)
+            messages.success(request, "%sed gallery '%s'" % (action, gallery.name))
             
             return redirect("gallery_edit_metadata", gallery.pk)
         else:
-            messages.error(request, "Could not create new gallery.")
+            messages.error(request, "Could not %s gallery" % action.lower())
     else:
         if gallery:
             gallery_form = GalleryDetailsForm(instance=gallery)
@@ -136,6 +149,7 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
         
     return render_to_response(template, {
         "gallery_form": gallery_form,
+        "action": action,
     }, context_instance=RequestContext(request))
     
     

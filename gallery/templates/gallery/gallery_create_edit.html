@@ -12,7 +12,7 @@
 
 {% block body %}
 
-<form action="{% url gallery_create %}" method="POST" encType="multipart/form-data" class="uniForm" id="gallery_form">
+<form action="{{ request.get_full_path }}" method="POST" encType="multipart/form-data" class="uniForm" id="gallery_form">
     {% csrf_token %}
     <div class="gallery_details">
     <fieldset>

@@ -116,6 +116,7 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
             # @@@ check for duplicated gallery names?
             g_name = gallery_form.cleaned_data["name"]
             g_desc = gallery_form.cleaned_data["description"]
+            g_tags = gallery_form.cleaned_data["tags"]
             
             if gallery:
                 gallery.name = g_name
@@ -130,6 +131,8 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
                 initial = True
 
             gallery.save()
+            
+            gallery.tags.set(*g_tags)
             
             for site in gallery_form.cleaned_data["sites"]:
                 gallery.add_site(site)

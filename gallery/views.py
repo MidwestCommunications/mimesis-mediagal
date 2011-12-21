@@ -123,11 +123,8 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
                 gallery.description = g_desc
                 initial = False
             else:
-                gallery = Gallery(
-                        name=g_name,
-                        description=g_desc,
-                        owner=request.user,
-                )
+                gallery = gallery_form.save(commit=False)
+                gallery.owner = request.user
                 initial = True
 
             gallery.save()

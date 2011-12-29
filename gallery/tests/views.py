@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from mimesis.models import MediaUpload
 
-from gallery.models import Gallery
+from gallery.models import Gallery, GallerySites
 
 class GalleryViewTest(TestCase):
 
@@ -20,6 +20,12 @@ class GalleryViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="test", email="test_email@address.com", password="test")
         self.g = Gallery.objects.create(name="Test gallery", owner=self.user)
+        self.site, c = Site.objects.get_or_create(id=django_settings.SITE_ID, defaults = {
+                "name": "localhost",
+                "domain": "localhost"
+            }
+        )
+        GallerySites.objects.create(gallery=self.g, site=self.site)
         
         test_file = File(open(join(abspath(dirname(__file__)), "media", "test.jpg")))
         self.media = MediaUpload.objects.create(caption="", media=test_file, creator=self.user)
@@ -27,7 +33,6 @@ class GalleryViewTest(TestCase):
         
         self.g.add_media(self.media)
         
-        Site.objects.create(name="localhost", domain="localhost")
         
         self.client.login(username="test", password="test")
         
@@ -84,7 +89,7 @@ class GalleryViewTest(TestCase):
     def test_gallery_create_functional_test(self):
         url = reverse("gallery_create")
         
-        site = Site.objects.get(name="localhost")
+        site = self.site
         name = "A new gallery"
         description = "My new test gallery."
         tags = "tag,"

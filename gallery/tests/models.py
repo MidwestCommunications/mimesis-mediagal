@@ -117,7 +117,6 @@ class TestZips(TestModelsBase):
             self.assertEqual(self.g, gallery_media.gallery)
             self.cleanup_files.append(gallery_media.media.media.name)
             
-        self.assertEqual("test1.jpg", basename(self.g.cover.media.name))
         
     def test_adding_from_zip(self):
         self.g.from_zip(self.zip)

@@ -158,6 +158,7 @@ INSTALLED_APPS = [
     "djcelery",
     "easy_thumbnails",
     "endless_pagination",
+    "south",
     
     # Pinax
     "pinax.apps.account",

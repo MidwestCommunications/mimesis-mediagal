@@ -71,7 +71,7 @@ class GalleryViewTest(TestCase):
         url = reverse("gallery_create")
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/gallery_create.html")
+        self.assertTemplateUsed(response, "gallery/gallery_create_edit.html")
         
         
     def test_gallery_create_context(self):

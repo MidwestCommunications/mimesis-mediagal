@@ -289,7 +289,6 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
     )
     
     
-@login_required
 def gallery_image_details(request, gallery_id, media_id, template="gallery/gallery_image_details.html"):
     """
     Returns full details of an image, and the full image for individual viewing.

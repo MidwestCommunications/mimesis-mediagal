@@ -14,7 +14,7 @@ from django.template import RequestContext
 from django.http import HttpResponseBadRequest
 
 from django.contrib import messages
-from django.contrib.sites.models import Site
+from django.contrib.sites.models import Site, get_current_site
 from django.contrib.auth.decorators import login_required
 
 from endless_pagination.decorators import page_template
@@ -39,7 +39,9 @@ def gallery_list(request, template="gallery/gallery_list.html"):
     *URL*: <gallery_root>/ 
     """
     
-    galleries = Gallery.objects.filter(sites__id=settings.SITE_ID).annotate(media_count=Count("media"))
+    current_site = get_current_site(request)
+    
+    galleries = Gallery.objects.filter(sites=current_site).annotate(media_count=Count("media"))
     
     ctx = {
         "galleries": galleries,

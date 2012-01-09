@@ -9,37 +9,15 @@ from django import forms
 from django.forms.models import modelformset_factory
 
 from mimesis.models import MediaUpload
-from mediaman.forms import MediaModelForm
+from mediaman.forms import MetadataForm
 from taggit.forms import TagField
 
 from gallery.models import Gallery
 
 
-class MediaForm(MediaModelForm):
-    """
-    Subclass of :class:`mediaman.forms.MediaModelForm` that makes the following changes:
-    
-        * Exclude the creator and created classes.
-        * Add an optional delete field.
-
-    This is used in the :func:`gallery.views.gallery_edit_metadata` as a formset, allowing the user to edit galleries in bulk.
-    
-    .. admonition:: Cover Images
-    
-        This class does *not* provide a field for selecting a gallery's cover image.  This is because that field is unique in the formset, not an individual form.  Instead this field is included as an radio button in the `gallery/templates/gallery/_media_form.html` template.
-    """
+class MediaForm(MetadataForm):
     delete = forms.BooleanField(required=False)
-    caption = forms.CharField(required=False)
-    tags = TagField(required=False)
-
-    class Meta:
-        model = MediaUpload
-        exclude = [
-                "creator",
-                "created",
-                "media",
-        ]
-        
+       
         
 MediaFormSet =  modelformset_factory(
                     MediaUpload,

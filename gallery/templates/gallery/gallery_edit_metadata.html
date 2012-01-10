@@ -14,7 +14,7 @@
 
 <h1>Editing details for {{ gallery.name }}</h1>
 
-<a href="{% url gallery_details gallery.id %}">View gallery</a>  <a href="{% url gallery_add_media gallery.id %}">Add Photos</a>  <a href="#" id="delete_link">Delete Gallery</a>
+<a href="{% url gallery_details gallery.id %}">View gallery</a>  <a href="{% url gallery_edit gallery.id %}">Add Photos</a>  <a href="#" id="delete_link">Delete Gallery</a>
 
 <form method="POST" action="{% url gallery_delete %}" id="gallery_delete_form">
     {% csrf_token %}

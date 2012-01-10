@@ -107,23 +107,8 @@ class GalleryViewTest(TestCase):
 
         for m in media:
             unlink(abspath(join(django_settings.MEDIA_ROOT, m.media.name)))
-        
-        
-    def test_gallery_add_media_template(self):
-        url = reverse("gallery_add_media", args=(self.g.id,))
-        response = self.client.get(url)
-        
-        self.assertTemplateUsed(response, "gallery/gallery_add_photo.html")
-        
-        
-    def test_gallery_add_media_context(self):
-        url = reverse("gallery_add_media", args=(self.g.id,))
-        response = self.client.get(url)
-        
-        self.assertTrue("gallery" in response.context)
-        self.assertTrue("form" in response.context)
-        
-        
+    
+    
     def test_gallery_delete_template(self):
         r = self.client.get(reverse("gallery_delete"))
         self.assertEqual(r.status_code, 400)

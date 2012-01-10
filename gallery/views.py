@@ -153,35 +153,8 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
         "gallery_form": gallery_form,
         "action": action,
     }, context_instance=RequestContext(request))
-    
-    
-@login_required
-def gallery_add_media(request, gallery_id, template="gallery/gallery_add_photo.html"):
-    """
-    Add a media to an existing :class:`gallery.models.Gallery`.
-    
-    Creates an instance of :class:`gallery.forms.GalleryUpdateForm` to get a user's zip file.
-    
-    *URL*: <gallery_root>/add_media
-    """
-    
-    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
-    
-    if request.method == "POST":
-        form = GalleryUpdateForm(request.POST, request.FILES)
-        if form.is_valid():
-            gallery.from_zip(request.FILES["photos"])
-            messages.success(request, "Photos added!")
-            return redirect("gallery_edit_metadata", gallery.pk)
-    else:
-        form = GalleryUpdateForm()
-        
-    return render_to_response(template, {
-        "gallery": gallery,
-        "form": form,
-    }, context_instance=RequestContext(request))
-    
-    
+
+
 @login_required
 def gallery_delete(request):
     """

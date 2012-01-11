@@ -17,6 +17,8 @@ from django.contrib import messages
 from django.contrib.sites.models import Site, get_current_site
 from django.contrib.auth.decorators import login_required
 
+from django.forms.models import model_to_dict
+
 from endless_pagination.decorators import page_template
 
 from mimesis.models import MediaUpload
@@ -228,11 +230,6 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
                             # set the gallery's cover image to the media object
                             gallery.cover = form.instance
                             gallery.save()
-                    # Work around a bug where the form's instance is a MediaUpload object
-                    # with the correct id, but is missing the media property.
-                    # This allows editing multiple images with endless-pagination to work.
-                    m = MediaUpload.objects.get(id=form.cleaned_data['id'].id)
-                    form.instance = m
                     form.save()
             messages.success(request, "Gallery updated.")
             return redirect(reverse("gallery_details", args=(gallery.id,)))
@@ -245,7 +242,7 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
         update_formset = True
         
     if update_formset:
-        media_formset = MediaFormSet(queryset=gallery.media.all().order_by("created"))
+        media_formset = MediaFormSet(queryset=gallery.media.all().order_by("-created"))
         
     delete_form = GalleryDeleteForm({"gallery_id": gallery.id})
     
@@ -291,8 +288,6 @@ def gallery_image_details(request, gallery_id, media_id, template="gallery/galle
             edit_form = MetadataForm(instance=media)
     else:
         edit_form = None
-
-    print edit_form
 
     try:
         next_media = media.get_next_by_created(galleries=gallery)

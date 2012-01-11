@@ -16,6 +16,7 @@ from gallery.models import Gallery
 
 
 class MediaForm(MetadataForm):
+    caption = forms.CharField(widget=forms.Textarea, max_length=500, required=False)
     delete = forms.BooleanField(required=False)
        
         

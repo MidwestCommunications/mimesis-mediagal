@@ -3,6 +3,7 @@
 {% load bootstrap_tags %}
 {% load gallery_tags %}
 {% load i18n %}
+{% load thumbnail %}
 
 {% block extra_head %}
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}mediaman/media-selector.css" />
@@ -26,8 +27,21 @@
     {% csrf_token %}
     {{ media_formset.management_form }}
 
-    {% include "gallery/_edit_media_details.html" %}
-    
+    {% for form in media_formset %}
+        {{ form.id }}
+        <div class="mimesis_object">
+            <div class="mimesis_details" id="details_{{ form.instance.pk }}">
+                <p>{{ form.caption.label_tag }}: {{ form.caption }}</p>
+                <p>{{ form.tags.label_tag }}: {{ form.tags }}</p>
+                <p><label for="cover_image_{{ form.instance.pk }}">Gallery Cover</label>: <input type="radio" id="cover_image_{{ form.instance.pk }}" name="cover_image" value="{{ form.instance.pk }}" {% ifequal form.instance.id gallery.cover.id %} checked {% endifequal %}></p>
+                <p>{{ form.delete.label_tag }}:   {{ form.delete }}</p>
+            </div>
+            <div class="mimesis_edit_image" id="img_{{ form.instance.pk }}">
+                <img src="{% thumbnail form.instance.media thumbnail_sizes.medium %}" />
+            </div>
+        </div>
+    {% endfor %}
+
     <div class="actions">
 
         <button type="submit" class="btn primary">{% trans "Update Gallery" %}</button>
@@ -36,35 +50,5 @@
 {% endblock body %}
 
 {% block extra_body %}
-
-<script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
-<script>
-
-    {# Set the intiial management form counts to their appropriate values. #}
-    {# This is a work around to endless-pagination's QuerySet handling. #}
-    $(function () {
-        $("#id_form-TOTAL_FORMS").val({{ paginate_count }});
-        $("#id_form-INITIAL_FORMS").val({{ paginate_count }});
-        
-    });
-    
-    $("#delete_link").click(function (event) {
-        var confirmed = confirm("Really delete this gallery?");
-
-        if (confirmed) {
-            $("#gallery_delete_form").submit();
-        }
-    });
-    
-    {# Make sure that loading a new set of items updates the management form appropriately. #}
-    $("a.endless_more").live("click", function (event) {
-        var tf = $("#id_form-TOTAL_FORMS"),
-            current_total = parseInt(tf.val()),
-            new_total = current_total + {{ paginate_count }};
-            
-            tf.val(new_total);
-    });
-
-</script>
 
 {% endblock %}

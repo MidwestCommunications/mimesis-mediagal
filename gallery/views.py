@@ -20,6 +20,7 @@ from django.contrib.auth.decorators import login_required
 from endless_pagination.decorators import page_template
 
 from mimesis.models import MediaUpload
+from mediaman.forms import MetadataForm
 
 from gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, GalleryDeleteForm
 from gallery.models import Gallery
@@ -280,10 +281,34 @@ def gallery_image_details(request, gallery_id, media_id, template="gallery/galle
     
     gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
     media = get_object_or_404(gallery.media, pk=media_id)
-    
+    if request.user.is_staff:
+        if request.method == 'POST':
+            edit_form = MetadataForm(request.POST, instance=media)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect('gallery_image_details', gallery.id, media.id)
+        else:
+            edit_form = MetadataForm(instance=media)
+    else:
+        edit_form = None
+
+    print edit_form
+
+    try:
+        next_media = media.get_next_by_created(galleries=gallery)
+    except MediaUpload.DoesNotExist:
+        next_media = MediaUpload.objects.filter(galleries=gallery).order_by('created')[0]
+    try:
+        prev_media = media.get_previous_by_created(galleries=gallery)
+    except MediaUpload.DoesNotExist:
+        prev_media = MediaUpload.objects.filter(galleries=gallery).order_by('-created')[0]
+
     ctx = {
         "gallery": gallery,
         "media": media,
+        "form": edit_form,
+        "next": next_media,
+        "prev": prev_media,
     }
     
     return render_to_response(template, ctx,

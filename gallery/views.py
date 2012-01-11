@@ -71,7 +71,7 @@ def gallery_details(request, gallery_id, template="gallery/gallery_details.html"
     
     gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
     
-    media = gallery.media.all().order_by("created")
+    media = gallery.media.all().order_by("-created")
     
     ctx = {
         "gallery": gallery,

@@ -7,5 +7,5 @@ urlpatterns = patterns("gallery.views",
     url(r"^edit/(\d+)/$", "gallery_create_edit", name="gallery_edit"),
     url(r"^delete/$", "gallery_delete", name="gallery_delete"),
     url(r"edit_details/(\d+)/$", "gallery_edit_metadata", name="gallery_edit_metadata"),
-    url(r"^(\d+)/image_details/(\d+)/$", "gallery_image_details", name="gallery_image_details"),
+    url(r"^(\d+)/image/(\d+)/$", "gallery_image_details", name="gallery_image_details"),
 )

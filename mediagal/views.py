@@ -24,11 +24,11 @@ from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, 
 from mediagal.models import Gallery
 
 
-def gallery_list(request, template="gallery/gallery_list.html"):
+def gallery_list(request, template="mediagal/gallery_list.html"):
     """
     Lists the available galleries.
     
-    *Template Name:* gallery/gallery_list.html
+    *Template Name:* mediagal/gallery_list.html
     
     **Context Variables**:
     
@@ -51,11 +51,11 @@ def gallery_list(request, template="gallery/gallery_list.html"):
         context_instance=RequestContext(request))
         
         
-def gallery_details(request, gallery_id, template="gallery/gallery_details.html", extra_context=None):
+def gallery_details(request, gallery_id, template="mediagal/gallery_details.html", extra_context=None):
     """
     View a gallery's details.
     
-    *Template Name:* gallery/gallery_details.html
+    *Template Name:* mediagal/gallery_details.html
     
     **Context Variables**:
     
@@ -84,7 +84,7 @@ def gallery_details(request, gallery_id, template="gallery/gallery_details.html"
         
         
 @login_required
-def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_create_edit.html"):
+def gallery_create_edit(request, gallery_id=None, template="mediagal/gallery_create_edit.html"):
     """
     Create or edit a gallery with a given title, description, and zip file.
     
@@ -94,7 +94,7 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
     
     Redirects to :func:`gallery_edit_metadata` on creation of a new gallery.
     
-    *Template Name*: gallery/gallery_create.html
+    *Template Name*: mediagal/gallery_create.html
     
     **Context Variables**:
     
@@ -181,7 +181,7 @@ def gallery_delete(request):
             
             
 @login_required
-def edit_gallery_images(request, gallery_id, template="gallery/edit_gallery_images.html", extra_context=None):
+def edit_gallery_images(request, gallery_id, template="mediagal/edit_gallery_images.html", extra_context=None):
     """
     Allows a user to edit details and media tied to an existing gallery.
     
@@ -189,7 +189,7 @@ def edit_gallery_images(request, gallery_id, template="gallery/edit_gallery_imag
     
     Additionally, the user can use this form to delete an image or set it as the gallery's primary image.  This means it will display as the gallery's thumbnail.
     
-    *Template Name*: gallery/gallery_edit_metadata.html (gallery/_media_form.html as a subtemplate, gallery/_edit_media_details.html for AJAX list loading.)
+    *Template Name*: mediagal/gallery_edit_metadata.html (mediagal/_media_form.html as a subtemplate, mediagal/_edit_media_details.html for AJAX list loading.)
     
     **Context Variables**:
     
@@ -256,11 +256,11 @@ def edit_gallery_images(request, gallery_id, template="gallery/edit_gallery_imag
     )
     
     
-def image_details(request, gallery_id, media_id, template="gallery/image_details.html"):
+def image_details(request, gallery_id, media_id, template="mediagal/image_details.html"):
     """
     Returns full details of an image, and the full image for individual viewing.
     
-    *Template Name*: gallery/gallery_image_details.html
+    *Template Name*: mediagal/gallery_image_details.html
     
     **Context Variables**:
     

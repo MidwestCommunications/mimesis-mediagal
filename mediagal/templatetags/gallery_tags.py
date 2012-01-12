@@ -25,8 +25,8 @@ class MediaUploadNode(template.Node):
     
     Templates called by this include the following:
 
-        * templates/gallery/_base_display.html - The base template that all subtemplates should extend
-        * templates/gallery/_(typename)_display.html - Template matching your object's ``media_type`` attribute.  For exmaple, "_image_display.html" would be used for images, "_video_display.html" for videos.
+        * templates/mediagal/_base_display.html - The base template that all subtemplates should extend
+        * templates/mediagal/_(typename)_display.html - Template matching your object's ``media_type`` attribute.  For exmaple, "_image_display.html" would be used for images, "_video_display.html" for videos.
 
     **Context Variables**:
     
@@ -51,7 +51,7 @@ class MediaUploadNode(template.Node):
     def render(self, context):
         var = context[self.var_name]
         type_ = var.media_type
-        t_name = "gallery/mime/_%s_display.html" % type_
+        t_name = "mediagal/mime/_%s_display.html" % type_
         template = get_template(t_name)
         c = Context({
             "id": var.pk,

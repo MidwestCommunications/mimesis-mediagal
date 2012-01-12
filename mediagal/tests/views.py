@@ -44,7 +44,7 @@ class GalleryViewTest(TestCase):
         url = reverse("mediagal_gallery_list")
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/gallery_list.html")
+        self.assertTemplateUsed(response, "mediagal/gallery_list.html")
         
         
             
@@ -60,7 +60,7 @@ class GalleryViewTest(TestCase):
         url = reverse("mediagal_gallery_details", args=(self.g.id,))
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/gallery_details.html")
+        self.assertTemplateUsed(response, "mediagal/gallery_details.html")
         
         
     def test_gallery_details_context(self):
@@ -76,7 +76,7 @@ class GalleryViewTest(TestCase):
         url = reverse("mediagal_gallery_create")
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/gallery_create_edit.html")
+        self.assertTemplateUsed(response, "mediagal/gallery_create_edit.html")
         
         
     def test_gallery_create_context(self):
@@ -97,7 +97,7 @@ class GalleryViewTest(TestCase):
         
         response = self.client.post(url, {"name": name, "description": description, "photos": file, "sites": site.id, "tags": tags}, follow=True)
         
-        self.assertTemplateUsed(response, "gallery/edit_gallery_images.html")
+        self.assertTemplateUsed(response, "mediagal/edit_gallery_images.html")
         
         gallery = Gallery.objects.get(name=name, description=description)
         
@@ -118,7 +118,7 @@ class GalleryViewTest(TestCase):
         url = reverse("mediagal_gallery_delete")
         response = self.client.post(url, data={"gallery_id": self.g.id}, follow=True)
         
-        self.assertTemplateUsed(response, "gallery/gallery_list.html")
+        self.assertTemplateUsed(response, "mediagal/gallery_list.html")
         
         self.assertFalse(Gallery.objects.all())
 
@@ -127,7 +127,7 @@ class GalleryViewTest(TestCase):
         url = reverse("mediagal_edit_gallery_images", args=(self.g.id,))
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/edit_gallery_images.html")
+        self.assertTemplateUsed(response, "mediagal/edit_gallery_images.html")
         
         
     def test_gallery_edit_metadata_context(self):
@@ -144,7 +144,7 @@ class GalleryViewTest(TestCase):
         url = reverse("mediagal_image_details", args=(self.g.id, self.media.id))
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/image_details.html")
+        self.assertTemplateUsed(response, "mediagal/image_details.html")
         
         
     def test_gallery_image_details_context(self):

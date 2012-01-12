@@ -1,0 +1,19 @@
+<div id="{{ media_type }}_{{ id }}">
+    <div id="{{ media_type }}_{{ id }}_content">
+        {% block item %}
+        {% endblock %}
+    </div>
+
+    <div id="{{ media_type }}_{{ id }}_caption">
+        {% block caption %}
+        <p>{{ caption }}</p>
+        {% endblock %}
+    </div>
+
+    <div id="{{ media_type }}_{{ id }}_info">
+        {% block info %}
+        <p>Created by {{ creator }} on {{ created }}</p>
+        <p>Tags: {{ tags|join:", " }}</p>
+        {% endblock %}
+    </div>
+</div>

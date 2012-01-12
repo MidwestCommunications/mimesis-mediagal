@@ -1,0 +1,22 @@
+{% extends "site_base.html" %}
+
+
+{% block body %}
+
+<a href="{% url mediagal_gallery_details gallery.id %}">Back to Gallery</a>
+<a href="{% url mediagal_image_details gallery.id next.id %}">Next</a>
+<a href="{% url mediagal_image_details gallery.id prev.id %}">Prev</a>
+
+<img src="{{ MEDIA_URL }}{{ media.media }}" alt="{{ media.caption }}" />
+
+<p>{{ media.caption }}</p>
+
+{% if form %}
+<form method="POST">
+{% csrf_token %}
+{{ form }}
+<input type="submit"/>
+</form>
+{% endif %}
+
+{% endblock %}

@@ -10,7 +10,7 @@ from django.conf import settings as django_settings
 django_settings.DATABASES["default"]["ENGINE"] = "sqlite3"
 def runtests(*test_args):
     if not test_args:
-        test_args = ["gallery"]
+        test_args = ["mediagal"]
     parent = dirname(abspath(__file__))
     sys.path.insert(0, parent)
     from django.test.simple import run_tests

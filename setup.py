@@ -1,15 +1,14 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 setup(
-    name = "mwc_gallery",
+    name = "mediagal",
     version = "0.1-dev1",
-    author = "Eldarion",
-    author_email = "development@eldarion.com",
-    description = "Gallery app",
-    license = "Commerical",
-    packages = find_packages(),
-    zip_safe = False,
+    author = "Midwest Communications",
+    url = "https://github.com/MidwestCommunications/mimesis-mediagal",
+    description = "A gallery app for Django, using Mimesis and Mediaman.",
+    license = "BSD",
+    packages = ['mediagal'],
     install_requires =[
         "Django>=1.2",
         "celery>=2.3.3",

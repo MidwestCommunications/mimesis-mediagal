@@ -165,7 +165,7 @@ INSTALLED_APPS = [
     "pinax.apps.signup_codes",
     
     # project
-    "gallery",
+    "mediagal",
 ]
 
 FIXTURE_DIRS = [

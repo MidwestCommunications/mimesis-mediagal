@@ -12,7 +12,7 @@ from mimesis.models import MediaUpload
 from mediaman.forms import MetadataForm
 from taggit.forms import TagField
 
-from gallery.models import Gallery
+from mediagal.models import Gallery
 
 
 class MediaForm(MetadataForm):

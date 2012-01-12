@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from mimesis.models import MediaUpload
 
-from gallery.models import Gallery, GallerySites
+from mediagal.models import Gallery, GallerySites
 
 class GalleryViewTest(TestCase):
 

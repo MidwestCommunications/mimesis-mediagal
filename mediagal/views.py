@@ -20,8 +20,8 @@ from django.contrib.auth.decorators import login_required
 from mimesis.models import MediaUpload
 from mediaman.forms import MetadataForm
 
-from gallery.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, GalleryDeleteForm
-from gallery.models import Gallery
+from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, GalleryDeleteForm
+from mediagal.models import Gallery
 
 
 def gallery_list(request, template="gallery/gallery_list.html"):

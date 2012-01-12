@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 
 from mimesis.models import MediaUpload
 
-from gallery.models import Gallery, GalleryMedia
+from mediagal.models import Gallery, GalleryMedia
 
 
 

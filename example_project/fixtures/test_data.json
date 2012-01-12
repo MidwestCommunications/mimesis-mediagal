@@ -19,7 +19,7 @@
     }, 
     {
         "pk": 1, 
-        "model": "gallery.gallery", 
+        "model": "mediagal.gallery", 
         "fields": {
             "owner": 2, 
             "created": "2011-10-24 20:07:56", 
@@ -30,7 +30,7 @@
     }, 
     {
         "pk": 1, 
-        "model": "gallery.gallerymedia", 
+        "model": "mediagal.gallerymedia", 
         "fields": {
             "media": 1, 
             "gallery": 1
@@ -38,7 +38,7 @@
     }, 
     {
         "pk": 2, 
-        "model": "gallery.gallerymedia", 
+        "model": "mediagal.gallerymedia", 
         "fields": {
             "media": 2, 
             "gallery": 1

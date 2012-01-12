@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns("gallery.views",
+urlpatterns = patterns("mediagal.views",
     url(r"^$", "gallery_list", name="mediagal_gallery_list"),
     url(r"^(\d+)/$", "gallery_details", name="mediagal_gallery_details"),
     url(r"^create/$", "gallery_create_edit", name="mediagal_gallery_create"),

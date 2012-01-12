@@ -6,8 +6,8 @@ Thumbnails
 Interface for kicking off thumbnail generation.
 """
 
-from gallery import settings as gallery_settings
-from gallery.tasks import generate_thumbnail
+from mediagal import settings as gallery_settings
+from mediagal.tasks import generate_thumbnail
 
 
 def generate_all_thumbnails(image):

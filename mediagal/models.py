@@ -21,7 +21,7 @@ from django.contrib.sites.models import Site
 from mimesis.models import MediaUpload
 from taggit.managers import TaggableManager
 
-from gallery.thumbnails import generate_all_thumbnails
+from mediagal.thumbnails import generate_all_thumbnails
 
 
 class Gallery(models.Model):

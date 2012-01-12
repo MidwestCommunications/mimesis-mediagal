@@ -21,7 +21,7 @@ urlpatterns = patterns("",
     url(r"^admin/", include(admin.site.urls)),
     url(r"^account/", include("pinax.apps.account.urls")),
     url(r"^openid/(.*)", PinaxConsumer()),
-    url(r"^galleries/", include("gallery.urls")),
+    url(r"^galleries/", include("mediagal.urls")),
     url(r"^mediaman/", include("mediaman.urls")),
     # This next line allows us to get around the about app being removed.
     url(r"^next$", redirect_to, {

@@ -1,5 +1,8 @@
 {% extends "gallery/base.html" %}
 
+{% load endless %}
+{% load gallery_tags %}
+
 {% block body %}
 
 <h1>{{ gallery.name }}</h1>
@@ -7,10 +10,10 @@
 <a href="{% url gallery_edit_metadata gallery.id %}">Edit gallery images</a>
 <a href="{% url gallery_edit gallery.id %}">Edit gallery details or add images</a>
 
-{% include page_template %}
+{% paginate media %}
+{% for item in media %}
+	{% render_media item %}
+{% endfor %}
+{% show_more %}
 
-{% endblock %}
-
-{% block extra_body %}
-    <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
 {% endblock %}

@@ -1,14 +1,10 @@
 {% extends "gallery/base.html" %}
 
-{% load bootstrap_tags %}
-{% load gallery_tags %}
 {% load i18n %}
 {% load thumbnail %}
 
 {% block extra_head %}
-<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}mediaman/media-selector.css" />
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}gallery/gallery.css" />
-<script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
 {% endblock extra_head %}
 
 {% block body %}
@@ -48,7 +44,3 @@
     </div>
     </form>
 {% endblock body %}
-
-{% block extra_body %}
-
-{% endblock %}

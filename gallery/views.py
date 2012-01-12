@@ -55,7 +55,6 @@ def gallery_list(request, template="gallery/gallery_list.html"):
         context_instance=RequestContext(request))
         
         
-@page_template("gallery/_media_list.html")
 def gallery_details(request, gallery_id, template="gallery/gallery_details.html", extra_context=None):
     """
     View a gallery's details.

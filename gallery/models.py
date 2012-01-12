@@ -59,7 +59,7 @@ class Gallery(models.Model):
         
         
     def get_absolute_url(self):
-        return reverse("gallery_details", args=(self.pk,))
+        return reverse("mediagal_gallery_details", args=(self.pk,))
         
         
     class Meta:

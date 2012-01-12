@@ -41,7 +41,7 @@ class GalleryViewTest(TestCase):
         unlink(abspath(join(django_settings.MEDIA_ROOT, self.media.media.name)))
             
     def test_gallery_list_template(self):
-        url = reverse("gallery_list")
+        url = reverse("mediagal_gallery_list")
         response = self.client.get(url)
         
         self.assertTemplateUsed(response, "gallery/gallery_list.html")
@@ -49,7 +49,7 @@ class GalleryViewTest(TestCase):
         
             
     def test_gallery_list_context(self):
-        url = reverse("gallery_list")
+        url = reverse("mediagal_gallery_list")
         response= self.client.get(url)
         
         self.assertTrue("galleries" in response.context)
@@ -57,14 +57,14 @@ class GalleryViewTest(TestCase):
         
         
     def test_gallery_details_template(self):
-        url = reverse("gallery_details", args=(self.g.id,))
+        url = reverse("mediagal_gallery_details", args=(self.g.id,))
         response = self.client.get(url)
         
         self.assertTemplateUsed(response, "gallery/gallery_details.html")
         
         
     def test_gallery_details_context(self):
-        url = reverse("gallery_details", args=(self.g.id,))
+        url = reverse("mediagal_gallery_details", args=(self.g.id,))
         response = self.client.get(url)
         
         self.assertTrue("gallery" in response.context)
@@ -73,21 +73,21 @@ class GalleryViewTest(TestCase):
         
         
     def test_gallery_create_template(self):
-        url = reverse("gallery_create")
+        url = reverse("mediagal_gallery_create")
         response = self.client.get(url)
         
         self.assertTemplateUsed(response, "gallery/gallery_create_edit.html")
         
         
     def test_gallery_create_context(self):
-        url = reverse("gallery_create")
+        url = reverse("mediagal_gallery_create")
         response = self.client.get(url)
         
         self.assertTrue("gallery_form" in response.context)
         
         
     def test_gallery_create_functional_test(self):
-        url = reverse("gallery_create")
+        url = reverse("mediagal_gallery_create")
         
         site = self.site
         name = "A new gallery"
@@ -97,7 +97,7 @@ class GalleryViewTest(TestCase):
         
         response = self.client.post(url, {"name": name, "description": description, "photos": file, "sites": site.id, "tags": tags}, follow=True)
         
-        self.assertTemplateUsed(response, "gallery/gallery_edit_metadata.html")
+        self.assertTemplateUsed(response, "gallery/edit_gallery_images.html")
         
         gallery = Gallery.objects.get(name=name, description=description)
         
@@ -110,12 +110,12 @@ class GalleryViewTest(TestCase):
     
     
     def test_gallery_delete_template(self):
-        r = self.client.get(reverse("gallery_delete"))
+        r = self.client.get(reverse("mediagal_gallery_delete"))
         self.assertEqual(r.status_code, 400)
         
         
     def test_gallery_delete(self):
-        url = reverse("gallery_delete")
+        url = reverse("mediagal_gallery_delete")
         response = self.client.post(url, data={"gallery_id": self.g.id}, follow=True)
         
         self.assertTemplateUsed(response, "gallery/gallery_list.html")
@@ -124,14 +124,14 @@ class GalleryViewTest(TestCase):
 
         
     def test_gallery_edit_metadata_template(self):
-        url = reverse("gallery_edit_metadata", args=(self.g.id,))
+        url = reverse("mediagal_edit_gallery_images", args=(self.g.id,))
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/gallery_edit_metadata.html")
+        self.assertTemplateUsed(response, "gallery/edit_gallery_images.html")
         
         
     def test_gallery_edit_metadata_context(self):
-        url = reverse("gallery_edit_metadata", args=(self.g.id,))
+        url = reverse("mediagal_edit_gallery_images", args=(self.g.id,))
         response = self.client.get(url)
         
         self.assertTrue("gallery" in response.context)
@@ -141,14 +141,14 @@ class GalleryViewTest(TestCase):
         
         
     def test_gallery_image_details_template(self):
-        url = reverse("gallery_image_details", args=(self.g.id, self.media.id))
+        url = reverse("mediagal_image_details", args=(self.g.id, self.media.id))
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, "gallery/gallery_image_details.html")
+        self.assertTemplateUsed(response, "gallery/image_details.html")
         
         
     def test_gallery_image_details_context(self):
-        url = reverse("gallery_image_details", args=(self.g.id,self.media.id))
+        url = reverse("mediagal_image_details", args=(self.g.id,self.media.id))
         response = self.client.get(url)
         
         self.assertTrue("media" in response.context)

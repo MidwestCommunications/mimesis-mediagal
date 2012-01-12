@@ -17,10 +17,6 @@ from django.contrib import messages
 from django.contrib.sites.models import Site, get_current_site
 from django.contrib.auth.decorators import login_required
 
-from django.forms.models import model_to_dict
-
-from endless_pagination.decorators import page_template
-
 from mimesis.models import MediaUpload
 from mediaman.forms import MetadataForm
 
@@ -142,7 +138,7 @@ def gallery_create_edit(request, gallery_id=None, template="gallery/gallery_crea
             
             messages.success(request, "%sed gallery '%s'" % (action, gallery.name))
             
-            return redirect("gallery_edit_metadata", gallery.pk)
+            return redirect("mediagal_edit_gallery_images", gallery.pk)
         else:
             messages.error(request, "Could not %s gallery" % action.lower())
     else:
@@ -180,13 +176,12 @@ def gallery_delete(request):
             gallery.delete()
             
             messages.success(request, "Gallery '%s' was deleted." % gallery_name)
-            return redirect("gallery_list")
+            return redirect("mediagal_gallery_list")
     return HttpResponseBadRequest("Not a POST request or bad POST data.")
             
             
 @login_required
-@page_template("gallery/_edit_media_details.html")
-def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_metadata.html", extra_context=None):
+def edit_gallery_images(request, gallery_id, template="gallery/edit_gallery_images.html", extra_context=None):
     """
     Allows a user to edit details and media tied to an existing gallery.
     
@@ -231,7 +226,7 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
                             gallery.save()
                     form.save()
             messages.success(request, "Gallery updated.")
-            return redirect(reverse("gallery_details", args=(gallery.id,)))
+            return redirect(reverse("mediagal_gallery_details", args=(gallery.id,)))
 
         else:
             # NOTE: Here we don't "rewind" the pagination; if there's an error, the user has to start at the top,
@@ -261,7 +256,7 @@ def gallery_edit_metadata(request, gallery_id, template="gallery/gallery_edit_me
     )
     
     
-def gallery_image_details(request, gallery_id, media_id, template="gallery/gallery_image_details.html"):
+def image_details(request, gallery_id, media_id, template="gallery/image_details.html"):
     """
     Returns full details of an image, and the full image for individual viewing.
     
@@ -282,7 +277,7 @@ def gallery_image_details(request, gallery_id, media_id, template="gallery/galle
             edit_form = MetadataForm(request.POST, instance=media)
             if edit_form.is_valid():
                 edit_form.save()
-                return redirect('gallery_image_details', gallery.id, media.id)
+                return redirect('mediagal_image_details', gallery.id, media.id)
         else:
             edit_form = MetadataForm(instance=media)
     else:

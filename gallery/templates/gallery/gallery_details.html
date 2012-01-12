@@ -7,8 +7,8 @@
 
 <h1>{{ gallery.name }}</h1>
 
-<a href="{% url gallery_edit_metadata gallery.id %}">Edit gallery images</a>
-<a href="{% url gallery_edit gallery.id %}">Edit gallery details or add images</a>
+<a href="{% url mediagal_edit_gallery_images gallery.id %}">Edit gallery images</a>
+<a href="{% url mediagal_gallery_edit gallery.id %}">Edit gallery details or add images</a>
 
 {% paginate media %}
 {% for item in media %}

@@ -4,7 +4,7 @@
 
 {% block item %}
 
-<a  href="{% url gallery_image_details gallery.id id %}">
+<a  href="{% url mediagal_image_details gallery.id id %}">
     <img src="{% thumbnail media_item thumbnail_sizes.medium %}" alt="{{ caption }}" />
 </a>
 

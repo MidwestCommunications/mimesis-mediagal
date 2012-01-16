@@ -9,7 +9,7 @@ Functions listed here are intended to be used as Django views.
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import Count
-from django.shortcuts import redirect, render_to_response, get_object_or_404
+from django.shortcuts import redirect, render_to_response, get_object_or_404, render
 from django.template import RequestContext
 from django.http import HttpResponseBadRequest
 
@@ -133,8 +133,9 @@ def gallery_create_edit(request, gallery_id=None, template="mediagal/gallery_cre
             
             for site in gallery_form.cleaned_data["sites"]:
                 gallery.add_site(site)
-                
-            gallery.from_zip(request.FILES["photos"], initial=initial)
+            
+            if gallery_form.cleaned_data["photos"]:
+                gallery.from_zip(gallery_form.cleaned_data["photos"], initial=initial)
             
             messages.success(request, "%sed gallery '%s'" % (action, gallery.name))
             
@@ -147,10 +148,10 @@ def gallery_create_edit(request, gallery_id=None, template="mediagal/gallery_cre
         else:
             gallery_form = GalleryDetailsForm()
         
-    return render_to_response(template, {
+    return render(request, template, {
         "gallery_form": gallery_form,
         "action": action,
-    }, context_instance=RequestContext(request))
+    })
 
 
 @login_required

@@ -32,7 +32,7 @@ class GalleryDetailsForm(forms.ModelForm):
     
     Updates the labels for the *name*, *description*, and *photos* fields.  The *photos* field also changes based on whether a user is editing or creating a gallery.
     """
-    photos = forms.FileField()
+    photos = forms.FileField(required=False)
 
     class Meta:
         model = Gallery

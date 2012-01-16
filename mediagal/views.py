@@ -20,7 +20,7 @@ from django.contrib.auth.decorators import login_required
 from mimesis.models import MediaUpload
 from mediaman.forms import MetadataForm
 
-from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryUpdateForm, GalleryDeleteForm
+from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryDeleteForm
 from mediagal.models import Gallery
 
 

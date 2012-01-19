@@ -24,6 +24,14 @@ from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryDeleteForm
 from mediagal.models import Gallery
 
 
+def _check_attached(media_upload, exclude_gallery=None):
+    if media_upload.gallerymedia_set.exclude(gallery=exclude_gallery).exists():
+        return True
+    if media_upload.mediaassociation_set.exists():
+        return True
+    return False
+
+
 def gallery_list(request, template="mediagal/gallery_list.html"):
     """
     Lists the available galleries.
@@ -273,16 +281,6 @@ def image_details(request, gallery_id, media_id, template="mediagal/image_detail
     
     gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
     media = get_object_or_404(gallery.media, pk=media_id)
-    if request.user.is_staff:
-        if request.method == 'POST':
-            edit_form = MetadataForm(request.POST, instance=media)
-            if edit_form.is_valid():
-                edit_form.save()
-                return redirect('mediagal_image_details', gallery.id, media.id)
-        else:
-            edit_form = MetadataForm(instance=media)
-    else:
-        edit_form = None
 
     try:
         next_media = media.get_next_by_created(galleries=gallery)
@@ -296,7 +294,7 @@ def image_details(request, gallery_id, media_id, template="mediagal/image_detail
     ctx = {
         "gallery": gallery,
         "media": media,
-        "form": edit_form,
+        "attached": _check_attached(media, gallery),
         "next": next_media,
         "prev": prev_media,
     }
@@ -304,3 +302,47 @@ def image_details(request, gallery_id, media_id, template="mediagal/image_detail
     return render_to_response(template, ctx,
         context_instance=RequestContext(request)
     )
+
+
+@login_required
+def ajax_metadata_edit(request, gallery_id, media_id):
+    if not request.user.is_staff:
+        raise Http404
+    
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
+    media = get_object_or_404(MediaUpload, pk=media_id)
+    attached = _check_attached(media, gallery)
+
+    if request.method == 'POST':
+        if attached:
+            return HttpResponse(
+                'Media is already attached elsewhere and cannot be edited.',
+                status_code=409,
+                content_type='text/plain'
+            )
+        edit_form = MetadataForm(request.POST, instance=media)
+        if edit_form.is_valid():
+            edit_form.save()
+            return HttpResponse('SUCCESS')
+        else:
+            return render(request, 'mediagal/ajax_metadata_edit.html', {'form': edit_form})
+    else:
+        edit_form = MetadataForm(instance=media)
+
+    return render(request, 'mediagal/ajax_metadata_edit.html', {'form': edit_form})
+
+
+@login_required
+def ajax_media_delete(request, gallery_id):
+    if not request.user.is_staff:
+        raise Http404
+    if not request.method == 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    form = PhotoDeleteForm(request.POST)
+    if form.is_valid():
+        GalleryMedia.objects.filter(
+            gallery__id=gallery_id,
+            media__id=form.cleaned_data['media_id']
+        ).delete()
+        return HttpResponse('SUCCESS')
+    return HttpResponseBadRequest()

@@ -8,4 +8,6 @@ urlpatterns = patterns("mediagal.views",
     url(r"^delete/$", "gallery_delete", name="mediagal_gallery_delete"),
     url(r"(\d+)/edit_images/$", "edit_gallery_images", name="mediagal_edit_gallery_images"),
     url(r"^(\d+)/image/(\d+)/$", "image_details", name="mediagal_image_details"),
+    url(r"^(\d+)/image/(\d+)/edit_metadata/$", "ajax_metadata_edit", name="mediagal_ajax_metadata_edit"),
+    url(r"^(\d+)/delete_media/$", "ajax_media_delete", name="mediagal_ajax_media_delete"),
 )

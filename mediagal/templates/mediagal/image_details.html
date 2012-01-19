@@ -11,12 +11,8 @@
 
 <p>{{ media.caption }}</p>
 
-{% if form %}
-<form method="POST">
-{% csrf_token %}
-{{ form }}
-<input type="submit"/>
-</form>
+{% if not attached %}
+<p>Edit possible.</p>
 {% endif %}
 
 {% endblock %}

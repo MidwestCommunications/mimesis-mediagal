@@ -20,7 +20,7 @@ from django.contrib.auth.decorators import login_required
 from mimesis.models import MediaUpload
 from mediaman.forms import MetadataForm
 
-from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryDeleteForm, PhotoDeleteForm
+from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryDeleteForm, MediaDeleteForm
 from mediagal.models import Gallery, GalleryMedia
 
 
@@ -338,7 +338,7 @@ def ajax_media_delete(request, gallery_id):
         raise Http404
     if not request.method == 'POST':
         return HttpResponseNotAllowed(['POST'])
-    form = PhotoDeleteForm(request.POST)
+    form = MediaDeleteForm(request.POST)
     if form.is_valid():
         GalleryMedia.objects.filter(
             gallery__id=gallery_id,

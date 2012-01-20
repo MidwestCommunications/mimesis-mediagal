@@ -60,5 +60,5 @@ class GalleryDeleteForm(forms.Form):
     gallery_id = forms.IntegerField(widget=forms.HiddenInput)
 
 
-class PhotoDeleteForm(forms.Form):
-    photo_id = forms.IntegerField(widget=forms.HiddenInput)
+class MediaDeleteForm(forms.Form):
+    media_id = forms.IntegerField(widget=forms.HiddenInput)

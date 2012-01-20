@@ -20,8 +20,8 @@ from django.contrib.auth.decorators import login_required
 from mimesis.models import MediaUpload
 from mediaman.forms import MetadataForm
 
-from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryDeleteForm
-from mediagal.models import Gallery
+from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryDeleteForm, PhotoDeleteForm
+from mediagal.models import Gallery, GalleryMedia
 
 
 def _check_attached(media_upload, exclude_gallery=None):

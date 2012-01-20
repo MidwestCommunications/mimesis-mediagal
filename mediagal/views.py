@@ -340,9 +340,11 @@ def ajax_media_delete(request, gallery_id):
         return HttpResponseNotAllowed(['POST'])
     form = MediaDeleteForm(request.POST)
     if form.is_valid():
-        GalleryMedia.objects.filter(
+        rel = GalleryMedia.objects.filter(
             gallery__id=gallery_id,
             media__id=form.cleaned_data['media_id']
-        ).delete()
-        return HttpResponse('SUCCESS')
+        )
+        if rel:
+            rel.delete()
+            return HttpResponse('SUCCESS')
     return HttpResponseBadRequest()

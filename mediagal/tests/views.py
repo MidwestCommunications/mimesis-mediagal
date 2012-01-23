@@ -152,4 +152,11 @@ class GalleryViewTest(TestCase):
         response = self.client.get(url)
         
         self.assertTrue("media" in response.context)
-        
+    
+    def test_ajax_metadata_edit(self):
+        user = User.objects.get(username="test")
+        user.is_staff = True
+        user.save()
+        url = reverse("mediagal_ajax_metadata_edit", args=[self.g.id, self.media.id])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)

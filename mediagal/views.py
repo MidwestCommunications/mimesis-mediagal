@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.shortcuts import redirect, render_to_response, get_object_or_404, render
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, Http404
 
 from django.contrib import messages
 from django.contrib.sites.models import Site, get_current_site
@@ -324,12 +324,12 @@ def ajax_metadata_edit(request, gallery_id, media_id):
         if edit_form.is_valid():
             edit_form.save()
             return HttpResponse('SUCCESS')
-        else:
-            return render(request, 'mediagal/ajax_metadata_edit.html', {'form': edit_form})
     else:
         edit_form = MetadataForm(instance=media)
 
-    return render(request, 'mediagal/ajax_metadata_edit.html', {'form': edit_form})
+    post_url = reverse('mediagal_ajax_metadata_edit', args=[gallery_id, media_id])
+    return render(request, 'mediagal/ajax_metadata_edit.html',
+        {'form': edit_form, 'post_url': post_url})
 
 
 @login_required

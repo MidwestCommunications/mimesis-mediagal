@@ -48,7 +48,7 @@ def gallery_list(request, template="mediagal/gallery_list.html"):
     
     current_site = get_current_site(request)
     
-    galleries = Gallery.objects.filter(sites=current_site).annotate(media_count=Count("media"))
+    galleries = Gallery.objects.filter(sites=current_site).annotate(media_count=Count("media")).select_related('cover')
     
     ctx = {
         "galleries": galleries,

@@ -53,7 +53,6 @@ class GalleryViewTest(TestCase):
         response= self.client.get(url)
         
         self.assertTrue("galleries" in response.context)
-        self.assertTrue("thumbnail_sizes" in response.context)
         
         
     def test_gallery_details_template(self):
@@ -69,7 +68,6 @@ class GalleryViewTest(TestCase):
         
         self.assertTrue("gallery" in response.context)
         self.assertTrue("media" in response.context)
-        self.assertTrue("thumbnail_sizes" in response.context)
         
         
     def test_gallery_create_template(self):
@@ -136,7 +134,6 @@ class GalleryViewTest(TestCase):
         
         self.assertTrue("gallery" in response.context)
         self.assertTrue("media_formset" in response.context)
-        self.assertTrue("thumbnail_sizes" in response.context)
         self.assertTrue("delete_form" in response.context)
         
         

@@ -52,7 +52,6 @@ def gallery_list(request, template="mediagal/gallery_list.html"):
     
     ctx = {
         "galleries": galleries,
-        "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
     
     return render_to_response(template, ctx,
@@ -81,7 +80,6 @@ def gallery_details(request, gallery_id, template="mediagal/gallery_details.html
     ctx = {
         "gallery": gallery,
         "media": media,
-        "thumbnail_sizes": settings.THUMBNAIL_SIZES,
     }
     
     if extra_context:
@@ -253,7 +251,6 @@ def edit_gallery_images(request, gallery_id, template="mediagal/edit_gallery_ima
         "gallery": gallery,
         "media_formset": media_formset,
         "delete_form": delete_form,
-        "thumbnail_sizes": settings.THUMBNAIL_SIZES,
         "paginate_count": settings.PAGINATE_COUNT,
     }
     

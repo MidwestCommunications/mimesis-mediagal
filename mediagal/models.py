@@ -21,7 +21,7 @@ from django.contrib.sites.models import Site
 from mimesis.models import MediaUpload
 from taggit.managers import TaggableManager
 
-from mediagal.thumbnails import generate_all_thumbnails
+from mediagal.tasks import generate_image_thumbnails
 
 
 class Gallery(models.Model):
@@ -139,7 +139,7 @@ class Gallery(models.Model):
                     
                 self.add_media(media_upload)
                 
-                generate_all_thumbnails(media_upload.media)
+                generate_image_thumbnails.delay(media_upload.media)
                 
         zip.close()
         if initial:

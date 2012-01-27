@@ -209,6 +209,11 @@ CELERY_ALWAYS_EAGER = True
 
 PAGINATE_COUNT = 1
 
+GALLERY_THUMBNAIL_SIZES = [
+    {'size': (120, 120), 'crop': True},
+    {'size': (500, 500), 'crop': False},
+]
+
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:

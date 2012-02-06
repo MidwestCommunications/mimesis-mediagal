@@ -73,7 +73,8 @@ def gallery_details(request, gallery_id, template="mediagal/gallery_details.html
     *URL*: <gallery_root>/<gallery_id>
     """
     
-    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
+    site = get_current_site(request)
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites=site)
     
     media = gallery.media.all().order_by("-created")
     
@@ -208,7 +209,8 @@ def edit_gallery_images(request, gallery_id, template="mediagal/edit_gallery_ima
     *URL*: <gallery_root>/edit_metadata
     """
     
-    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
+    site = get_current_site(request)
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites=site)
     
     if request.method == "POST":
         update_formset = False
@@ -276,7 +278,8 @@ def image_details(request, gallery_id, media_id, template="mediagal/image_detail
     *URL*: <gallery_root>/<gallery_id>/image_details/<image_id>
     """
     
-    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
+    site = get_current_site(request)
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites=site)
     media = get_object_or_404(gallery.media, pk=media_id)
 
     try:
@@ -306,7 +309,8 @@ def ajax_metadata_edit(request, gallery_id, media_id):
     if not request.user.is_staff:
         raise Http404
     
-    gallery = get_object_or_404(Gallery, pk=gallery_id, sites__id=settings.SITE_ID)
+    site = get_current_site(request)
+    gallery = get_object_or_404(Gallery, pk=gallery_id, sites=site)
     media = get_object_or_404(MediaUpload, pk=media_id)
     attached = _check_attached(media, gallery)
 

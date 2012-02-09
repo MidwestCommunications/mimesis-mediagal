@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.template import Template, Context, TemplateSyntaxError
+from django.template import Template, Context, TemplateDoesNotExist
 from django import template
 
 from mimesis.models import MediaUpload
@@ -33,4 +33,4 @@ class TemplateTagTest(TestCase):
         text_file = MediaUpload.objects.get(pk=2)
         c = Context({"file": text_file})
         t = "{% render_media file %}"
-        self.assertRaises(TemplateSyntaxError, self.render_template, t, c)
+        self.assertRaises(TemplateDoesNotExist, self.render_template, t, c)

@@ -6,12 +6,12 @@ Models
 Models used within the Gallery app.  The main model class is the :class:`Gallery`, which associates many :class:`mimesis.models.MediaUpload` objects together into a common "container".
 """
 
-import datetime
 import zipfile
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils import timezone
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
@@ -41,8 +41,8 @@ class Gallery(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField(blank=True)
     owner = models.ForeignKey(User)
-    created = models.DateTimeField(default=datetime.datetime.now)
-    updated = models.DateTimeField(default=datetime.datetime.now)
+    created = models.DateTimeField(default=timezone.now)
+    updated = models.DateTimeField(default=timezone.now)
     
     tags = TaggableManager()
     
@@ -79,7 +79,7 @@ class Gallery(models.Model):
         """
         Associates a :class:`mimesis.MediaUpload` object with this gallery.
         """
-        self.updated = datetime.datetime.now()
+        self.updated = timezone.now()
         self.save()
         return GalleryMedia.objects.create(
                 gallery=self,

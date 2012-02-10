@@ -9,12 +9,12 @@
             "is_active": true,
             "is_superuser": true,
             "is_staff": true,
-            "last_login": "2011-09-15 16:59:23",
+            "last_login": "2011-09-15T16:59:23Z",
             "groups": [],
             "user_permissions": [],
             "password": "sha1$f896c$12f7465543a54476bd6cb29120f2c434b24a95c8",
             "email": "test@test.com",
-            "date_joined": "2011-09-15 15:26:46"
+            "date_joined": "2011-09-15T15:26:46Z"
         }
     },
     {
@@ -23,7 +23,7 @@
         "fields": {
             "creator": 1,
             "media": "mimesis/2011-09/15/test.png",
-            "created": "2011-09-15 15:27:54",
+            "created": "2011-09-15T15:27:54Z",
             "caption": "Test upload.",
             "media_type": "image",
             "media_subtype": "png"
@@ -35,7 +35,7 @@
         "fields": {
             "creator": 1,
             "media": "mimesis/2011-09/15/test_1.txt",
-            "created": "2011-09-15 16:59:34",
+            "created": "2011-09-15T16:59:34Z",
             "caption": "A test text file.",
             "media_type": "text",
             "media_subtype": "plain"
@@ -46,7 +46,7 @@
         "model": "mediagal.gallery",
         "fields": {
             "owner": 1,
-            "created": "2011-11-04 00:18:02",
+            "created": "2011-11-04T00:18:02Z",
             "cover": 1,
             "name": "Test gallery",
             "description": ""

@@ -105,6 +105,15 @@ class GalleryViewTest(TestCase):
 
         for m in media:
             unlink(abspath(join(django_settings.MEDIA_ROOT, m.media.name)))
+
+    def test_bad_zip_file(self):
+        not_a_zip = open(join(abspath(dirname(__file__)), "media", "test.jpg"))
+        r = self.client.post(reverse("mediagal_gallery_create"),
+            {"name": "name", "description": "description",
+                "photos": not_a_zip, "sites": self.site.id, "tags": "tag"}
+        )
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue("photos" in r.context["gallery_form"].errors)
     
     
     def test_gallery_delete_template(self):

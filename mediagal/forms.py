@@ -5,8 +5,12 @@ Forms
 
 Forms for the MWC Gallery app.
 """
+
+from zipfile import is_zipfile
+
 from django import forms
 from django.forms.models import modelformset_factory
+from django.core.exceptions import ValidationError
 
 from mimesis.models import MediaUpload
 from mediaman.forms import MetadataForm
@@ -51,6 +55,10 @@ class GalleryDetailsForm(forms.ModelForm):
             self.fields["photos"].label = "Add More Photos (zip file)"
         else:
             self.fields["photos"].label = "Photos (zip file)"
+    
+    def clean_photos(self):
+        if not is_zipfile(self.cleaned_data["photos"]):
+            raise ValidationError("Not a valid zip file.")
 
 
 class GalleryDeleteForm(forms.Form):

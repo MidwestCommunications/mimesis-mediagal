@@ -112,7 +112,7 @@ class Gallery(models.Model):
         zip = zipfile.ZipFile(zip_file)
         bad_file = zip.testzip()
         if bad_file:
-            raise Exception("'%s' in the zip file is corrupt." % bad_file)
+            raise zipfile.BadZipfile("'%s' in the zip file is corrupt." % bad_file)
             
         if initial:
             default = None

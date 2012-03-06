@@ -57,7 +57,7 @@ class GalleryDetailsForm(forms.ModelForm):
             self.fields["photos"].label = "Photos (zip file)"
     
     def clean_photos(self):
-        if not is_zipfile(self.cleaned_data["photos"]):
+        if not is_zipfile(self.cleaned_data["photos"].file):
             raise ValidationError("Not a valid zip file.")
 
 

@@ -6,7 +6,7 @@ Forms
 Forms for the MWC Gallery app.
 """
 
-from zipfile import is_zipfile
+from zipfile import ZipFile, BadZipfile
 
 from django import forms
 from django.forms.models import modelformset_factory
@@ -57,7 +57,10 @@ class GalleryDetailsForm(forms.ModelForm):
             self.fields["photos"].label = "Photos (zip file)"
     
     def clean_photos(self):
-        if not is_zipfile(self.cleaned_data["photos"].file):
+        try:
+            if ZipFile(self.cleaned_data["photos"]).testzip():
+                raise ValidationError("Not a valid zip file.")
+        except BadZipfile:
             raise ValidationError("Not a valid zip file.")
 
 

@@ -117,7 +117,7 @@ def gallery_create_edit(request, gallery_id=None, template="mediagal/gallery_cre
         action = "Create"
         
     if request.method == "POST":
-        gallery_form = GalleryDetailsForm(request.POST, request.FILES)
+        gallery_form = GalleryDetailsForm(request.POST, request.FILES, instance=gallery)
         
         if gallery_form.is_valid():
             # @@@ check for duplicated gallery names?

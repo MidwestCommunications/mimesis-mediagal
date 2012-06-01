@@ -166,3 +166,16 @@ class GalleryViewTest(TestCase):
         url = reverse("mediagal_ajax_metadata_edit", args=[self.g.id, self.media.id])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        
+    def test_gallery_edit(self):
+        url = reverse('mediagal_gallery_edit', args=[self.g.id])
+        post_data = {
+            'name': 'Valid Name',
+            'description': 'Valid Description',
+            'sites': '1',
+            'tags': 'some tags',
+        }
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 302)
+        g = Gallery.objects.get()
+        self.assertEqual(g.name, 'Valid Name')

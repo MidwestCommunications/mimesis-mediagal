@@ -58,6 +58,8 @@ class GalleryDetailsForm(forms.ModelForm):
     
     def clean_photos(self):
         photos_zip = self.cleaned_data["photos"]
+        if not photos_zip:
+            return None
         try:
             if ZipFile(photos_zip).testzip():
                 raise ValidationError("Not a valid zip file.")

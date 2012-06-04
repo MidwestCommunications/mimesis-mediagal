@@ -143,7 +143,6 @@ class GalleryViewTest(TestCase):
         
         self.assertTrue("gallery" in response.context)
         self.assertTrue("media_formset" in response.context)
-        self.assertTrue("delete_form" in response.context)
         
         
     def test_gallery_image_details_template(self):

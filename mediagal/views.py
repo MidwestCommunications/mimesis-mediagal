@@ -77,10 +77,12 @@ def gallery_details(request, gallery_id, template="mediagal/gallery_details.html
     gallery = get_object_or_404(Gallery, pk=gallery_id, sites=site)
     
     media = gallery.media.all().order_by("-created")
+    delete_form = GalleryDeleteForm({"gallery_id": gallery.id})
     
     ctx = {
         "gallery": gallery,
         "media": media,
+        "delete_form": delete_form,
     }
     
     if extra_context:
@@ -247,12 +249,9 @@ def edit_gallery_images(request, gallery_id, template="mediagal/edit_gallery_ima
     if update_formset:
         media_formset = MediaFormSet(queryset=gallery.media.all().order_by("-created"))
         
-    delete_form = GalleryDeleteForm({"gallery_id": gallery.id})
-    
     ctx = {
         "gallery": gallery,
         "media_formset": media_formset,
-        "delete_form": delete_form,
         "paginate_count": settings.PAGINATE_COUNT,
     }
     

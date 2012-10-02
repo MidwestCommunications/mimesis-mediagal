@@ -10,6 +10,7 @@ from django.conf import settings
 from celery.decorators import task
 
 from easy_thumbnails.files import get_thumbnailer
+from easy_thumbnails.exceptions import InvalidImageFormatError
 
 
 @task
@@ -19,4 +20,8 @@ def generate_media_thumbnails(media_upload, *args, **kwargs):
     """
     for thumbnail_options in settings.GALLERY_THUMBNAIL_SIZES:
         thumbnailer = get_thumbnailer(media_upload.media)
-        thumbnailer.get_thumbnail(thumbnail_options)
+        try:
+        	thumbnailer.get_thumbnail(thumbnail_options)
+        except InvalidImageFormatError:
+        	# Don't try to thumbnail non-image files
+        	pass

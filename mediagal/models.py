@@ -86,7 +86,7 @@ class Gallery(models.Model):
 
     @property
     def main_image(self):
-        self.cover.media
+        return self.cover.media
 
         
     def delete(self):

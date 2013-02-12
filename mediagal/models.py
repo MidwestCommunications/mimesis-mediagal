@@ -65,7 +65,29 @@ class Gallery(models.Model):
     class Meta:
         verbose_name_plural = "Galleries"
         ordering = ["-updated"]
-        
+
+    '''
+    The following properties
+    are for latest-updates
+    compatibility
+    '''
+
+    @property
+    def published(self):
+        return self.created
+
+    @property
+    def author(self):
+        return self.owner
+
+    @property
+    def title(self):
+        return self.name
+
+    @property
+    def main_image(self):
+        return self.cover.media
+
         
     def delete(self):
         """

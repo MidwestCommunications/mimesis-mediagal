@@ -22,6 +22,7 @@ from mediaman.forms import MetadataForm
 
 from mediagal.forms import MediaFormSet, GalleryDetailsForm, GalleryDeleteForm, MediaDeleteForm
 from mediagal.models import Gallery, GalleryMedia
+from mediagal.tasks import update_gallery_captions
 
 
 def _check_attached(media_upload, exclude_gallery=None):
@@ -215,39 +216,20 @@ def edit_gallery_images(request, gallery_id, template="mediagal/edit_gallery_ima
     gallery = get_object_or_404(Gallery, pk=gallery_id, sites=site)
     
     if request.method == "POST":
-        update_formset = False
         
-        media_formset = MediaFormSet(request.POST)
-        if media_formset.is_valid():
-            for form in media_formset.forms:
-                if form.cleaned_data["delete"]:
-                    deleted = gallery.remove_media(form.cleaned_data["id"])
-                    if not deleted:
-                        messages.error(request, "Could not delete image")
-                    else:
-                        # If media was deleted, we need to refresh the formset from the database,
-                        # since otherwise the formset would still contain items from the POST that
-                        # requested deletion.
-                        update_formset = True
-                else:
-                    if "cover_image" in request.POST:
-                        if form.cleaned_data["id"].id == int(request.POST["cover_image"]):
-                            # set the gallery's cover image to the media object
-                            gallery.cover = form.instance
-                            gallery.save()
-                    form.save()
-            messages.success(request, "Gallery updated.")
-            return redirect(reverse("mediagal_gallery_details", args=(gallery.id,)))
+        #media_formset = MediaFormSet(request.POST)
+        
 
-        else:
-            # NOTE: Here we don't "rewind" the pagination; if there's an error, the user has to start at the top,
-            # losing their place.
-            messages.error(request, "Could not update gallery.")
-    else:
-        update_formset = True
+        update_gallery_captions.delay(gallery.pk, request.POST)
+        messages.success(request, "Gallery updated.")
+        return redirect(reverse("mediagal_gallery_details", args=(gallery.id,)))
+
+        #else:
+        # NOTE: Here we don't "rewind" the pagination; if there's an error, the user has to start at the top,
+        # losing their place.
+        #messages.error(request, "Could not update gallery.")
         
-    if update_formset:
-        media_formset = MediaFormSet(queryset=gallery.media.all().order_by("-created"))
+    media_formset = MediaFormSet(queryset=gallery.media.all().order_by("-created"))
         
     ctx = {
         "gallery": gallery,
